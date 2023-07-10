@@ -3,6 +3,11 @@
     width: 100%;
     padding: 0 80px;
     font: 14px/1.5 'Montserrat', sans-serif;
+    // position: sticky;
+    // top: 0;
+    // background-color: white;
+    // z-index: 99;
+    //sticky-top
 
     .home-header-content {
         height: 100%;
@@ -108,6 +113,7 @@
 .home-header-banner {
     background: url(../../assets/header-background.jpg);
     height: 485px;
+    // height: 550px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
