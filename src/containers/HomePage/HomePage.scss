@@ -14,6 +14,7 @@
 .slick-prev:before,
 .slick-next:before {
     color: rgb(216, 195, 195) !important;
+    opacity: 0.5;
 }
 
 .slick-next {
@@ -108,10 +109,12 @@
                 color: #000;
                 cursor: pointer;
                 text-transform: uppercase;
+                box-shadow: 0 0 5px cyan, 0 0 25px cyan;
 
                 &:hover {
-                    color: #fff;
-                    background: #f7d800;
+                    // color: #fff;
+                    // background: #f7d800;
+                    box-shadow: 0 0 5px cyan, 0 0 25px cyan, 0 0 50px cyan, 0 0 100px cyan, 0 0 200px cyan;
                 }
             }
         }
@@ -156,9 +159,13 @@
         .content-right {
             // padding: 15px;
             width: 45%;
-            height: 230px;
+            height: 223px;
             background-size: cover;
             background-image: url(../../assets/ve-pr-bao-chi.jpg);
         }
     }
+}
+
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

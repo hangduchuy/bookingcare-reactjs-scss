@@ -1,0 +1,18 @@
+.label-upload {
+    padding: 7px;
+    border-radius: 3px;
+    background: #ddd;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+.preview-image {
+    height: 50px;
+    width: 100%;
+    background: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
