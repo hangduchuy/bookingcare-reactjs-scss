@@ -3,11 +3,29 @@
     width: 100%;
     padding: 0 80px;
     font: 14px/1.5 'Montserrat', sans-serif;
+
     // position: sticky;
     // top: 0;
     // background-color: white;
-    // z-index: 99;
+    // z-index: 1;
     //sticky-top
+
+    // height: 144px;
+    // position: fixed;
+    // left: 0;
+    // top: 0;
+    // width: 100%;
+    // background-color: transparent;
+    // display: flex;
+    // align-items: center;
+    // padding: 0 80px;
+    // z-index: 99;
+    transition: height 0.3s ease 0s, background-color 0.3s ease 0s;
+
+    // &.shrink {
+    //     height: 70px;
+    //     background-color: white;
+    // }
 
     .home-header-content {
         height: 100%;
@@ -111,6 +129,7 @@
 }
 
 .home-header-banner {
+    // padding-top: 144px;
     background: url(../../assets/header-background.jpg);
     height: 485px;
     // height: 550px;

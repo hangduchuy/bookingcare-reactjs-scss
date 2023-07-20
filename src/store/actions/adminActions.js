@@ -1,5 +1,10 @@
 import actionTypes from './actionTypes';
-import { createNewUserService, getAllCodeService } from '../../services/userService';
+import {
+    createNewUserService, getAllCodeService, getAllUsers,
+    deleteUserService, editUserService, getTopDoctorHomeService,
+    getAllDoctors, saveDetailDoctor
+} from '../../services/userService';
+import { toast } from "react-toastify";
 
 // export const fetchGenderStart = () => ({
 //     type: actionTypes.FETCH_GENDER_START
@@ -87,7 +92,9 @@ export const createNewUser = (data) => {
         try {
             let res = await createNewUserService(data);
             if (res && res.errCode === 0) {
+                toast.success("Create a new user succeed!");
                 dispatch(saveUserSuccess());
+                dispatch(fetchAllUsersStart());
             } else {
                 dispatch(saveUserFailed());
             }
@@ -106,3 +113,160 @@ export const saveUserSuccess = () => ({
 export const saveUserFailed = () => ({
     type: actionTypes.CREATE_USER_FAILED
 })
+
+export const fetchAllUsersStart = () => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await getAllUsers('ALL');
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllUsersSuccess(res.users.reverse()));
+            } else {
+                toast.error("Fetch all users error!");
+                dispatch(fetchAllUsersFailed());
+            }
+        } catch (e) {
+            toast.error("Fetch al users error!");
+            dispatch(fetchAllUsersFailed());
+            console.log('fetchAllUsersStart error', e)
+        }
+    }
+}
+
+export const fetchAllUsersSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_USERS_SUCCESS,
+    users: data
+
+})
+
+export const fetchAllUsersFailed = () => ({
+    type: actionTypes.FETCH_ALL_USERS_FAILED
+})
+
+export const deleteUser = (userId) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await deleteUserService(userId);
+            if (res && res.errCode === 0) {
+                toast.success("Delete the user succeed!");
+                dispatch(deleteUserSuccess());
+                dispatch(fetchAllUsersStart());
+            } else {
+                toast.error("Delete the user error!");
+                dispatch(deleteUserFailed());
+            }
+        } catch (e) {
+            toast.error("Delete the user error!");
+            dispatch(deleteUserFailed());
+            console.log('deleteUserFailed error', e)
+        }
+    }
+}
+
+export const deleteUserSuccess = () => ({
+    type: actionTypes.DELETE_USER_SUCCESS,
+
+})
+
+export const deleteUserFailed = () => ({
+    type: actionTypes.DELETE_USER_FAILED
+})
+
+export const editUser = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await editUserService(data);
+            if (res && res.errCode === 0) {
+                toast.success("Update the user succeed!");
+                dispatch(editUserSuccess());
+                dispatch(fetchAllUsersStart());
+            } else {
+                toast.error("edit the user error!");
+                dispatch(editUserFailed());
+            }
+        } catch (e) {
+            toast.error("edit the user error!");
+            dispatch(editUserFailed());
+            console.log('editUserFailed error', e)
+        }
+    }
+}
+
+export const editUserSuccess = () => ({
+    type: actionTypes.EDIT_USER_SUCCESS,
+
+})
+
+export const editUserFailed = () => ({
+    type: actionTypes.EDIT_USER_FAILED
+})
+
+export const fetchTopDoctor = () => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await getTopDoctorHomeService('');
+            if (res && res.errCode === 0) {
+                dispatch({
+                    type: actionTypes.FETCH_TOP_DOCTORS_SUCCESS,
+                    data: res.data
+                })
+            } else {
+                dispatch({
+                    type: actionTypes.FETCH_TOP_DOCTORS_FAILED
+                })
+            }
+        } catch (e) {
+            console.log('fetchTopDoctor error', e)
+            dispatch({
+                type: actionTypes.FETCH_TOP_DOCTORS_FAILED
+            })
+        }
+    }
+}
+
+export const fetchAllDoctors = () => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await getAllDoctors();
+            if (res && res.errCode === 0) {
+                dispatch({
+                    type: actionTypes.FETCH_ALL_DOCTORS_SUCCESS,
+                    data: res.data
+                })
+            } else {
+                dispatch({
+                    type: actionTypes.FETCH_ALL_DOCTORS_FAILED
+                })
+            }
+        } catch (e) {
+            console.log('fetchAllDoctors error', e)
+            dispatch({
+                type: actionTypes.FETCH_ALL_DOCTORS_FAILED
+            })
+        }
+    }
+}
+
+export const saveDetailDoctors = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await saveDetailDoctor(data);
+            if (res && res.errCode === 0) {
+                toast.success("Save infor detail doctor succeed!");
+                dispatch({
+                    type: actionTypes.SAVE_DETAIL_DOCTOR_SUCCESS,
+                })
+            } else {
+                toast.error("Save infor detail doctor error!");
+                dispatch({
+                    type: actionTypes.SAVE_DETAIL_DOCTOR_FAILED
+                })
+            }
+        } catch (e) {
+            toast.error("Save infor detail doctor error");
+            console.log('saveDetailDoctor error', e)
+            dispatch({
+                type: actionTypes.SAVE_DETAIL_DOCTOR_FAILED
+            })
+        }
+    }
+}

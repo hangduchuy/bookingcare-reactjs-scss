@@ -1,18 +1,23 @@
-.label-upload {
-    padding: 7px;
-    border-radius: 3px;
-    background: #ddd;
-    cursor: pointer;
+.user-redux-container {
+    background-color: rgba(255, 255, 255, 0.3) !important;
 
-    &:hover {
-        opacity: 0.9;
+    .label-upload {
+        padding: 7px;
+        border-radius: 3px;
+        background: #ddd;
+        cursor: pointer;
+
+        &:hover {
+            opacity: 0.9;
+        }
     }
-}
 
-.preview-image {
-    height: 50px;
-    width: 100%;
-    background: no-repeat;
-    background-size: contain;
-    cursor: pointer;
+    .preview-image {
+        height: 50px;
+        width: 100%;
+        border: 1px solid #ddd;
+        background: center center no-repeat;
+        background-size: contain;
+        cursor: pointer;
+    }
 }
