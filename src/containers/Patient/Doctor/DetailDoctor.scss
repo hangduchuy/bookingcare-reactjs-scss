@@ -1,29 +1,28 @@
-
 .doctor-detail-container {
     height: 500px;
 
     .intro-doctor {
         display: flex;
-        margin: 0 150px;
+        margin : 0 150px;
 
         .content-left {
-            width: 20%;
-            background: center center no-repeat;
-            width: 120px;
-            height: 120px;
+            width        : 20%;
+            background   : center center no-repeat;
+            width        : 120px;
+            height       : 120px;
             border-radius: 50%;
-            margin: 10px 20px;
+            margin       : 10px 20px;
         }
 
         .content-right {
-            display: flex;
-            width: 80%;
+            display       : flex;
+            width         : 80%;
             flex-direction: column;
-            padding-left: 10px;
+            padding-left  : 10px;
 
             .up {
                 padding-top: 15px;
-                font-size: 30px;
+                font-size  : 30px;
                 font-weight: 600;
             }
 
@@ -33,18 +32,33 @@
         }
     }
 
-    .detail-infor-doctor{
-        border-top: 1px solid #ddd;
-        border-bottom: 1px solid #ddd;
-        padding: 10px 150px;
+    .schedule-doctor {
+        margin : 0 150px;
+        display: flex;
+        padding: 10px 0;
+        min-height: 200px;
+
+        .content-left {
+            width: 55%;
+        }
+
+        .content-right {
+            width: 45%;
+        }
+    }
+
+    .detail-infor-doctor {
+        border-top      : 1px solid #ddd;
+        border-bottom   : 1px solid #ddd;
+        padding         : 10px 150px;
         background-color: #f9f9f9;
 
-        img{
+        img {
             width: 100%;
         }
     }
 
-    .comment-doctor{
+    .comment-doctor {
         height: 50px;
     }
 }
