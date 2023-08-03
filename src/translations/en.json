@@ -58,7 +58,8 @@
     "homepage": {
         "outstanding-doctor": "Outstanding Doctor of the Week",
         "more-infor": "More infor",
-        "search": "Search"
+        "search": "Search",
+        "specialty-popular": "Popular specialties"
     },
     "manage-schedule": {
         "title": "Manage your doctor's visit plan",
@@ -79,6 +80,19 @@
             "detail": "See details",
             "payment": "The clinic has payment in the form of: ",
             "hide-price": "Hide price list"
+        },
+        "booking-modal": {
+            "title": "Information to book a medical appointment",
+            "fullName": "Fullname",
+            "phoneNumber": "Phone number",
+            "email": "Email",
+            "address": "Address",
+            "reason": "Reason for examination",
+            "birthday": "Date of birth",
+            "gender": "Gender",
+            "btnConfirm": "Confirm",
+            "btnCancel": "Cancel",
+            "priceBooking": "Free booking"
         }
     },
     "admin": {

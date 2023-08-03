@@ -6,12 +6,14 @@
         margin : 0 150px;
 
         .content-left {
-            width        : 20%;
-            background   : center center no-repeat;
-            width        : 120px;
-            height       : 120px;
-            border-radius: 50%;
-            margin       : 10px 20px;
+            width              : 20%;
+            background-size    : cover;
+            background-repeat  : no-repeat;
+            background-position: center;
+            width              : 120px;
+            height             : 120px;
+            border-radius      : 50%;
+            margin             : 10px 20px;
         }
 
         .content-right {
@@ -22,7 +24,7 @@
 
             .up {
                 padding-top: 15px;
-                font-size  : 30px;
+                font-size  : 25px;
                 font-weight: 600;
             }
 
@@ -33,9 +35,9 @@
     }
 
     .schedule-doctor {
-        margin : 0 150px;
-        display: flex;
-        padding: 10px 0;
+        margin    : 0 150px;
+        display   : flex;
+        padding   : 10px 0;
         min-height: 200px;
 
         .content-left {
