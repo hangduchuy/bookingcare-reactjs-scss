@@ -134,7 +134,8 @@ class BookingModal extends Component {
             email: this.state.email,
             address: this.state.address,
             reason: this.state.reason,
-            date: date,
+            date: this.props.dataTime.date,
+            birthday: date,
             selectedGender: this.state.selectedGender.value,
             doctorId: this.state.doctorId,
             timeType: this.state.timeType,
@@ -175,12 +176,13 @@ class BookingModal extends Component {
                             ><i className='fas fa-times text-muted'></i></span>
                         </div>
                         <div className='booking-modal-body'>
-                            {/* {JSON.stringify(dataTime)} */}
                             <div className='doctor-infor'>
                                 <ProfileDoctor
                                     doctorId={doctorId}
                                     isShowDescriptionDoctor={false}
                                     dataTime={dataTime}
+                                    isShowLinkDetail={false}
+                                    isShowPrice={true}
                                 />
                             </div>
                             <div className='row'>

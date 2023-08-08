@@ -1,25 +1,26 @@
 .manage-doctor-container {
-    padding: 5px;
+    padding         : 0 120px;
+    background-color: #eeeeee;
 
     .manage-doctor-title {
-        text-align: center;
-        margin: 15px 0;
-        font-size: 20px;
+        text-align    : center;
+        padding       : 15px 0;
+        font-size     : 20px;
         text-transform: uppercase;
-        font-weight: 600;
+        font-weight   : 600;
     }
 
     .more-infor {
-        display: flex;
-        gap: 15px;
+        display       : flex;
+        gap           : 15px;
         padding-bottom: 15px;
 
         .content-left {
-            width: 40%;
+            width: 35%;
         }
 
         .content-right {
-            width: 60%;
+            width: 65%;
         }
     }
 }
