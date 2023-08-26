@@ -23,7 +23,7 @@ class HomeHeader extends Component {
         let language = this.props.language;
         return (
             <React.Fragment>
-                <div className='home-header-container'>
+                <div className='home-header-container shadow'>
                     <div className='home-header-content'>
                         <div className='left-content'>
                             <i className='fas fa-bars'></i>
