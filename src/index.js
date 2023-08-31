@@ -7,7 +7,6 @@ import App from './containers/App';
 import * as serviceWorker from './serviceWorker';
 import IntlProviderWrapper from "./hoc/IntlProviderWrapper";
 
-import './index.css'
 import { Provider } from 'react-redux';
 import reduxStore, { persistor } from './redux';
 

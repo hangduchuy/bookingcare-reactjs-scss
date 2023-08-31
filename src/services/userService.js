@@ -102,6 +102,14 @@ const postSendRemedy = (data) => {
     return axios.post(`/api/send-remedy`, data)
 }
 
+const postSendComment = (data) => {
+    return axios.post(`/api/send-comment`, data)
+}
+
+const getListCommentForPatient = (data) => {
+    return axios.get(`/api/get-list-comment-for-patient?doctorId=${data.doctorId}`)
+}
+
 export {
     handleLoginApi, getAllUsers,
     createNewUserService, deleteUserService,
@@ -115,4 +123,5 @@ export {
     getDetailSpecialtyById, createNewClinic,
     getAllClinic, getDetailClinicById,
     getAllPatientForDoctor, postSendRemedy,
+    postSendComment, getListCommentForPatient
 }

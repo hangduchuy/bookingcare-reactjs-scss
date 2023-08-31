@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import HomeHeader from '../../HomePage/HomeHeader';
+import HomeFooter from '../../HomePage/HomeFooter';
 import './DetailDoctor.scss';
 import { getDetailInforDoctor } from '../../../services/userService';
 import { LANGUAGES } from '../../../utils';
 import DoctorSchedule from './DoctorSchedule';
 import DoctorExtraInfor from './DoctorExtraInfor';
+import UiCommentDoctor from './UiCommentDoctor';
+
 
 class DetailDoctor extends Component {
 
@@ -91,9 +94,13 @@ class DetailDoctor extends Component {
                         }
                     </div>
                     <div className='comment-doctor'>
-
+                        <UiCommentDoctor
+                            doctorIdFromParent={this.state.currentDoctorId}
+                        />
                     </div>
                 </div>
+
+                <HomeFooter />
             </>
         );
     }

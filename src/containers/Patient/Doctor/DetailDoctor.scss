@@ -1,5 +1,6 @@
 .doctor-detail-container {
-    height: 500px;
+    // height: 500px;
+    margin-bottom: 15px;
 
     .intro-doctor {
         display: flex;
@@ -60,7 +61,5 @@
         }
     }
 
-    .comment-doctor {
-        height: 50px;
-    }
+
 }

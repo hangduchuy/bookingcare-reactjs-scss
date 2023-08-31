@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import * as actions from '../../../store/actions';
 import { LANGUAGES } from '../../../utils';
 import { withRouter } from 'react-router';
+import _ from 'lodash';
 
 class OutStandingDoctor extends Component {
 
@@ -54,6 +55,7 @@ class OutStandingDoctor extends Component {
                                     let nameVi = `${item.positionData.valueVi}, ${item.lastName} ${item.firstName}`;
                                     let nameEn = `${item.positionData.valueEn}, ${item.firstName} ${item.lastName}`;
 
+                                    let specialty = item.Doctor_Infor.Specialty.name;
                                     return (
                                         <div className='section-customize' key={index} onClick={() => this.handleDetailDoctor(item)}>
                                             <div className='customize-border'>
@@ -64,7 +66,8 @@ class OutStandingDoctor extends Component {
                                                 </div>
                                                 <div className='position text-center'>
                                                     <div>{language === LANGUAGES.VI ? nameVi : nameEn}</div>
-                                                    <div>Cơ xương khớp 1</div>
+
+                                                    <div>{!_.isEmpty(specialty) === true ? specialty : `Tim Mạch`}</div>
                                                 </div>
                                             </div>
                                         </div>
