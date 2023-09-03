@@ -23,12 +23,16 @@
             align-items: center;
 
             .header-logo {
-                background : url('../../assets/logo.svg') center center no-repeat;
-                height     : 100%;
-                width      : 100%;
-                transform  : scale(0.6, 0.6);
-                margin-left: -40px;
-                cursor     : pointer;
+                background-image     : url('../../assets/logo.svg');
+                background-repeat    : no-repeat;
+                background-size      : cover;
+                background-position  : center;
+                background-attachment: fixed;
+                height               : 100%;
+                width                : 100%;
+                transform            : scale(0.7, 0.7);
+                margin-left          : -40px;
+                cursor               : pointer;
             }
 
             i {
