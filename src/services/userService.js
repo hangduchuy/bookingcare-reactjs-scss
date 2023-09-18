@@ -74,10 +74,17 @@ const createNewSpecialty = (data) => {
     return axios.post(`/api/create-new-specialty`, data)
 }
 
-const getAllSpecialty = () => {
-    return axios.get(`/api/get-specialty`)
-}
 
+const getAllSpecialty = () => {
+    // Thực hiện cuộc gọi API sử dụng Axios
+    return axios.get('/api/get-specialty')
+      .then((response) => {
+        return response; // Trả về đối tượng phản hồi từ Axios
+      })
+      .catch((error) => {
+        throw error; // Xử lý lỗi nếu có
+      });
+  };
 const getAllClinic = () => {
     return axios.get(`/api/get-clinic`)
 }
@@ -109,6 +116,18 @@ const postSendComment = (data) => {
 const getListCommentForPatient = (data) => {
     return axios.get(`/api/get-list-comment-for-patient?doctorId=${data.doctorId}`)
 }
+const createNewHandbook = (data) => {
+    return axios.post(`/api/create-new-handbook`, data)
+}
+const getAllHandbook = () => {
+    return axios.get(`/api/get-handbooks`)
+}
+const getDetailHandbookById = (data) => {
+    return axios.get(`/api/get-detail-handbook-by-id?id=${data.id}`)
+}
+const search= (data)=>{
+    return axios.get(`/api/search?name=${data}`)
+}
 
 export {
     handleLoginApi, getAllUsers,
@@ -123,5 +142,6 @@ export {
     getDetailSpecialtyById, createNewClinic,
     getAllClinic, getDetailClinicById,
     getAllPatientForDoctor, postSendRemedy,
-    postSendComment, getListCommentForPatient
+    postSendComment, getListCommentForPatient,createNewHandbook,
+    getAllHandbook,getDetailHandbookById,search
 }

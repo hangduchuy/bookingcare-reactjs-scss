@@ -10,10 +10,10 @@ class HomeFooter extends Component {
                 <div className="container p-4">
                     <div className="row mt-4">
                         <div className="col-lg-4 col-md-12 mb-4 mb-md-0">
-                            <h5 className="text-uppercase mb-4">Công ty Cổ phần Công nghệ BookingCare</h5>
+                            <h5 className="text-uppercase mb-4">Công ty Cổ phần sức khỏe tinh thần</h5>
 
                             <p>
-                                Lô B4/D21, Khu đô thị mới Cầu Giấy, Phường Dịch Vọng Hậu, Quận Cầu Giấy, Thành phố Hà Nội, Việt Nam
+                                Khu dân cư Nhơn Đức, Huyện Nhà Bè Tp.Hồ Chí Minh
                             </p>
 
                             <p>
@@ -37,16 +37,16 @@ class HomeFooter extends Component {
 
                             <ul className="fa-ul" style={{ marginLeft: '1.65em' }}>
                                 <li className="mb-3" >
-                                    <span className="fa-li"><i className="fas fa-home"></i></span><span className="ms-2">New York, NY 10012, US</span>
+                                    <span className="fa-li"><i className="fas fa-home"></i></span><span className="ms-2">97, Võ Văn Tần, Quận 3, Tp Hồ Chí Minh</span>
                                 </li>
                                 <li className="mb-3">
-                                    <span className="fa-li"><i className="fas fa-envelope"></i></span><span className="ms-2">info@example.com</span>
+                                    <span className="fa-li"><i className="fas fa-envelope"></i></span><span className="ms-2">DoctorCare@gmail.comm</span>
                                 </li>
                                 <li className="mb-3">
-                                    <span className="fa-li"><i className="fas fa-phone"></i></span><span className="ms-2">+ 01 234 567 88</span>
+                                    <span className="fa-li"><i className="fas fa-phone"></i></span><span className="ms-2">+9 999 9999</span>
                                 </li>
                                 <li className="mb-3">
-                                    <span className="fa-li"><i className="fas fa-print"></i></span><span className="ms-2">+ 01 234 567 89</span>
+                                    <span className="fa-li"><i className="fas fa-print"></i></span><span className="ms-2">+9 999 9999</span>
                                 </li>
                             </ul>
 

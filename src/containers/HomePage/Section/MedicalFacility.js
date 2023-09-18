@@ -42,9 +42,7 @@ class MedicalFacility extends Component {
                             {dataCliníc && dataCliníc.length > 0
                                 && dataCliníc.map((item, index) => {
                                     return (
-                                        <div className='section-customize' key={index}
-                                            onClick={() => this.handleViewDetailClinic(item)}
-                                        >
+                                        <div className='section-customize' key={index} onClick={() => this.handleViewDetailClinic(item)}>
                                             <div className='bg-image section-medical-facility'
                                                 style={{ backgroundImage: `url(${item.image})` }}
                                             />
@@ -53,8 +51,6 @@ class MedicalFacility extends Component {
                                     )
                                 })
                             }
-
-
                         </Slider>
                     </div>
                 </div>
