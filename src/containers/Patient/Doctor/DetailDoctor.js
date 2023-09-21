@@ -8,7 +8,7 @@ import { LANGUAGES } from '../../../utils';
 import DoctorSchedule from './DoctorSchedule';
 import DoctorExtraInfor from './DoctorExtraInfor';
 import UiCommentDoctor from './UiCommentDoctor';
-
+import MapDoctor from './MapDoctor';
 
 class DetailDoctor extends Component {
 
@@ -86,12 +86,19 @@ class DetailDoctor extends Component {
                         </div>
                     </div>
                     <div className='detail-infor-doctor'>
-                        {detailDoctor && detailDoctor.Markdown
-                            && detailDoctor.Markdown.contentHTML &&
-                            <div dangerouslySetInnerHTML={{ __html: detailDoctor.Markdown.contentHTML }}>
+                        <div className='content-left'>
+                            {detailDoctor && detailDoctor.Markdown
+                                && detailDoctor.Markdown.contentHTML &&
+                                <div dangerouslySetInnerHTML={{ __html: detailDoctor.Markdown.contentHTML }}>
 
-                            </div>
-                        }
+                                </div>
+                            }
+                        </div>
+                        <div className='content-right'>
+                            <MapDoctor
+                                doctorIdFromParent={this.state.currentDoctorId}
+                            />
+                        </div>
                     </div>
                     <div className='comment-doctor'>
                         <UiCommentDoctor

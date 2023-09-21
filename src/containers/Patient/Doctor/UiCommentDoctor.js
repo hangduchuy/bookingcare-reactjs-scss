@@ -20,8 +20,7 @@ class UiCommentDoctor extends Component {
     }
 
     async componentDidMount() {
-        this.getDataComment();
-
+        await this.getDataComment();
     }
 
     getDataComment = async () => {
@@ -40,8 +39,11 @@ class UiCommentDoctor extends Component {
         if (this.props.language !== prevProps.language) {
 
         }
-        if (this.state.dataComment !== prevProps.dataComment) {
-            this.getDataComment();
+        if (this.state.dataComment !== prevState.dataComment) {
+            // this.getDataComment();
+        }
+        if (this.props.doctorIdFromParent !== prevProps.doctorIdFromParent) {
+            await this.getDataComment();
         }
     }
 
@@ -100,29 +102,28 @@ class UiCommentDoctor extends Component {
                 >
                     Gửi ý kiến sau khi đi khám bác sĩ
                 </button>
-                <div class="container mb-5">
-                    <div class="row">
-                        <div class="col-sm-10 col-sm-offset-1" id="logout">
-                            <div class="page-header">
-                                <h3 class="reviews">Bình Luận</h3>
+                <div className="container mb-5">
+                    <div className="row">
+                        <div className="col-sm-10 col-sm-offset-1" id="logout">
+                            <div className="page-header">
+                                <h3 className="reviews">Bình Luận</h3>
                             </div>
 
-                            <div class="comment-tabs">
+                            <div className="comment-tabs">
                                 {dataComment && dataComment.length > 0 ?
                                     dataComment.map((item, index) => {
-                                        { console.log('item', item) }
                                         return (
-                                            <div key={index} class="tab-content">
-                                                <div class="tab-pane active" id="comments-login">
-                                                    <ul class="media-list">
-                                                        <li class="media">
-                                                            <div class="media-body">
-                                                                <div class="well well-lg">
-                                                                    <h4 class="media-heading text-uppercase reviews">{item.name}</h4>
-                                                                    <ul class="media-date text-uppercase reviews list-inline">
-                                                                        <li class="dd">{moment(item.createdAt).format('YYYY-MM-DD HH:mm')}</li>
+                                            <div key={index} className="tab-content">
+                                                <div className="tab-pane active" id="comments-login">
+                                                    <ul className="media-list">
+                                                        <li className="media">
+                                                            <div className="media-body">
+                                                                <div className="well well-lg">
+                                                                    <h4 className="media-heading text-uppercase reviews">{item.name}</h4>
+                                                                    <ul className="media-date text-uppercase reviews list-inline">
+                                                                        <li className="dd">{moment(item.createdAt).format('YYYY-MM-DD HH:mm')}</li>
                                                                     </ul>
-                                                                    <p class="media-comment">
+                                                                    <p className="media-comment">
                                                                         {item.content}
                                                                     </p>
                                                                 </div>
