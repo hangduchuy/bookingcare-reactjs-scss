@@ -5,6 +5,8 @@ import { FormattedMessage } from 'react-intl';
 import { LANGUAGES } from '../../utils/constant';
 import { changeLanguageApp } from '../../store/actions/appActions';
 import { withRouter } from 'react-router';
+import {search,getAllSpecialty} from '../../services/userService';
+import { SearchBar } from './searchBar';
 
 class HomeHeader extends Component {
 
@@ -19,6 +21,27 @@ class HomeHeader extends Component {
         }
     }
 
+    // handleSearch= async (event)=>{
+    //     let key=event.target.value;
+        
+    //     if(key){
+    //         let result = await search(key);
+    //         result= await result.json();
+    //         if(result){
+    //             this.setState({
+    //                 result:result,
+    //             })
+    //         }
+    //         else{
+    //             console.warn('Something wrong');
+    //         }
+    //     }
+    //     else{
+    //         console.alert('Keywords have not been filled out ')
+    //     }
+        
+        
+    // }
     render() {
         let language = this.props.language;
         return (
@@ -62,10 +85,7 @@ class HomeHeader extends Component {
                         <div className='content-up'>
                             <div className='title1'><FormattedMessage id="banner.title1" /></div>
                             <div className='title2'><FormattedMessage id="banner.title2" /></div>
-                            <div className='search'>
-                                <i className='fas fa-search'></i>
-                                <input type='text' placeholder='Tìm chuyên khoa khám bệnh' />
-                            </div>
+                            <SearchBar />
                         </div>
                         <div className='content-down'>
                             <div className='options'>

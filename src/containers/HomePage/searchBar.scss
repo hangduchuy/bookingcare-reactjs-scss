@@ -1,0 +1,36 @@
+/* styles.scss */
+.search-container {
+    display: flex;
+    flex-direction: column;
+  
+    .search-content {
+      background-color: white;
+      width: 400px;
+      height: 250px;
+      margin: 10px auto;
+      border-radius: 20px;
+      display: none; /* Ban đầu ẩn đi */
+      
+      .ul_search {
+        padding-left: 0px;
+        list-style: none;
+  
+        li {
+          text-align: center;
+          padding-top: 10px;
+          padding-left: 0px;
+          padding-bottom: 10px;
+  
+          &:hover {
+            background-color: gainsboro;
+          }
+        }
+      }
+    }
+  
+    /* Thêm quy tắc CSS để hiển thị .search-content khi cần */
+    &.show-content .search-content {
+      display: block;
+    }
+  }
+  
