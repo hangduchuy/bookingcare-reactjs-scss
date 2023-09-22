@@ -42,6 +42,10 @@ class ProfileDoctor extends Component {
         }
         if (this.props.doctorId !== prevProps.doctorId) {
             // let data = this.getInforDoctor(this.props.doctorId);
+            let data = await this.getInforDoctor(this.props.doctorId);
+            this.setState({
+                dataProfile: data
+            })
         }
     }
 
@@ -80,7 +84,6 @@ class ProfileDoctor extends Component {
                     <div
                         className='content-left'
                         style={{ backgroundImage: `url(${dataProfile && dataProfile.image ? dataProfile.image : ''}` }}>
-
                     </div>
                     <div className='content-right'>
                         <div className='up'>
