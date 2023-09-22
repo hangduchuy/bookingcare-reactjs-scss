@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { getAllSpecialty } from '../../services/userService';
 import '../HomePage/searchBar.scss';
-import { useHistory } from 'react-router-dom'; 
+import { useHistory } from 'react-router-dom';
+import { useIntl, FormattedMessage } from 'react-intl';
 
 export const SearchBar = () => {
   const [input, setInput] = useState("");
   const [data, setData] = useState([]);
   const [isInputEmpty, setIsInputEmpty] = useState(true);
-  const history=useHistory();
+  const history = useHistory();
 
   const fetchData = async (value) => {
     try {
@@ -18,7 +19,7 @@ export const SearchBar = () => {
         const filteredData = data.filter((specialty) => {
           return specialty.name.toLowerCase().includes(value.toLowerCase());
         });
-        const limitedData=filteredData.slice(0,5);
+        const limitedData = filteredData.slice(0, 5);
         setData(limitedData);
         setIsInputEmpty(value === "");
       } else {
@@ -32,18 +33,20 @@ export const SearchBar = () => {
   const handleChange = (value) => {
     setInput(value);
     fetchData(value);
-    
+
     // Cập nhật lớp CSS show-content dựa vào giá trị của isInputEmpty
     setIsInputEmpty(value === "");
   }
 
-  const handleRedirectToDetail= (id)=>{
+  const handleRedirectToDetail = (id) => {
     history.push(`/detail-specialty/${id}`);
     console.log('OK');
   }
   useEffect(() => {
     fetchData("");
   }, []);
+
+  const intl = useIntl();
 
   return (
     <div className={`search-container ${isInputEmpty ? '' : 'show-content'}`}>
@@ -53,17 +56,18 @@ export const SearchBar = () => {
           type='text'
           onChange={(event) => handleChange(event.target.value)}
           value={input}
-          placeholder='Tìm chuyên khoa khám bệnh'
+          placeholder={intl.formatMessage({ id: 'homepage.search-specialty' })}
+        // placeholder='Tìm chuyên khoa khám bệnh'
         />
       </div>
       <div className='search-content'>
         <ul className='ul_search'>
           {data.map((specialty) => (
-            <div onClick={() =>{handleRedirectToDetail(specialty.id)}} >
-            <li key={specialty.id}>{specialty.name}</li>
+            <div onClick={() => { handleRedirectToDetail(specialty.id) }} >
+              <li key={specialty.id}>{specialty.name}</li>
             </div>
           ))}
-          
+
         </ul>
       </div>
     </div>
