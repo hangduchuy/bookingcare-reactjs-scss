@@ -128,7 +128,12 @@ const getDetailHandbookById = (data) => {
 const search= (data)=>{
     return axios.get(`/api/search?name=${data}`)
 }
-
+const totalMoney=()=>{
+    return axios.get(`/api/total-money`)
+}
+const dataForBarChart=()=>{
+    return axios.get(`/api/get-barchart`)
+}
 export {
     handleLoginApi, getAllUsers,
     createNewUserService, deleteUserService,
@@ -143,5 +148,6 @@ export {
     getAllClinic, getDetailClinicById,
     getAllPatientForDoctor, postSendRemedy,
     postSendComment, getListCommentForPatient,createNewHandbook,
-    getAllHandbook,getDetailHandbookById,search
+    getAllHandbook,getDetailHandbookById,search,totalMoney,
+    dataForBarChart
 }
