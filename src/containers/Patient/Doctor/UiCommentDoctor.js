@@ -6,6 +6,7 @@ import { postSendComment, getListCommentForPatient } from '../../../services/use
 import { toast } from "react-toastify";
 import CommentModal from './Modal/CommentModal';
 import moment from 'moment';
+import LoadingOverlay from 'react-loading-overlay';
 
 class UiCommentDoctor extends Component {
 
@@ -20,8 +21,7 @@ class UiCommentDoctor extends Component {
     }
 
     async componentDidMount() {
-        this.getDataComment();
-
+        await this.getDataComment();
     }
 
     getDataComment = async () => {
@@ -40,8 +40,11 @@ class UiCommentDoctor extends Component {
         if (this.props.language !== prevProps.language) {
 
         }
-        if (this.state.dataComment !== prevProps.dataComment) {
-            this.getDataComment();
+        if (this.state.dataComment !== prevState.dataComment) {
+            // this.getDataComment();
+        }
+        if (this.props.doctorIdFromParent !== prevProps.doctorIdFromParent) {
+            await this.getDataComment();
         }
     }
 
@@ -70,7 +73,6 @@ class UiCommentDoctor extends Component {
             doctorId: doctorId,
             content: dataChild.content,
         });
-        console.log('res', res)
         if (res && res.errCode === 0) {
             this.setState({
                 isShowLoading: false
@@ -91,64 +93,69 @@ class UiCommentDoctor extends Component {
         let { isOpenCommentModal, dataModal, dataComment } = this.state;
 
         return (
+            <LoadingOverlay
+                active={this.state.isShowLoading}
+                spinner
+                text='Loading...'
+            >
+                <div>
+                    <button
+                        className='btn btn-info m-4'
+                        // key={index}
+                        onClick={() => this.handleClickComment()}
+                    >
+                        Gửi ý kiến sau khi đi khám bác sĩ
+                    </button>
+                    <div className="container mb-5">
+                        <div className="row">
+                            <div className="col-sm-10 col-sm-offset-1" id="logout">
+                                <div className="page-header">
+                                    <h3 className="reviews">Bình Luận</h3>
+                                </div>
 
-            <div>
-                <button
-                    className='btn btn-info m-4'
-                    // key={index}
-                    onClick={() => this.handleClickComment()}
-                >
-                    Gửi ý kiến sau khi đi khám bác sĩ
-                </button>
-                <div class="container mb-5">
-                    <div class="row">
-                        <div class="col-sm-10 col-sm-offset-1" id="logout">
-                            <div class="page-header">
-                                <h3 class="reviews">Bình Luận</h3>
-                            </div>
-
-                            <div class="comment-tabs">
-                                {dataComment && dataComment.length > 0 ?
-                                    dataComment.map((item, index) => {
-                                        { console.log('item', item) }
-                                        return (
-                                            <div key={index} class="tab-content">
-                                                <div class="tab-pane active" id="comments-login">
-                                                    <ul class="media-list">
-                                                        <li class="media">
-                                                            <div class="media-body">
-                                                                <div class="well well-lg">
-                                                                    <h4 class="media-heading text-uppercase reviews">{item.name}</h4>
-                                                                    <ul class="media-date text-uppercase reviews list-inline">
-                                                                        <li class="dd">{moment(item.createdAt).format('YYYY-MM-DD HH:mm')}</li>
-                                                                    </ul>
-                                                                    <p class="media-comment">
-                                                                        {item.content}
-                                                                    </p>
+                                <div className="comment-tabs">
+                                    {dataComment && dataComment.length > 0 ?
+                                        dataComment.map((item, index) => {
+                                            return (
+                                                <div key={index} className="tab-content">
+                                                    <div className="tab-pane active" id="comments-login">
+                                                        <ul className="media-list">
+                                                            <li className="media">
+                                                                <div className="media-body">
+                                                                    <div className="well well-lg">
+                                                                        <h4 className="media-heading text-uppercase reviews">{item.name}</h4>
+                                                                        <ul className="media-date text-uppercase reviews list-inline">
+                                                                            <li className="dd">{moment(item.createdAt).format('YYYY-MM-DD HH:mm')}</li>
+                                                                        </ul>
+                                                                        <p className="media-comment">
+                                                                            {item.content}
+                                                                        </p>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )
-                                    })
-                                    :
-                                    <div className='text-warning'>Chưa có bình luận</div>
-                                }
+                                            )
+                                        })
+                                        :
+                                        <div className='text-warning'>Chưa có bình luận</div>
+                                    }
+                                </div>
+
+
                             </div>
-
-
                         </div>
                     </div>
+                    <CommentModal
+                        isOpenModal={isOpenCommentModal}
+                        dataModal={dataModal}
+                        closeCommentModal={this.closeCommentModal}
+                        sendComment={this.sendComment}
+                    />
                 </div>
-                <CommentModal
-                    isOpenModal={isOpenCommentModal}
-                    dataModal={dataModal}
-                    closeCommentModal={this.closeCommentModal}
-                    sendComment={this.sendComment}
-                />
-            </div>
+            </LoadingOverlay>
+
         );
     }
 }

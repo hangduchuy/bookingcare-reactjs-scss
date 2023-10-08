@@ -55,11 +55,11 @@ const getScheduleDoctorByDate = (doctorId, date) => {
 }
 
 const getExtraInforDoctorById = (doctorId) => {
-    return axios.get(`/api/get-extra-infor-doctor-by-id?doctorId=${doctorId}}`)
+    return axios.get(`/api/get-extra-infor-doctor-by-id?doctorId=${doctorId}`)
 }
 
 const getProfileDoctorById = (doctorId) => {
-    return axios.get(`/api/get-profile-doctor-by-id?doctorId=${doctorId}}`)
+    return axios.get(`/api/get-profile-doctor-by-id?doctorId=${doctorId}`)
 }
 
 const postPatientBookAppointment = (data) => {
@@ -78,13 +78,13 @@ const createNewSpecialty = (data) => {
 const getAllSpecialty = () => {
     // Thực hiện cuộc gọi API sử dụng Axios
     return axios.get('/api/get-specialty')
-      .then((response) => {
-        return response; // Trả về đối tượng phản hồi từ Axios
-      })
-      .catch((error) => {
-        throw error; // Xử lý lỗi nếu có
-      });
-  };
+        .then((response) => {
+            return response; // Trả về đối tượng phản hồi từ Axios
+        })
+        .catch((error) => {
+            throw error; // Xử lý lỗi nếu có
+        });
+};
 const getAllClinic = () => {
     return axios.get(`/api/get-clinic`)
 }
@@ -125,15 +125,22 @@ const getAllHandbook = () => {
 const getDetailHandbookById = (data) => {
     return axios.get(`/api/get-detail-handbook-by-id?id=${data.id}`)
 }
-const search= (data)=>{
+const search = (data) => {
     return axios.get(`/api/search?name=${data}`)
 }
+
 const totalMoney=()=>{
     return axios.get(`/api/total-money`)
 }
 const dataForBarChart=()=>{
     return axios.get(`/api/get-barchart`)
 }
+
+const getClinicDoctorById = (data) => {
+    return axios.get(`/api/get-clinic-doctor-by-id?doctorId=${data.doctorId}`)
+}
+
+
 export {
     handleLoginApi, getAllUsers,
     createNewUserService, deleteUserService,
@@ -147,7 +154,13 @@ export {
     getDetailSpecialtyById, createNewClinic,
     getAllClinic, getDetailClinicById,
     getAllPatientForDoctor, postSendRemedy,
+
     postSendComment, getListCommentForPatient,createNewHandbook,
     getAllHandbook,getDetailHandbookById,search,totalMoney,
     dataForBarChart
+
+    postSendComment, getListCommentForPatient, getClinicDoctorById,
+    createNewHandbook, getAllHandbook, getDetailHandbookById,
+    search
+
 }

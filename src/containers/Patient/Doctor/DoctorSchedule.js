@@ -17,7 +17,7 @@ class DoctorSchedule extends Component {
             allDays: [],
             allAvailabelTime: [],
             isOpenModalBooking: false,
-            dataScheduleTimeModal: {}
+            dataScheduleTimeModal: {},
         }
     }
 

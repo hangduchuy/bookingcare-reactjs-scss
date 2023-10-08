@@ -1,36 +1,41 @@
 /* styles.scss */
 .search-container {
-    display: flex;
-    flex-direction: column;
-  
-    .search-content {
-      background-color: white;
-      width: 400px;
-      height: 250px;
-      margin: 10px auto;
-      border-radius: 20px;
-      display: none; /* Ban đầu ẩn đi */
-      
-      .ul_search {
-        padding-left: 0px;
-        list-style: none;
-  
-        li {
-          text-align: center;
-          padding-top: 10px;
-          padding-left: 0px;
-          padding-bottom: 10px;
-  
-          &:hover {
-            background-color: gainsboro;
-          }
+  display       : flex;
+  flex-direction: column;
+
+  .search-content {
+    background-color   : white;
+    width              : 400px;
+    // height          : 250px;
+    margin             : 10px auto;
+    border-radius      : 20px;
+    display            : none;
+    opacity            : 0.9;
+    z-index            : 2;
+    /* Ban đầu ẩn đi */
+
+    .ul_search {
+      padding-left: 0px;
+      list-style  : none;
+
+      li {
+        border-radius : 20px;
+        cursor        : pointer;
+        text-align    : center;
+        padding-top   : 10px;
+        padding-left  : 0px;
+        padding-bottom: 10px;
+
+        &:hover {
+          background-color: gainsboro;
+          opacity         : 1;
         }
       }
     }
-  
-    /* Thêm quy tắc CSS để hiển thị .search-content khi cần */
-    &.show-content .search-content {
-      display: block;
-    }
   }
-  
+
+  /* Thêm quy tắc CSS để hiển thị .search-content khi cần */
+  &.show-content .search-content {
+    display: block;
+  }
+}
