@@ -3,6 +3,9 @@ export const adminMenu = [
         name: 'menu.admin.manage-user',
         menus: [
             {
+                name: 'menu.admin.report', link: '/system/report'
+            },
+            {
                 name: 'menu.admin.crud', link: '/system/user-manage'
             },
             {
