@@ -157,10 +157,6 @@ export {
 
     postSendComment, getListCommentForPatient,createNewHandbook,
     getAllHandbook,getDetailHandbookById,search,totalMoney,
-    dataForBarChart
-
-    postSendComment, getListCommentForPatient, getClinicDoctorById,
-    createNewHandbook, getAllHandbook, getDetailHandbookById,
-    search
+    dataForBarChart, getClinicDoctorById
 
 }
