@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { FormattedMessage } from 'react-intl';
+
 import { getAllDoctors } from '../../../services/userService';
-import _ from 'lodash';
-import { LANGUAGES } from '../../../utils';
+
+
 import './GetAllDoctor.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward } from '@fortawesome/free-solid-svg-icons';
@@ -42,7 +42,7 @@ class AllDoctor extends Component {
     }
     render() {
         let dataDoctor = this.state.dataDoctor;
-        let { language } = this.props;
+
         return (
             <div>
             <div className='navDetail' onClick={() => this.handleToHomePage()}>   <FontAwesomeIcon className='icon' icon={faBackward} />
@@ -53,7 +53,7 @@ class AllDoctor extends Component {
                 dataDoctor.map((item, index) => {
                     let imageBase64 = '';
                     if (item.image) {
-                        imageBase64 = new Buffer(item.image, 'base64').toString('binary');
+                        imageBase64 = new Buffer.from(item.image, 'base64').toString('binary');
                     }
                     return (
                         <div className='doctor-content' key={index} onClick={() => this.handleDetailDoctor(item)}>

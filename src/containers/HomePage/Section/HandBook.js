@@ -35,7 +35,7 @@ class HandBook extends Component {
                         <span className='title-section'>
                             Cẩm nang
                         </span>
-                        <button className='btn-section'>tìm kiếm</button>
+                        
                     </div>
                     <div className='section-body'>
                         <Slider {...this.props.settings}>

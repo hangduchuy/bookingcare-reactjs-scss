@@ -32,7 +32,7 @@ class Report extends Component {
         return acc;
       }, { Male: 0, Female: 0 });
 
-      console.log(counts);
+      console.log(data);
 
       // Cập nhật trạng thái với số lượng đã đếm được
       this.setState({
