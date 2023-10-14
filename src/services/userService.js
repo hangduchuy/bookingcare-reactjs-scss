@@ -129,9 +129,17 @@ const search = (data) => {
     return axios.get(`/api/search?name=${data}`)
 }
 
+const totalMoney=()=>{
+    return axios.get(`/api/total-money`)
+}
+const dataForBarChart=()=>{
+    return axios.get(`/api/get-barchart`)
+}
+
 const getClinicDoctorById = (data) => {
     return axios.get(`/api/get-clinic-doctor-by-id?doctorId=${data.doctorId}`)
 }
+
 
 export {
     handleLoginApi, getAllUsers,
@@ -146,7 +154,9 @@ export {
     getDetailSpecialtyById, createNewClinic,
     getAllClinic, getDetailClinicById,
     getAllPatientForDoctor, postSendRemedy,
-    postSendComment, getListCommentForPatient, getClinicDoctorById,
-    createNewHandbook, getAllHandbook, getDetailHandbookById,
-    search
+
+    postSendComment, getListCommentForPatient,createNewHandbook,
+    getAllHandbook,getDetailHandbookById,search,totalMoney,
+    dataForBarChart, getClinicDoctorById
+
 }

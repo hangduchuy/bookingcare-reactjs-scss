@@ -35,7 +35,7 @@ class MedicalFacility extends Component {
                 <div className='section-container'>
                     <div className='section-header'>
                         <span className='title-section'>Cơ sở y tế nổi bật</span>
-                        <button className='btn-section'>tìm kiếm</button>
+                    
                     </div>
                     <div className='section-body'>
                         <Slider {...this.props.settings}>

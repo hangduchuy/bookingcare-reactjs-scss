@@ -32,7 +32,9 @@ class OutStandingDoctor extends Component {
     handleDetailDoctor = (doctor) => {
         this.props.history.push(`/detail-doctor/${doctor.id}`)
     }
-
+    handleRedirectToGetDoctor = () => {
+        this.props.history.push(`/getall-doctor/`)
+    }
     render() {
         let arrDoctors = this.state.arrDoctors;
         let { language } = this.props;
@@ -42,7 +44,7 @@ class OutStandingDoctor extends Component {
                 <div className='section-container'>
                     <div className='section-header'>
                         <span className='title-section'><FormattedMessage id='homepage.outstanding-doctor' /></span>
-                        <button className='btn-section'><FormattedMessage id='homepage.search' /></button>
+                        <button className='btn-section' onClick={()=>this.handleRedirectToGetDoctor()}><FormattedMessage id='homepage.search' /></button>
                     </div>
                     <div className='section-body'>
                         <Slider {...this.props.settings}>

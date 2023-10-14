@@ -10,7 +10,8 @@ class Specialty extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataSpecialty: []
+            dataSpecialty: [],
+
         }
     }
 
@@ -27,6 +28,9 @@ class Specialty extends Component {
         this.props.history.push(`/detail-specialty/${item.id}`)
     }
 
+    handleRedirectToGetSpecialty= ()=>{
+        this.props.history.push(`/getall-specialty/`)
+    }
     render() {
 
         let { dataSpecialty } = this.state;
@@ -38,10 +42,11 @@ class Specialty extends Component {
                         <span className='title-section'>
                             <FormattedMessage id='homepage.specialty-popular' />
                         </span>
-                        <button className='btn-section'>
-                            <FormattedMessage id='homepage.more-infor' />
+                        <button className='btn-section' onClick={()=>this.handleRedirectToGetSpecialty()}>
+                            <FormattedMessage id='homepage.more-infor'  />
                         </button>
                     </div>
+                   
                     <div className='section-body'>
                         <Slider {...this.props.settings}>
                             {dataSpecialty && dataSpecialty.length > 0 &&
