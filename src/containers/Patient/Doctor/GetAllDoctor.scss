@@ -1,35 +1,44 @@
-    .navDetail{
-        display:flex;
-        .icon{
-            padding: 0;
-                width: 4.5%;
-                font-size: 50px;
-             
-        }
-        .icon:hover{
-            background-color: lightgray;
-        }
+.navDetail {
+    display: flex;
+
+    .icon {
+        padding  : 0;
+        width    : 4.5%;
+        font-size: 50px;
+        cursor   : pointer;
+
     }
-    .allDoctor-body{
-        margin: auto 40%;
-    .doctor-content{
-        display: flex;
+
+    .icon:hover {
+        background-color: lightgray;
+    }
+}
+
+.allDoctor-body {
+    margin: auto 40%;
+    cursor: pointer;
+
+    .doctor-content {
+        display       : flex;
         flex-direction: column;
-        padding: 1rem;
-        img{
-            align-self: center;
-            width:6rem;
-            height:6rem;
+        padding       : 1rem;
+
+        img {
+            align-self   : center;
+            width        : 6rem;
+            height       : 6rem;
             border-radius: 6rem;
         }
-        .doctor-name{
-            font-size: 25px;
+
+        .doctor-name {
+            font-size     : 25px;
             /* align-items: center; */
-            align-self: center;
+            align-self    : center;
         }
-        
+
     }
-    .doctor-content:hover{
+
+    .doctor-content:hover {
         background-color: lightblue;
     }
 }
