@@ -76,7 +76,7 @@ class HomeFooter extends Component {
                 </div>
                 <div className="text-center p-3" style={{ background: 'rgba(0, 0, 0, 0.2)' }}>
                     © 2023 Copyright:
-                    <a target='_blank' className="text-white" href="https://www.facebook.com/hangduchuy/">hangduchuy</a>
+                    <a target='_blank' className="text-white" href="https://www.facebook.com/DoctorCareHA">DoctorCareHA</a>
                 </div>
             </footer>
         );

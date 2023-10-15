@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { LANGUAGES } from '../../utils/constant';
 import { changeLanguageApp } from '../../store/actions/appActions';
 import { withRouter } from 'react-router';
-import {search,getAllSpecialty} from '../../services/userService';
+import { search, getAllSpecialty } from '../../services/userService';
 import { SearchBar } from './searchBar';
 
 class HomeHeader extends Component {
@@ -23,7 +23,7 @@ class HomeHeader extends Component {
 
     // handleSearch= async (event)=>{
     //     let key=event.target.value;
-        
+
     //     if(key){
     //         let result = await search(key);
     //         result= await result.json();
@@ -39,8 +39,8 @@ class HomeHeader extends Component {
     //     else{
     //         console.alert('Keywords have not been filled out ')
     //     }
-        
-        
+
+
     // }
     render() {
         let language = this.props.language;

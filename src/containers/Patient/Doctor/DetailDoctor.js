@@ -9,6 +9,7 @@ import DoctorSchedule from './DoctorSchedule';
 import DoctorExtraInfor from './DoctorExtraInfor';
 import UiCommentDoctor from './UiCommentDoctor';
 import MapDoctor from './MapDoctor';
+import LikeAndShare from '../SocialPlugin/LikeAndShare';
 
 class DetailDoctor extends Component {
 
@@ -49,6 +50,9 @@ class DetailDoctor extends Component {
             nameEn = `${detailDoctor.positionData.valueEn}, ${detailDoctor.firstName} ${detailDoctor.lastName}`;
         }
 
+        let currentURL = +process.env.REACT_APP_IS_LOCALHOST === 1 ?
+            "https://doctorcare-bot-5bfd98f83cbe.herokuapp.com/" : window.location.href;
+
         return (
             <>
                 <HomeHeader isShowBanner={false} />
@@ -70,6 +74,11 @@ class DetailDoctor extends Component {
                                         {detailDoctor.Markdown.description}
                                     </span>
                                 }
+                                <div className='like-share-plugin'>
+                                    <LikeAndShare
+                                        dataHref={currentURL}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>

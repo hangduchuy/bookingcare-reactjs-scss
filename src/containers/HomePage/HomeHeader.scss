@@ -1,5 +1,5 @@
 .home-header-container {
-    height          : 70px;
+    height          : 85px;
     width           : 100%;
     padding         : 0 80px;
     font            : 14px/1.5 'Montserrat', sans-serif;
@@ -30,8 +30,8 @@
                 background-attachment: fixed;
                 height               : 100%;
                 width                : 100%;
-                transform            : scale(0.7, 0.7);
-                margin-left          : -40px;
+                transform            : scale(0.6, 0.6);
+                margin-left          : -35px;
                 cursor               : pointer;
             }
 
@@ -121,7 +121,7 @@
     // padding-top: 144px;
     background           : url(../../assets/header-background.jpg);
     // height: 495px;
-    height               : 550px;
+    height               : 570px;
     background-repeat    : no-repeat;
     background-size      : cover;
     background-position  : center;
@@ -132,7 +132,7 @@
     .content-up {
         background-image: linear-gradient(rgba(126, 126, 126, 0.25), rgba(255, 255, 255, 0.1));
         height          : 65%;
-        padding-top     : 15px;
+        padding-top     : 80px;
 
         .title1 {
             text-align   : center;
