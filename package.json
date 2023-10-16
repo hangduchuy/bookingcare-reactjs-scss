@@ -52,23 +52,25 @@
     "redux-persist": "^5.10.0",
     "redux-state-sync": "^2.1.0",
     "redux-thunk": "^2.3.0",
+    "serve": "^14.2.1",
     "slick-carousel": "^1.8.1",
     "typescript": "^4.3.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "defaults",
+      "not ie 11"
     ],
     "development": [
       "last 1 chrome version",
@@ -79,5 +81,9 @@
   "devDependencies": {
     "chart.js": "^2.9.4",
     "react-chartjs-2": "^2.11.2"
+  },
+  "engines": {
+    "node": "14.17.0",
+    "npm": "6.14.13"
   }
 }
