@@ -26,7 +26,7 @@
             "manage-user": "Người dùng",
             "manage-doctor": "Quản lý bác sĩ",
             "manage-admin": "Quản lý admin",
-            "report":"Report",
+            "report": "Report",
             "crud": "CRUD user",
             "crud-redux": "CRUD redux",
             "clinic": "Phòng khám",
@@ -62,7 +62,10 @@
         "more-infor": "Xem thêm",
         "search": "Tìm kiếm",
         "search-specialty": "Tìm chuyên khoa khám bệnh",
-        "specialty-popular": "Chuyên khoa phổ biến"
+        "specialty-popular": "Chuyên khoa phổ biến",
+        "outstanding-clinic": "Cơ sở y tế nổi bật",
+        "handbook": "Cẩm nang",
+        "the-media": "Truyền thông nói về bệnh loãng xương"
     },
     "manage-schedule": {
         "title": "Quản lý kế hoạch khám bệnh của bác sĩ",

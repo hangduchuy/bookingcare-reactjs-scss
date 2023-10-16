@@ -10,6 +10,13 @@ import { SearchBar } from './searchBar';
 
 class HomeHeader extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            isShowLogin: false
+        }
+    }
+
     changeLanguage = (language) => {
         this.props.changeLanguageAppRedux(language)
         //file redux event: actions
@@ -18,6 +25,12 @@ class HomeHeader extends Component {
     returnToHome = () => {
         if (this.props.history) {
             this.props.history.push(`/home`);
+        }
+    }
+
+    returnToLogin = () => {
+        if (this.props.history) {
+            this.props.history.push(`/login`);
         }
     }
 
@@ -42,14 +55,31 @@ class HomeHeader extends Component {
 
 
     // }
+
+    showLogin = () => {
+        this.setState({
+            isShowLogin: !this.state.isShowLogin
+        })
+    }
+
     render() {
         let language = this.props.language;
+        let { isShowLogin } = this.state;
+
         return (
             <React.Fragment>
                 <div className='home-header-container shadow'>
                     <div className='home-header-content'>
                         <div className='left-content'>
-                            <i className='fas fa-bars'></i>
+                            {isShowLogin === true &&
+                                <div className='home-nav'>
+                                    <div class="nav-item">
+                                        <div onClick={() => this.returnToLogin()}>Login</div>
+                                    </div>
+                                </div>
+                            }
+                            <i className='fas fa-bars' onClick={() => this.showLogin()}>
+                            </i>
                             <div className='header-logo' onClick={() => this.returnToHome()}></div>
                         </div>
                         <div className='center-content'>
@@ -85,7 +115,7 @@ class HomeHeader extends Component {
                         <div className='content-up'>
                             <div className='title1'><FormattedMessage id="banner.title1" /></div>
                             <div className='title2'><FormattedMessage id="banner.title2" /></div>
-                            <SearchBar />
+                            <SearchBar ></SearchBar>
                         </div>
                         <div className='content-down'>
                             <div className='options'>

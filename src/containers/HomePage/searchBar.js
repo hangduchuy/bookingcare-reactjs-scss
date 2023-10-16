@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getAllSpecialty } from '../../services/userService';
 import '../HomePage/searchBar.scss';
 import { useHistory } from 'react-router-dom';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 export const SearchBar = () => {
   const [input, setInput] = useState("");
@@ -62,9 +62,9 @@ export const SearchBar = () => {
       </div>
       <div className='search-content'>
         <ul className='ul_search'>
-          {data.map((specialty) => (
-            <div onClick={() => { handleRedirectToDetail(specialty.id) }} >
-              <li key={specialty.id}>{specialty.name}</li>
+          {data.map((specialty, index) => (
+            <div key={index} onClick={() => { handleRedirectToDetail(specialty.id) }} >
+              <li>{specialty.name}</li>
             </div>
           ))}
 
