@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getAllDoctors,getAllCodeService,totalMoney,dataForBarChart } from '../../../../services/userService';
+import { getAllDoctors,getAllCodeService,totalMoney,dataForBarChart,totalCustomer } from '../../../../services/userService';
 import { Pie,Bar } from 'react-chartjs-2';
 import { OverviewBudget } from './Overview-budget';
 import { OverviewTotalCustomers } from './Overview-totalEmployee';
@@ -18,6 +18,8 @@ class Report extends Component {
 
   async componentDidMount() {
     try {
+      const Customers=await totalCustomer();
+      const customer=Customers.count;
       const money= await totalMoney();
       const dataToBarChart= await dataForBarChart();
       const datas = await getAllDoctors();
@@ -33,13 +35,15 @@ class Report extends Component {
       }, { Male: 0, Female: 0 });
 
       console.log(data);
-
+      console.log(Customers);
       // Cập nhật trạng thái với số lượng đã đếm được
       this.setState({
         Male: counts.Male,
         Female: counts.Female,
         Money:money,
-        dataBarChart:dataToBarChart
+        dataBarChart:dataToBarChart,
+        customer:customer,
+
       });
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -51,6 +55,7 @@ class Report extends Component {
     let Female=this.state.Female;
     let Money=this.state.Money;
     let dataBarChart=this.state.dataBarChart;
+    let customer=this.state.customer;
     const data = {
       labels: ['Male', 'Female'],
       datasets: [
@@ -79,13 +84,13 @@ class Report extends Component {
         <OverviewBudget difference={12}
               positive
               sx={{ height: '100%' }}
-              value={`$${Money}`} >
+              value={`${Money} VNĐ`} >
 
         </OverviewBudget>
         <OverviewTotalCustomers difference={16}
               positive={false}
               sx={{ height: '100%' }}
-              value="2028">
+              value={`${customer}`}>
             
         </OverviewTotalCustomers>
 

@@ -139,8 +139,9 @@ const dataForBarChart=()=>{
 const getClinicDoctorById = (data) => {
     return axios.get(`/api/get-clinic-doctor-by-id?doctorId=${data.doctorId}`)
 }
-
-
+const totalCustomer=()=>{
+    return axios.get(`/api/get-All-Customer `)
+}
 export {
     handleLoginApi, getAllUsers,
     createNewUserService, deleteUserService,
@@ -154,9 +155,8 @@ export {
     getDetailSpecialtyById, createNewClinic,
     getAllClinic, getDetailClinicById,
     getAllPatientForDoctor, postSendRemedy,
-
     postSendComment, getListCommentForPatient,createNewHandbook,
     getAllHandbook,getDetailHandbookById,search,totalMoney,
-    dataForBarChart, getClinicDoctorById
+    dataForBarChart, getClinicDoctorById,totalCustomer
 
 }
