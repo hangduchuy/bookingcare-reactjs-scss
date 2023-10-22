@@ -129,10 +129,10 @@ const search = (data) => {
     return axios.get(`/api/search?name=${data}`)
 }
 
-const totalMoney=()=>{
+const totalMoney = () => {
     return axios.get(`/api/total-money`)
 }
-const dataForBarChart=()=>{
+const dataForBarChart = () => {
     return axios.get(`/api/get-barchart`)
 }
 
@@ -140,6 +140,9 @@ const getClinicDoctorById = (data) => {
     return axios.get(`/api/get-clinic-doctor-by-id?doctorId=${data.doctorId}`)
 }
 
+const getPaymentConfig = () => {
+    return axios.get(`/api/payment/config`)
+}
 
 export {
     handleLoginApi, getAllUsers,
@@ -154,9 +157,8 @@ export {
     getDetailSpecialtyById, createNewClinic,
     getAllClinic, getDetailClinicById,
     getAllPatientForDoctor, postSendRemedy,
-
-    postSendComment, getListCommentForPatient,createNewHandbook,
-    getAllHandbook,getDetailHandbookById,search,totalMoney,
-    dataForBarChart, getClinicDoctorById
-
+    postSendComment, getListCommentForPatient, createNewHandbook,
+    getAllHandbook, getDetailHandbookById, search, totalMoney,
+    dataForBarChart, getClinicDoctorById,
+    getPaymentConfig,
 }

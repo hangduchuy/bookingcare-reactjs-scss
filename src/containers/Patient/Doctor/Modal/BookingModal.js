@@ -9,10 +9,17 @@ import DatePicker from '../../../../components/Input/DatePicker';
 import * as actions from '../../../../store/actions';
 import { LANGUAGES } from '../../../../utils';
 import Select from 'react-select';
-import { postPatientBookAppointment } from '../../../../services/userService'
+import { postPatientBookAppointment, getPaymentConfig } from '../../../../services/userService'
 import { toast } from "react-toastify";
 import moment from 'moment';
 import LoadingOverlay from 'react-loading-overlay';
+import { PayPalButton } from "react-paypal-button-v2";
+
+const initialOptions = {
+    clientId: process.env.REACT_APP_PAYPAL_CLIENT_ID,
+    currency: "VND",
+    intent: "capture",
+};
 
 class BookingModal extends Component {
 
@@ -29,12 +36,21 @@ class BookingModal extends Component {
             doctorId: '',
             genders: '',
             timeType: '',
-            isShowLoading: false
+            isShowLoading: false,
+            isShowPaypal: false,
+            sdkReady: false,
+            isShowPaypalSuccess: false,
+            priceToChild: ''
         }
     }
 
     async componentDidMount() {
         this.props.getGenderStart();
+        if (!window.paypal) {
+            this.addPayPalScript();
+        } else {
+            this.setState({ sdkReady: true })
+        }
     }
 
     buildDataGender = (data) => {
@@ -154,8 +170,35 @@ class BookingModal extends Component {
         }
     }
 
+    handlePayPal = () => { this.setState({ isShowPaypal: true }) }
+    handleClosePayPal = () => { this.setState({ isShowPaypal: false }) }
+
+    addPayPalScript = async () => {
+        const { data } = await getPaymentConfig();
+        const script = document.createElement('script')
+        script.type = 'text/javascript'
+        script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.REACT_APP_PAYPAL_CLIENT_ID}`
+        script.async = true
+        script.onload = () => {
+            this.setState({ sdkReady: true })
+        }
+        document.body.appendChild(script)
+    }
+
+    onSuccessPayment = () => {
+        toast.success('Thanh toán thành công!')
+        { this.setState({ isShowPaypalSuccess: true }) }
+    }
+
+    setPrice = (number) => {
+        this.setState({
+            priceToChild: number
+        })
+    }
+
     render() {
         let { isOpenModal, closeBookingModal, dataTime } = this.props;
+        let { priceToChild } = this.state;
         let doctorId = dataTime && !_.isEmpty(dataTime) ? dataTime.doctorId : '';
 
         return (
@@ -190,6 +233,7 @@ class BookingModal extends Component {
                                         dataTime={dataTime}
                                         isShowLinkDetail={false}
                                         isShowPrice={true}
+                                        setPrice={this.setPrice}
                                     />
                                 </div>
                                 <div className='row'>
@@ -259,6 +303,48 @@ class BookingModal extends Component {
                                             placeholder={<FormattedMessage id='manage-user.gender' />}
                                         />
                                     </div>
+                                    <div className='col-7 form-group'>
+                                        <label className='col-7'><b>Chọn phương thức thanh toán</b></label>
+                                        <div class="form-check form-check-inline">
+                                            <input
+                                                class="form-check-input" type="radio"
+                                                name="inlineRadioOptions" id="inlineRadio1"
+                                                value="option1"
+                                                onClick={() => this.handleClosePayPal()}
+                                            />
+                                            <label class="form-check-label" for="inlineRadio1">
+                                                Thanh toán sau khi khám
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input
+                                                class="form-check-input me-3" type="radio"
+                                                name="inlineRadioOptions" id="inlineRadio2"
+                                                value="option2"
+                                                onClick={() => this.handlePayPal()}
+                                            />
+                                            <label class="form-check-label" for="inlineRadio2">
+                                                <i class="fab fa-paypal"></i> Thanh toán bằng PayPal
+                                            </label>
+                                        </div>
+                                    </div>
+                                    {this.state.isShowPaypal === true && this.state.sdkReady === true &&
+                                        <div className='col-5 form-group'>
+                                            <PayPalButton
+                                                amount={priceToChild}
+                                                // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+                                                onSuccess={this.onSuccessPayment}
+                                                onError={() => {
+                                                    alert("Error");
+                                                }}
+                                            />
+                                        </div>
+                                    }
+                                    {this.state.isShowPaypalSuccess === true &&
+                                        <div className='col-12 form-group success'>
+                                            <i class="far fa-check-circle"></i> Thanh toán thành công
+                                        </div>
+                                    }
                                 </div>
                             </div>
                             <div className='booking-modal-footer'>
