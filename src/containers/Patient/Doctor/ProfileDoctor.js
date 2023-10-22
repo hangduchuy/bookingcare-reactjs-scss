@@ -20,6 +20,12 @@ class ProfileDoctor extends Component {
 
     async componentDidMount() {
         let data = await this.getInforDoctor(this.props.doctorId);
+
+        if (this.props.language === LANGUAGES.VI) {
+            this.props.setPrice(data.Doctor_Infor.priceTypeData.valueVi / 24000)
+        } else {
+            this.props.setPrice(data.Doctor_Infor.priceTypeData.valueEn)
+        }
         this.setState({
             dataProfile: data
         })

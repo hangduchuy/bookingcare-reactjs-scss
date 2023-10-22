@@ -31,7 +31,6 @@ class MapDoctor extends Component {
                 dataClinic: res.data
             })
         }
-        console.log(res)
     }
 
     async componentDidUpdate(prevProps, prevState, snapShot) {

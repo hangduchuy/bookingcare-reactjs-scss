@@ -6,10 +6,9 @@ class About extends Component {
 
     render() {
         return (
-
             <div className='section-share section-about'>
                 <div className='section-about-header'>
-                    Truyền thông nói về bệnh loãng xương
+                    <FormattedMessage id='homepage.the-media' />
                 </div>
                 <div className='section-about-content'>
                     <div className='content-left'>

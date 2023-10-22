@@ -40,6 +40,16 @@
                 color    : grey;
                 cursor   : pointer;
             }
+
+            .home-nav {
+                border       : 1px solid #45c3d2;
+                border-radius: 4px;
+                display      : block;
+                background   : #cfc1c8;
+                cursor       : pointer;
+                margin-right : 3px;
+                padding      : 4px;
+            }
         }
 
         .center-content {

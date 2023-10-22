@@ -61,7 +61,10 @@
         "more-infor": "More infor",
         "search": "Search",
         "search-specialty": "Find a medical specialist",
-        "specialty-popular": "Popular specialties"
+        "specialty-popular": "Popular specialties",
+        "outstanding-clinic": "Outstanding medical facilities",
+        "handbook": "Handbook",
+        "the-media": "The media talks about osteoporosis"
     },
     "manage-schedule": {
         "title": "Manage your doctor's visit plan",

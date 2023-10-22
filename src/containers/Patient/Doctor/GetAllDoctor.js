@@ -20,7 +20,6 @@ class AllDoctor extends Component {
                 dataDoctor: res.data ? res.data : []
             })
         }
-        console.log(res.data);
     }
 
     async componentDidUpdate(prevProps, prevState, snapShot) {

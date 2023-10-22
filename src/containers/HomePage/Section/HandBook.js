@@ -33,14 +33,14 @@ class HandBook extends Component {
                 <div className='section-container'>
                     <div className='section-header'>
                         <span className='title-section'>
-                            Cẩm nang
+                            <FormattedMessage id='homepage.handbook' />
                         </span>
-                        
+
                     </div>
                     <div className='section-body'>
                         <Slider {...this.props.settings}>
-                            {dataHandbook && dataHandbook.length > 0 
-                            && dataHandbook.map((item, index) => {
+                            {dataHandbook && dataHandbook.length > 0
+                                && dataHandbook.map((item, index) => {
                                     return (
                                         <div className='section-customize' key={index} onClick={() => this.handleViewDetailHandbook(item)}>
                                             <div className='bg-image section-specialty' style={{ backgroundImage: `url(${item.image || ''})` }} />
@@ -49,7 +49,7 @@ class HandBook extends Component {
                                     )
                                 })
                             }
-                            
+
                         </Slider>
                     </div>
                 </div>
