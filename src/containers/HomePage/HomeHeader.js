@@ -73,7 +73,7 @@ class HomeHeader extends Component {
                         <div className='left-content'>
                             {isShowLogin === true &&
                                 <div className='home-nav'>
-                                    <div class="nav-item">
+                                    <div className="nav-item">
                                         <div onClick={() => this.returnToLogin()}>Login</div>
                                     </div>
                                 </div>

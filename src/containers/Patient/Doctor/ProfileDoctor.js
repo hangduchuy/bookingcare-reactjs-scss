@@ -20,16 +20,22 @@ class ProfileDoctor extends Component {
 
     async componentDidMount() {
         let data = await this.getInforDoctor(this.props.doctorId);
-
-        if (this.props.language === LANGUAGES.VI) {
-            this.props.setPrice(data.Doctor_Infor.priceTypeData.valueVi / 24000)
-        } else {
-            this.props.setPrice(data.Doctor_Infor.priceTypeData.valueEn)
-        }
+        // let { language, setPrice } = this.props;
+        // if (data && data.Doctor_Infor && language === LANGUAGES.VI) {
+        //     setPrice(data.Doctor_Infor.priceTypeData.valueVi / 24000)
+        // }
+        // if (data && data.Doctor_Infor && language === LANGUAGES.EN) {
+        //     setPrice(data.Doctor_Infor.priceTypeData.valueEn)
+        // }
         this.setState({
             dataProfile: data
         })
     }
+
+    // componentWillUnmount() {
+    //     // Đảm bảo set biến cờ thành false khi component bị hủy
+    //     this._isMounted = false;
+    // }
 
     getInforDoctor = async (id) => {
         let result = {};
@@ -80,10 +86,12 @@ class ProfileDoctor extends Component {
         let { language, isShowDescriptionDoctor, dataTime,
             isShowLinkDetail, isShowPrice, doctorId } = this.props;
         let nameVi = '', nameEn = '';
+
         if (dataProfile && dataProfile.positionData) {
             nameVi = `${dataProfile.positionData.valueVi}, ${dataProfile.lastName} ${dataProfile.firstName}`;
             nameEn = `${dataProfile.positionData.valueEn}, ${dataProfile.firstName} ${dataProfile.lastName}`;
         }
+
         return (
             <div className='profile-doctor-container'>
                 <div className='intro-doctor'>
