@@ -27,3 +27,29 @@
         cursor         : pointer;
     }
 }
+
+.btn-edit {
+    width     : 50px;
+    border    : none;
+    outline   : none;
+    background: transparent;
+    color     : orange;
+
+    &:hover {
+        background-color: transparent !important;
+        color           : orangered !important;
+    }
+}
+
+.btn-delete {
+    width     : 50px;
+    border    : none;
+    outline   : none;
+    background: transparent;
+    color     : rgb(255, 0, 0);
+
+    &:hover {
+        background-color: transparent !important;
+        color           : rgba(255, 0, 0, 0.692) !important;
+    }
+}

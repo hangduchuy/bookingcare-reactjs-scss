@@ -49,9 +49,9 @@ class DetailDoctor extends Component {
             nameVi = `${detailDoctor.positionData.valueVi}, ${detailDoctor.lastName} ${detailDoctor.firstName}`;
             nameEn = `${detailDoctor.positionData.valueEn}, ${detailDoctor.firstName} ${detailDoctor.lastName}`;
         }
-
+        let id = this.props.match.params.id;
         let currentURL = +process.env.REACT_APP_IS_LOCALHOST === 1 ?
-            "https://doctorcare-bot-5bfd98f83cbe.herokuapp.com/" : window.location.href;
+            `https://doctorcare-frontend-reactjs-934629264119.herokuapp.com/detail-doctor/${id}` : window.location.href;
 
         return (
             <>

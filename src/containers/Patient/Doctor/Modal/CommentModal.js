@@ -90,25 +90,25 @@ class CommentModal extends Component {
                     </div>
                     <ModalBody>
                         <div className='row'>
-                            <div class="col-6 form-group">
+                            <div className="col-6 form-group">
 
                                 <label for="feedbackName">Tên </label>
-                                <input class="form-control" type="text"
+                                <input className="form-control" type="text"
                                     onChange={(event) => { this.handleOnChangeInput(event, "name") }}
                                     value={this.state.name}
                                     placeholder="Tên..." />
                             </div>
-                            <div class="col-6 form-group">
+                            <div className="col-6 form-group">
                                 <label for="feedbackPhone">Email đã đặt lịch</label>
-                                <input class="form-control" type="text"
+                                <input className="form-control" type="text"
                                     onChange={(event) => { this.handleOnChangeInput(event, "email") }}
                                     value={this.state.email}
                                     placeholder="Email..." />
                             </div>
 
-                            <div class="col-12 form-group">
+                            <div className="col-12 form-group">
                                 <label for="feedbackContent">Nội dung</label>
-                                <textarea class="form-control"
+                                <textarea className="form-control"
                                     onChange={(event) => { this.handleOnChangeInput(event, "content") }}
                                     value={this.state.content}
                                     type="text"></textarea>

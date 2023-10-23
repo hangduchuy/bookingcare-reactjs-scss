@@ -100,6 +100,7 @@ class ManageSchedule extends Component {
     handleSaveSchedule = async () => {
         let { rangeTime, selectedDoctor, currentDate } = this.state;
         let result = [];
+        let doctorId = -1;
         if (!currentDate) {
             toast.error("Invalid date!");
             return;
@@ -110,13 +111,17 @@ class ManageSchedule extends Component {
         }
         // let formatedDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER);
         let formatedDate = new Date(currentDate).getTime();
-
+        if (this.props.userInfo && this.props.userInfo.roleId === 'R1') {
+            doctorId = selectedDoctor.value;
+        } else {
+            doctorId = this.props.userInfo.id
+        }
         if (rangeTime && rangeTime.length > 0) {
             let selectedTime = rangeTime.filter(item => item.isSelected === true);
             if (selectedTime && selectedTime.length > 0) {
                 selectedTime.map((schedule, index) => {
                     let object = {};
-                    object.doctorId = selectedDoctor.value;
+                    object.doctorId = doctorId;
                     object.date = formatedDate;
                     object.timeType = schedule.key;
                     result.push(object);
@@ -129,7 +134,7 @@ class ManageSchedule extends Component {
         this.setState({ isShowLoading: true })
         let res = await saveBulkScheduleDoctor({
             arrSchedule: result,
-            doctorId: selectedDoctor.value,
+            doctorId: doctorId,
             formatedDate: formatedDate
         });
 
@@ -145,7 +150,7 @@ class ManageSchedule extends Component {
 
     render() {
         let { rangeTime } = this.state;
-        let { language } = this.props;
+        let { language, userInfo } = this.props;
         let yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
 
         return (
@@ -161,14 +166,24 @@ class ManageSchedule extends Component {
                         </div>
                         <div className='container'>
                             <div className='row'>
-                                <div className='col-6 form-group'>
-                                    <label><FormattedMessage id='manage-schedule.choose-doctor' /></label>
-                                    <Select
-                                        value={this.state.selectedDoctor}
-                                        onChange={this.handleChangeSelect}
-                                        options={this.state.listDoctors}
-                                    />
-                                </div>
+                                {userInfo && userInfo.roleId === "R1" ?
+                                    <div className='col-6 form-group'>
+                                        <label><FormattedMessage id='manage-schedule.choose-doctor' /></label>
+                                        <Select
+                                            value={this.state.selectedDoctor}
+                                            onChange={this.handleChangeSelect}
+                                            options={this.state.listDoctors}
+                                        />
+                                    </div>
+                                    :
+                                    <div className='col-6 form-group'>
+                                        <label><FormattedMessage id='manage-schedule.choose-doctor' /></label>
+                                        <input type="text" className="form-control"
+                                            value={userInfo.lastName + ' ' + userInfo.firstName}
+                                            disabled
+                                        />
+                                    </div>
+                                }
                                 <div className='col-6 form-group'>
                                     <label><FormattedMessage id='manage-schedule.choose-date' /></label>
                                     <DatePicker
@@ -217,6 +232,7 @@ const mapStateToProps = state => {
         language: state.app.language,
         allDoctors: state.admin.allDoctors,
         allScheduleTime: state.admin.allScheduleTime,
+        userInfo: state.user.userInfo,
     };
 };
 

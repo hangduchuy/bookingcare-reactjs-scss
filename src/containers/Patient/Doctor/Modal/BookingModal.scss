@@ -22,6 +22,19 @@
         .booking-modal-body {
             height : 100%;
             padding: 15px;
+
+            .form-check-input {
+                cursor: pointer;
+
+                .form-check-label {
+                    font-size: 20px;
+                }
+            }
+
+            .success {
+                font-weight: 500;
+                color      : red;
+            }
         }
 
         .booking-modal-footer {
