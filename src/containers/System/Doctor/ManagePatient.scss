@@ -9,10 +9,10 @@ div._loading_overlay_wrapper {
 .manage-patient-container {
     .m-p-title {
         text-transform: uppercase;
-        margin        : 15px 0;
-        font-weight   : 600;
-        font-size     : 17px;
-        text-align    : center;
+        margin: 15px 0;
+        font-weight: 600;
+        font-size: 17px;
+        text-align: center;
     }
 
     .manage-patient-body {
@@ -22,4 +22,20 @@ div._loading_overlay_wrapper {
             margin-right: 10px;
         }
     }
+}
+
+.bg-create {
+    width: fit-content;
+    color: white;
+    background-color: rgb(23, 116, 46);
+    padding: 4px 12px;
+    border-radius: 25px;
+}
+
+.bg-update {
+    width: fit-content;
+    color: white;
+    background-color: rgb(248, 175, 63);
+    padding: 4px 12px;
+    border-radius: 25px;
 }

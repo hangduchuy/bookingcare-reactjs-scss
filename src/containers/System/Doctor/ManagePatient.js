@@ -1,46 +1,49 @@
-import React, { Component } from 'react';
-import { connect } from "react-redux";
-import { FormattedDate, FormattedMessage } from 'react-intl';
-import './ManagePatient.scss';
-import "datatables.net-dt/js/dataTables.dataTables"
-import "datatables.net-dt/css/jquery.dataTables.min.css"
-import $ from 'jquery';
-import DatePicker from '../../../components/Input/DatePicker';
-import { getAllPatientForDoctor, postSendRemedy } from '../../../services/userService';
-import moment from 'moment';
-import { LANGUAGES } from '../../../utils';
-import RemedyModal from './RemedyModal';
-import { toast } from 'react-toastify';
-import LoadingOverlay from 'react-loading-overlay';
+import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import $ from 'jquery'
+import moment from 'moment'
+import { toast } from 'react-toastify'
+import LoadingOverlay from 'react-loading-overlay'
+
+import './ManagePatient.scss'
+import 'datatables.net-dt/js/dataTables.dataTables'
+import 'datatables.net-dt/css/jquery.dataTables.min.css'
+import DatePicker from '../../../components/Input/DatePicker'
+import { getAllPatientForDoctor, postSendRemedy } from '../../../services/userService'
+import { LANGUAGES } from '../../../utils'
+import RemedyModal from './RemedyModal'
+import DetailPatientModal from './DetailPatientModal'
 
 class ManagePatient extends Component {
-
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             currentDate: moment(new Date()).startOf('day').valueOf(),
             dataPatient: [],
             isOpenRemedyModal: false,
             dataModal: {},
-            isShowLoading: false
+            isShowLoading: false,
+            isOpenDetailModal: false,
+            dataDetailModal: {}
         }
     }
 
     async componentDidMount() {
-        this.getDataPatient();
+        this.getDataPatient()
 
         //initialize datatable
         $(document).ready(function () {
             setTimeout(function () {
-                $('#myTable').DataTable();
-            }, 1000);
-        });
+                $('#myTable').DataTable()
+            }, 1000)
+        })
     }
 
     getDataPatient = async () => {
-        let { user } = this.props;
-        let { currentDate } = this.state;
-        let formattedDate = new Date(currentDate).getTime();
+        let { user } = this.props
+        let { currentDate } = this.state
+        let formattedDate = new Date(currentDate).getTime()
         let res = await getAllPatientForDoctor({
             doctorId: user.id,
             date: formattedDate
@@ -54,16 +57,18 @@ class ManagePatient extends Component {
 
     async componentDidUpdate(prevProps, prevState, snapShot) {
         if (this.props.language !== prevProps.language) {
-
         }
     }
 
     handleOnChangeDatePicker = (date) => {
-        this.setState({
-            currentDate: date[0]
-        }, async () => {
-            await this.getDataPatient();
-        })
+        this.setState(
+            {
+                currentDate: date[0]
+            },
+            async () => {
+                await this.getDataPatient()
+            }
+        )
     }
 
     handleBtnConfirm = (item) => {
@@ -88,7 +93,7 @@ class ManagePatient extends Component {
     }
 
     sendRemedy = async (dataChild) => {
-        let { dataModal } = this.state;
+        let { dataModal } = this.state
         this.setState({
             isShowLoading: true
         })
@@ -100,14 +105,14 @@ class ManagePatient extends Component {
             timeType: dataModal.timeType,
             language: this.props.language,
             patientName: dataModal.patientName
-        });
+        })
         if (res && res.errCode === 0) {
             this.setState({
                 isShowLoading: false
             })
             toast.success('Send Remedy succeeds')
-            this.closeRemedyModal();
-            await this.getDataPatient();
+            this.closeRemedyModal()
+            await this.getDataPatient()
         } else {
             this.setState({
                 isShowLoading: false
@@ -117,21 +122,38 @@ class ManagePatient extends Component {
         }
     }
 
+    handleBtnDetail = (item) => {
+        let data = {
+            doctorId: item.doctorId,
+            patientId: item.patientId,
+            patientName: item.patientData.firstName,
+            genderData: item.patientData.genderData,
+            phonenumber: item.patientData.phonenumber
+        }
+        this.setState({
+            isOpenDetailModal: true,
+            dataDetailModal: data
+        })
+    }
+
+    closeDetailModal = () => {
+        this.setState({
+            isOpenDetailModal: false,
+            dataDetailModal: {}
+        })
+    }
+
     render() {
-        let { dataPatient, isOpenRemedyModal, dataModal } = this.state;
-        let { language } = this.props;
+        let { dataPatient, isOpenRemedyModal, dataModal, isOpenDetailModal, dataDetailModal } = this.state
+        let { language } = this.props
+
         return (
-            <>
-                <LoadingOverlay
-                    active={this.state.isShowLoading}
-                    spinner
-                    text='Loading...'
-                >
-                    <div className="manage-patient-container">
+            <Fragment>
+                <LoadingOverlay active={this.state.isShowLoading} spinner text='Loading...'>
+                    <div className='manage-patient-container'>
                         <div className='m-p-title'>
                             <FormattedMessage id='manage-patient.title' />
                         </div>
-
                         <div className='manage-patient-body row'>
                             <div className='col-4 form-group'>
                                 <label>Chọn ngày khám</label>
@@ -142,13 +164,13 @@ class ManagePatient extends Component {
                                 />
                             </div>
                             <div className='col-12'>
-                                <div className="card shadow mb-4 bg-light" >
-                                    <div className="card-body">
-                                        <div className="table-responsive">
+                                <div className='card shadow mb-4 bg-light'>
+                                    <div className='card-body'>
+                                        <div className='table-responsive'>
                                             <table id='myTable' className='display'>
                                                 <thead className='tbl-header'>
                                                     <tr>
-                                                        <th>STT</th>
+                                                        <th style={{ width: '100px' }}>STT</th>
                                                         <th>Thời gian</th>
                                                         <th>Họ và tên</th>
                                                         <th>Địa chỉ</th>
@@ -157,12 +179,16 @@ class ManagePatient extends Component {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {dataPatient && dataPatient.length > 0 &&
+                                                    {dataPatient && dataPatient.length > 0 ? (
                                                         dataPatient.map((item, index) => {
-                                                            let time = language === LANGUAGES.VI ?
-                                                                item.timeTypeDataPatient.valueVi : item.timeTypeDataPatient.valueEn;
-                                                            let gender = language === LANGUAGES.VI ?
-                                                                item.patientData.genderData.valueVi : item.patientData.genderData.valueEn;
+                                                            let time =
+                                                                language === LANGUAGES.VI
+                                                                    ? item.timeTypeDataPatient.valueVi
+                                                                    : item.timeTypeDataPatient.valueEn
+                                                            let gender =
+                                                                language === LANGUAGES.VI
+                                                                    ? item.patientData.genderData.valueVi
+                                                                    : item.patientData.genderData.valueEn
                                                             return (
                                                                 <tr key={index}>
                                                                     <td>{index + 1}</td>
@@ -171,21 +197,32 @@ class ManagePatient extends Component {
                                                                     <td>{item.patientData.address}</td>
                                                                     <td>{gender}</td>
                                                                     <td className='btn-action'>
-                                                                        <button className='mp-btn-confirm btn btn-warning'
-                                                                            onClick={() => this.handleBtnConfirm(item)}>Xác nhận
+                                                                        <button
+                                                                            className='mp-btn-confirm btn btn-warning'
+                                                                            onClick={() => this.handleBtnConfirm(item)}
+                                                                        >
+                                                                            Xác nhận
                                                                         </button>
-                                                                        {/* <button className='mp-btn-remedy btn btn-info'
-                                                                    onClick={() => this.handleBtnRemedy(item)}
-                                                                >Gửi hóa đơn</button> */}
+                                                                        <button
+                                                                            className='mp-btn-remedy btn btn-info'
+                                                                            onClick={() => this.handleBtnDetail(item)}
+                                                                        >
+                                                                            Chi tiết
+                                                                        </button>
                                                                     </td>
                                                                 </tr>
                                                             )
                                                         })
-                                                        // :
-                                                        // <tr>
-                                                        //     no data
-                                                        // </tr>
-                                                    }
+                                                    ) : (
+                                                        <tr>
+                                                            <td>Chưa có dữ liệu</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td className='btn-action'></td>
+                                                        </tr>
+                                                    )}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -200,22 +237,27 @@ class ManagePatient extends Component {
                         closeRemedyModal={this.closeRemedyModal}
                         sendRemedy={this.sendRemedy}
                     />
+                    <DetailPatientModal
+                        isOpenModal={isOpenDetailModal}
+                        dataModal={dataDetailModal}
+                        closeDetailModal={this.closeDetailModal}
+                        // sendRemedy={this.seRemedy}
+                    />
                 </LoadingOverlay>
-            </>
-        );
+            </Fragment>
+        )
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         language: state.app.language,
-        user: state.user.userInfo,
-    };
-};
+        user: state.user.userInfo
+    }
+}
 
-const mapDispatchToProps = dispatch => {
-    return {
-    };
-};
+const mapDispatchToProps = (dispatch) => {
+    return {}
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManagePatient);
+export default connect(mapStateToProps, mapDispatchToProps)(ManagePatient)

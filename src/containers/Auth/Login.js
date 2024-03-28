@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { push } from "connected-react-router";
-import * as actions from "../../store/actions";
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { push } from 'connected-react-router'
+import * as actions from '../../store/actions'
 
-import './Login.scss';
-import { FormattedMessage } from 'react-intl';
-import { handleLoginApi } from '../../services/userService';
+import './Login.scss'
+import { handleLoginApi } from '../../services/userService'
+import { USER_ROLE } from '../../utils'
 
 class Login extends Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             username: '',
             password: '',
@@ -31,21 +31,20 @@ class Login extends Component {
     }
 
     handleLogin = async () => {
-        console.log('all state', this.state)
         this.setState({
             errMessage: ''
         })
 
         try {
-            let data = await handleLoginApi(this.state.username, this.state.password);
+            let data = await handleLoginApi(this.state.username, this.state.password)
             if (data && data.errCode !== 0) {
                 this.setState({
                     errMessage: data.message
                 })
             }
             if (data && data.errCode === 0) {
-                this.props.userLoginSuccess(data.user)
-                console.log('login succeeds')
+                await this.props.userLoginSuccess(data.user)
+                this.redirectBasedOnRole(data.user.roleId) // Redirect based on user's role
             }
         } catch (e) {
             if (e.response) {
@@ -58,6 +57,17 @@ class Login extends Component {
         }
     }
 
+    redirectBasedOnRole = (role) => {
+        const { navigate } = this.props
+        if (role === USER_ROLE.ADMIN) {
+            navigate('/system/Report') // Redirect admin to settings page
+        } else if (role === USER_ROLE.DOCTOR) {
+            navigate('/doctor/manage-schedule') // Redirect doctor to dashboard
+        } else {
+            // Handle other roles if necessary
+        }
+    }
+
     handleShowHidePassword = () => {
         this.setState({
             isShowPassword: !this.state.isShowPassword
@@ -66,7 +76,7 @@ class Login extends Component {
 
     handleKeyDown = (event) => {
         if (event.key === 'Enter' || event.keyCode === 13) {
-            this.handleLogin();
+            this.handleLogin()
         }
     }
 
@@ -79,7 +89,8 @@ class Login extends Component {
                         <div className='col-12 text-center text-login'>Login</div>
                         <div className='col-12 form-group login-input'>
                             <label>Username:</label>
-                            <input type='text'
+                            <input
+                                type='text'
                                 className='form-control'
                                 placeholder='Enter your username'
                                 value={this.state.value}
@@ -89,14 +100,19 @@ class Login extends Component {
                         <div className='col-12 form-group login-input'>
                             <label>Password:</label>
                             <div className='custom-input-password'>
-                                <input type={this.state.isShowPassword ? 'text' : 'password'}
+                                <input
+                                    type={this.state.isShowPassword ? 'text' : 'password'}
                                     className='form-control'
                                     placeholder='Enter your password'
                                     value={this.state.value}
                                     onChange={(event) => this.handleOnChangePassword(event)}
                                     onKeyDown={(event) => this.handleKeyDown(event)}
                                 />
-                                <span onClick={() => { this.handleShowHidePassword() }}>
+                                <span
+                                    onClick={() => {
+                                        this.handleShowHidePassword()
+                                    }}
+                                >
                                     <i className={this.state.isShowPassword ? 'far fa-eye' : 'far fa-eye-slash'}></i>
                                 </span>
                             </div>
@@ -105,7 +121,14 @@ class Login extends Component {
                             {this.state.errMessage}
                         </div>
                         <div className='col-12'>
-                            <button className='btn-login' onClick={() => { this.handleLogin() }}>Login</button>
+                            <button
+                                className='btn-login'
+                                onClick={() => {
+                                    this.handleLogin()
+                                }}
+                            >
+                                Login
+                            </button>
                         </div>
                         <div className='col-12'>
                             <span className='forgot-password'>Forgot your password ?</span>
@@ -124,18 +147,18 @@ class Login extends Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         language: state.app.language
-    };
-};
+    }
+}
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
         navigate: (path) => dispatch(push(path)),
         // userLoginFail: () => dispatch(actions.adminLoginFail()),
         userLoginSuccess: (userInfor) => dispatch(actions.userLoginSuccess(userInfor))
-    };
-};
+    }
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

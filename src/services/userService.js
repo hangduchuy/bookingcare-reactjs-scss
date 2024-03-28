@@ -1,7 +1,7 @@
-import axios from '../axios';
+import axios from '../axios'
 
 const handleLoginApi = (userEmail, userPassword) => {
-    return axios.post('/api/login', { email: userEmail, password: userPassword });
+    return axios.post('/api/login', { email: userEmail, password: userPassword })
 }
 
 const getAllUsers = (inputId) => {
@@ -74,17 +74,17 @@ const createNewSpecialty = (data) => {
     return axios.post(`/api/create-new-specialty`, data)
 }
 
-
 const getAllSpecialty = () => {
     // Thực hiện cuộc gọi API sử dụng Axios
-    return axios.get('/api/get-specialty')
+    return axios
+        .get('/api/get-specialty')
         .then((response) => {
-            return response; // Trả về đối tượng phản hồi từ Axios
+            return response // Trả về đối tượng phản hồi từ Axios
         })
         .catch((error) => {
-            throw error; // Xử lý lỗi nếu có
-        });
-};
+            throw error // Xử lý lỗi nếu có
+        })
+}
 const getAllClinic = () => {
     return axios.get(`/api/get-clinic`)
 }
@@ -139,27 +139,60 @@ const dataForBarChart = () => {
 const getClinicDoctorById = (data) => {
     return axios.get(`/api/get-clinic-doctor-by-id?doctorId=${data.doctorId}`)
 }
+
 const getPaymentConfig = () => {
     return axios.get(`/api/payment/config`)
 }
-const totalCustomer=()=>{
+
+const totalCustomer = () => {
     return axios.get(`/api/get-All-Customer `)
 }
-export {
-    handleLoginApi, getAllUsers,
-    createNewUserService, deleteUserService,
-    editUserService, getAllCodeService,
-    getTopDoctorHomeService, getAllDoctors,
-    saveDetailDoctor, getDetailInforDoctor,
-    saveBulkScheduleDoctor, getScheduleDoctorByDate,
-    getExtraInforDoctorById, getProfileDoctorById,
-    postPatientBookAppointment, postVerifyBookAppointment,
-    createNewSpecialty, getAllSpecialty,
-    getDetailSpecialtyById, createNewClinic,
-    getAllClinic, getDetailClinicById,
-    getAllPatientForDoctor, postSendRemedy,
-    postSendComment, getListCommentForPatient,createNewHandbook,
-    getAllHandbook,getDetailHandbookById,search,totalMoney,
-    dataForBarChart, getClinicDoctorById,getPaymentConfig,totalCustomer
 
+const getDetailPatientById = (patientId) => {
+    return axios.get(`/api/get-detail-patient-by-id?patientId=${patientId}`)
+}
+
+const UpdateDetailPatient = (data) => {
+    console.log('data', data)
+    return axios.post(`/api/edit-detail-patient`, data)
+}
+
+export {
+    handleLoginApi,
+    getAllUsers,
+    createNewUserService,
+    deleteUserService,
+    editUserService,
+    getAllCodeService,
+    getTopDoctorHomeService,
+    getAllDoctors,
+    saveDetailDoctor,
+    getDetailInforDoctor,
+    saveBulkScheduleDoctor,
+    getScheduleDoctorByDate,
+    getExtraInforDoctorById,
+    getProfileDoctorById,
+    postPatientBookAppointment,
+    postVerifyBookAppointment,
+    createNewSpecialty,
+    getAllSpecialty,
+    getDetailSpecialtyById,
+    createNewClinic,
+    getAllClinic,
+    getDetailClinicById,
+    getAllPatientForDoctor,
+    postSendRemedy,
+    postSendComment,
+    getListCommentForPatient,
+    createNewHandbook,
+    getAllHandbook,
+    getDetailHandbookById,
+    search,
+    totalMoney,
+    dataForBarChart,
+    getClinicDoctorById,
+    getPaymentConfig,
+    totalCustomer,
+    getDetailPatientById,
+    UpdateDetailPatient
 }
