@@ -1,4 +1,4 @@
-import actionTypes from '../actions/actionTypes';
+import actionTypes from '../actions/actionTypes'
 
 const initialState = {
     isLoggedIn: false,
@@ -26,8 +26,8 @@ const appReducer = (state = initialState, action) => {
                 userInfo: null
             }
         default:
-            return state;
+            return state
     }
 }
 
-export default appReducer;
+export default appReducer

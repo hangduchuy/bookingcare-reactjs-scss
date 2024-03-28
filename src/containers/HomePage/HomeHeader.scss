@@ -25,12 +25,14 @@
             .header-logo {
                 background-image     : url('../../assets/logo.svg');
                 background-repeat    : no-repeat;
-                background-size      : cover;
+                background-size      : contain;
                 background-position  : center;
                 background-attachment: fixed;
                 height               : 100%;
                 width                : 100%;
-                transform            : scale(0.6, 0.6);
+                transform            : scale(0.8, 0.8);
+                display              : flex;
+                flex-shrink          : 0;
                 margin-left          : -35px;
                 cursor               : pointer;
             }

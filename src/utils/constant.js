@@ -4,30 +4,31 @@ export const path = {
     LOGIN: '/login',
     LOG_OUT: '/logout',
     SYSTEM: '/system',
+    DOCTOR: '/doctor',
     DETAIL_DOCTOR: '/detail-doctor/:id',
-    GETALL_DOCTOR:'/getall-doctor/',
+    GETALL_DOCTOR: '/getall-doctor/',
     DETAIL_SPECIALTY: '/detail-specialty/:id',
     GETALL_SPECIALTY: '/getall-specialty/',
     DETAIL_CLINIC: '/detail-clinic/:id',
     DETAIL_HANDBOOK: '/detail-handbook/:id',
-    VERIFY_EMAIL_BOOKING: '/verify-booking',
-};
+    VERIFY_EMAIL_BOOKING: '/verify-booking'
+}
 
 export const LANGUAGES = {
     VI: 'vi',
     EN: 'en'
-};
+}
 
 export const CRUD_ACTIONS = {
-    CREATE: "CREATE",
-    EDIT: "EDIT",
-    DELETE: "DELETE",
-    READ: "READ"
-};
+    CREATE: 'CREATE',
+    EDIT: 'EDIT',
+    DELETE: 'DELETE',
+    READ: 'READ'
+}
 
 export const dateFormat = {
     SEND_TO_SERVER: 'DD/MM/YYYY'
-};
+}
 
 export const YesNoObj = {
     YES: 'Y',

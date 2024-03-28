@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl';
 import { LANGUAGES } from '../../utils/constant';
 import { changeLanguageApp } from '../../store/actions/appActions';
 import { withRouter } from 'react-router';
-import { search, getAllSpecialty } from '../../services/userService';
 import { SearchBar } from './searchBar';
 
 class HomeHeader extends Component {
