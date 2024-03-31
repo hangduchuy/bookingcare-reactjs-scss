@@ -100,7 +100,9 @@ const createNewClinic = (data) => {
 const getDetailClinicById = (data) => {
     return axios.get(`/api/get-detail-clinic-by-id?id=${data.id}`)
 }
-
+const getListPatient = (data) => {
+    return axios.get(`/api/get-list-patient?date=${data.date}`)
+}
 const getAllPatientForDoctor = (data) => {
     return axios.get(`/api/get-list-patient-for-doctor?doctorId=${data.doctorId}&date=${data.date}`)
 }
@@ -108,7 +110,12 @@ const getAllPatientForDoctor = (data) => {
 const postSendRemedy = (data) => {
     return axios.post(`/api/send-remedy`, data)
 }
-
+const TSPT3 = (data) =>{
+    return axios.post(`/api/TSPT3`,data)
+}
+const TSPT4 = (data) =>{
+    return axios.post(`/api/TSPT4`,data)
+}
 const postSendComment = (data) => {
     return axios.post(`/api/send-comment`, data)
 }
@@ -157,6 +164,9 @@ const UpdateDetailPatient = (data) => {
     return axios.post(`/api/edit-detail-patient`, data)
 }
 
+const getAllSchedules = ()=>{
+    return axios.get(`/api/get-All-Schedules`)
+}
 export {
     handleLoginApi,
     getAllUsers,
@@ -194,5 +204,8 @@ export {
     getPaymentConfig,
     totalCustomer,
     getDetailPatientById,
-    UpdateDetailPatient
+    UpdateDetailPatient,
+    getAllSchedules,
+    getListPatient,
+    TSPT3,TSPT4,
 }
