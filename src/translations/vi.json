@@ -39,6 +39,10 @@
         "doctor": {
             "manage-schedule": "Quản lý kế hoạch khám bệnh",
             "manage-patient": "Quản lý bệnh nhân khám bệnh"
+        },
+        "assistant": {
+            "manage-schedule": "Xem lịch khám",
+            "manage-patient": "Xem bệnh nhân khám bệnh"
         }
     },
     "manage-user": {

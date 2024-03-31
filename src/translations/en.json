@@ -38,6 +38,10 @@
         "doctor": {
             "manage-schedule": "Manage Doctor's schedule",
             "manage-patient": "Manage Doctor's patient"
+        },
+        "assistant": {
+            "manage-schedule": "Manage Doctor's schedule",
+            "manage-patient": "Manage Doctor's patient"
         }
     },
     "manage-user": {
