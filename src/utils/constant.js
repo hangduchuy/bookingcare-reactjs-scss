@@ -5,6 +5,7 @@ export const path = {
     LOG_OUT: '/logout',
     SYSTEM: '/system',
     DOCTOR: '/doctor',
+    ASSISTANT: '/assistant',
     DETAIL_DOCTOR: '/detail-doctor/:id',
     GETALL_DOCTOR: '/getall-doctor/',
     DETAIL_SPECIALTY: '/detail-specialty/:id',
@@ -39,5 +40,5 @@ export const USER_ROLE = {
     ADMIN: 'R1',
     DOCTOR: 'R2',
     PATIENT: 'R3',
-    ASSISTANT: 'R4',
+    ASSISTANT: 'R4'
 }

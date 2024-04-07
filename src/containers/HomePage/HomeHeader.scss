@@ -1,11 +1,11 @@
 .home-header-container {
-    height          : 85px;
-    width           : 100%;
-    padding         : 0 80px;
-    font            : 14px/1.5 'Montserrat', sans-serif;
+    height: 85px;
+    width: 100%;
+    padding: 0 80px;
+    font: 14px/1.5 'Montserrat', sans-serif;
     background-color: white;
     // z-index: 1;
-    transition      : height 0.3s ease 0s, background-color 0.3s ease 0s;
+    transition: height 0.3s ease 0s, background-color 0.3s ease 0s;
 
     // &.shrink {
     //     height: 70px;
@@ -13,76 +13,76 @@
     // }
 
     .home-header-content {
-        height : 100%;
-        width  : 100%;
+        height: 100%;
+        width: 100%;
         display: flex;
 
         .left-content {
-            width      : 20%;
-            display    : flex;
+            width: 20%;
+            display: flex;
             align-items: center;
 
             .header-logo {
-                background-image     : url('../../assets/logo.svg');
-                background-repeat    : no-repeat;
-                background-size      : contain;
-                background-position  : center;
+                background-image: url('../../assets/logo.svg');
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position: center;
                 background-attachment: fixed;
-                height               : 100%;
-                width                : 100%;
-                transform            : scale(0.8, 0.8);
-                display              : flex;
-                flex-shrink          : 0;
-                margin-left          : -35px;
-                cursor               : pointer;
+                height: 100%;
+                width: 100%;
+                transform: scale(0.8, 0.8);
+                display: flex;
+                flex-shrink: 0;
+                margin-left: -35px;
+                cursor: pointer;
             }
 
             i {
                 font-size: 23px;
-                color    : grey;
-                cursor   : pointer;
+                color: grey;
+                cursor: pointer;
             }
 
             .home-nav {
-                border       : 1px solid #45c3d2;
+                border: 1px solid #45c3d2;
                 border-radius: 4px;
-                display      : block;
-                background   : #cfc1c8;
-                cursor       : pointer;
-                margin-right : 3px;
-                padding      : 4px;
+                display: block;
+                background: #cfc1c8;
+                cursor: pointer;
+                margin-right: 3px;
+                padding: 4px;
             }
         }
 
         .center-content {
-            width          : 55%;
-            display        : flex;
+            width: 55%;
+            display: flex;
             justify-content: space-between;
-            align-items    : center;
+            align-items: center;
 
             .child-content {
                 .subs-title {
                     font-weight: 400;
-                    font-size  : 11px;
+                    font-size: 11px;
                 }
             }
         }
 
         .right-content {
-            width          : 25%;
-            display        : flex;
+            width: 25%;
+            display: flex;
             justify-content: flex-end;
-            align-items    : center;
-            color          : #45c3d2;
+            align-items: center;
+            color: #45c3d2;
 
             .support {
                 padding-right: 50px;
-                display      : flex;
-                align-items  : center;
-                cursor       : pointer;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
 
                 i {
-                    font-size   : 15px;
+                    font-size: 15px;
                     margin-right: 5px;
                 }
 
@@ -92,7 +92,7 @@
             }
 
             .language-vi {
-                cursor : pointer;
+                cursor: pointer;
                 opacity: 0.25;
 
                 &.active {
@@ -109,8 +109,8 @@
             }
 
             .language-en {
-                margin : 0 10px;
-                cursor : pointer;
+                margin: 0 10px;
+                cursor: pointer;
                 opacity: 0.25;
 
                 &.active {
@@ -131,79 +131,79 @@
 
 .home-header-banner {
     // padding-top: 144px;
-    background           : url(../../assets/header-background.jpg);
+    background: url(../../assets/header-background.jpg);
     // height: 495px;
-    height               : 570px;
-    background-repeat    : no-repeat;
-    background-size      : cover;
-    background-position  : center;
+    height: 660px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
     background-attachment: fixed;
-    display              : flex;
-    flex-direction       : column;
+    display: flex;
+    flex-direction: column;
 
     .content-up {
         background-image: linear-gradient(rgba(126, 126, 126, 0.25), rgba(255, 255, 255, 0.1));
-        height          : 65%;
-        padding-top     : 80px;
+        height: 65%;
+        padding-top: 100px;
 
         .title1 {
-            text-align   : center;
-            font-size    : 30px;
-            text-shadow  : 1px 1px 1px #333;
+            text-align: center;
+            font-size: 30px;
+            text-shadow: 1px 1px 1px #333;
             margin-bottom: 5px;
-            color        : white;
-            margin-top   : 30px;
+            color: white;
+            margin-top: 30px;
         }
 
         .title2 {
-            text-align   : center;
-            font-size    : 30px;
-            font-weight  : 550;
-            text-shadow  : 1px 1px 1px #333;
-            color        : white;
+            text-align: center;
+            font-size: 30px;
+            font-weight: 550;
+            text-shadow: 1px 1px 1px #333;
+            color: white;
             margin-bottom: 15px;
         }
 
         .search {
-            width          : fit-content;
-            display        : flex;
+            width: fit-content;
+            display: flex;
             justify-content: center;
-            align-items    : center;
-            margin         : 0 auto;
-            padding        : 10px;
-            border-radius  : 25px;
-            background     : #f7d800;
+            align-items: center;
+            margin: 0 auto;
+            padding: 10px;
+            border-radius: 25px;
+            background: #f7d800;
 
             i {
                 margin: 0 5px;
             }
 
             input {
-                height    : 30px;
-                width     : 360px;
+                height: 30px;
+                width: 360px;
                 background: transparent;
-                border    : none;
-                outline   : none;
+                border: none;
+                outline: none;
             }
         }
     }
 
     .content-down {
-        height          : 35%;
-        padding-bottom  : 20px;
-        display         : flex;
-        align-items     : flex-end;
-        justify-content : center;
+        height: 35%;
+        padding-bottom: 20px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
         background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1));
 
         .options {
-            text-align     : center;
-            display        : flex;
-            gap            : 50px;
+            text-align: center;
+            display: flex;
+            gap: 50px;
             justify-content: center;
 
             .option-child {
-                width : 100px;
+                width: 100px;
                 cursor: pointer;
 
                 &:hover {
@@ -211,26 +211,25 @@
                 }
 
                 .icon-child {
-                    background   : white;
-                    width        : 40px;
-                    height       : 40px;
-                    padding      : 10px;
+                    background: white;
+                    width: 40px;
+                    height: 40px;
+                    padding: 10px;
                     border-radius: 50%;
-                    margin       : 0 auto;
-                    text-align   : center;
+                    margin: 0 auto;
+                    text-align: center;
 
                     i {
-                        color    : #49bce2;
+                        color: #49bce2;
                         font-size: 20px;
                     }
                 }
 
                 .text-child {
-                    font-size  : 17px;
+                    font-size: 17px;
                     font-weight: 500;
                 }
             }
         }
     }
-
 }

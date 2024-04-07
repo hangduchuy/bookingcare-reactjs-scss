@@ -1,22 +1,21 @@
-import React, { Component } from 'react';
-import { connect } from "react-redux";
-import {  FormattedMessage } from 'react-intl';
-import './ManagePatient.scss';
-import "datatables.net-dt/js/dataTables.dataTables"
-import "datatables.net-dt/css/jquery.dataTables.min.css"
-import $ from 'jquery';
-import DatePicker from '../../../components/Input/DatePicker';
-import {TSPT4,TSPT3, getListPatient, postSendRemedy } from '../../../services/userService';
-import moment from 'moment';
-import { LANGUAGES } from '../../../utils';
-import RemedyModal from './RemedyModal';
-import { toast } from 'react-toastify';
-import LoadingOverlay from 'react-loading-overlay';
-import CloseStateOfPatient from '../../Mui Dialog/closeStateOfPatient'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import './ManagePatient.scss'
+import 'datatables.net-dt/js/dataTables.dataTables'
+import 'datatables.net-dt/css/jquery.dataTables.min.css'
+import $ from 'jquery'
+import DatePicker from '../../../components/Input/DatePicker'
+import { TSPT4, TSPT3, getListPatient, postSendRemedy } from '../../../services/userService'
+import moment from 'moment'
+import { LANGUAGES } from '../../../utils'
+import RemedyModal from './RemedyModal'
+import { toast } from 'react-toastify'
+import LoadingOverlay from 'react-loading-overlay'
+import CloseStateOfPatient from '../../../components/Dialog/closeStateOfPatient'
 class ManagePatient extends Component {
-
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             currentDate: moment(new Date()).startOf('day').valueOf(),
             dataPatient: [],
@@ -24,24 +23,24 @@ class ManagePatient extends Component {
             dataModal: {},
             isShowLoading: false,
             isDialogOpen: false,
-            idToDelete: null,
+            idToDelete: null
         }
     }
 
     async componentDidMount() {
-        this.getDataPatient();
+        this.getDataPatient()
 
         //initialize datatable
         $(document).ready(function () {
             setTimeout(function () {
-                $('#myTable').DataTable();
-            }, 1000);
-        });
+                $('#myTable').DataTable()
+            }, 1000)
+        })
     }
 
     getDataPatient = async () => {
-        let { currentDate } = this.state;
-        let formattedDate = new Date(currentDate).getTime();
+        let { currentDate } = this.state
+        let formattedDate = new Date(currentDate).getTime()
         let res = await getListPatient({
             date: formattedDate
         })
@@ -53,60 +52,57 @@ class ManagePatient extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState, snapShot) {
-        this.getDataPatient();
+        this.getDataPatient()
     }
 
     handleOnChangeDatePicker = (date) => {
         console.log(date)
-        this.setState({
-            currentDate: date[0]
-        }, async () => {
-            await this.getDataPatient();
-        })
+        this.setState(
+            {
+                currentDate: date[0]
+            },
+            async () => {
+                await this.getDataPatient()
+            }
+        )
     }
 
     handleBtnConfirm = async (id) => {
-        let result= await TSPT3({id:id});
-        if(result)
-        {
-            toast.success("Xác nhận thay đổi trạng thái thành công");
+        let result = await TSPT3({ id: id })
+        if (result) {
+            toast.success('Xác nhận thay đổi trạng thái thành công')
         }
-       
     }
     handleBtnDelete = async (id) => {
-        let result= await TSPT4({id:id});
-        if(result)
-        {
-            toast.success("Đã xóa thành công");
+        let result = await TSPT4({ id: id })
+        if (result) {
+            toast.success('Đã xóa thành công')
         }
     }
 
     handleOpenDialog = (id) => {
-        this.setState(prevState => ({ isDialogOpen: true, idToDelete: id }));
-
-    };
-
+        this.setState((prevState) => ({ isDialogOpen: true, idToDelete: id }))
+    }
 
     handleCloseDialog = () => {
-        this.setState({ isDialogOpen: false, idToDelete: null });
-    };
+        this.setState({ isDialogOpen: false, idToDelete: null })
+    }
 
     handleConfirmDelete = () => {
         // Call your deletion action here with this.state.idToDelete
         // For example: this.props.handleDelete(this.state.idToDelete);
         // Reset state after deletion
-        this.setState({ isDialogOpen: false, idToDelete: null });
-        
-    };
+        this.setState({ isDialogOpen: false, idToDelete: null })
+    }
     closeRemedyModal = () => {
         this.setState({
             isOpenRemedyModal: false,
             dataModal: {}
         })
     }
-    
+
     sendRemedy = async (dataChild) => {
-        let { dataModal } = this.state;
+        let { dataModal } = this.state
         this.setState({
             isShowLoading: true
         })
@@ -118,14 +114,14 @@ class ManagePatient extends Component {
             timeType: dataModal.timeType,
             language: this.props.language,
             patientName: dataModal.patientName
-        });
+        })
         if (res && res.errCode === 0) {
             this.setState({
                 isShowLoading: false
             })
             toast.success('Send Remedy succeeds')
-            this.closeRemedyModal();
-            await this.getDataPatient();
+            this.closeRemedyModal()
+            await this.getDataPatient()
         } else {
             this.setState({
                 isShowLoading: false
@@ -136,16 +132,12 @@ class ManagePatient extends Component {
     }
 
     render() {
-        let { dataPatient, isOpenRemedyModal, dataModal } = this.state;
-        let { language } = this.props;
+        let { dataPatient, isOpenRemedyModal, dataModal } = this.state
+        let { language } = this.props
         return (
             <>
-                <LoadingOverlay
-                    active={this.state.isShowLoading}
-                    spinner
-                    text='Loading...'
-                >
-                    <div className="manage-patient-container">
+                <LoadingOverlay active={this.state.isShowLoading} spinner text='Loading...'>
+                    <div className='manage-patient-container'>
                         <div className='m-p-title'>
                             <FormattedMessage id='manage-patient.title' />
                         </div>
@@ -160,9 +152,9 @@ class ManagePatient extends Component {
                                 />
                             </div>
                             <div className='col-12'>
-                                <div className="card shadow mb-4 bg-light" >
-                                    <div className="card-body">
-                                        <div className="table-responsive">
+                                <div className='card shadow mb-4 bg-light'>
+                                    <div className='card-body'>
+                                        <div className='table-responsive'>
                                             <table id='myTable' className='display'>
                                                 <thead className='tbl-header'>
                                                     <tr>
@@ -175,30 +167,46 @@ class ManagePatient extends Component {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {dataPatient && dataPatient.length > 0 &&
-                                                        dataPatient.map((item, index) => {
-                                                            let time = language === LANGUAGES.VI ?
-                                                                item.timeTypeDataPatient.valueVi : item.timeTypeDataPatient.valueEn;
-                                                            let gender = language === LANGUAGES.VI ?
-                                                                item.patientData.genderData.valueVi : item.patientData.genderData.valueEn;
-                                                            return (
-                                                                <tr key={index}>
-                                                                    <td>{index + 1}</td>
-                                                                    <td>{time}</td>
-                                                                    <td>{item.patientData.firstName}</td>
-                                                                    <td>{item.patientData.address}</td>
-                                                                    <td>{gender}</td>
-                                                                    <td className='btn-action'>
-                                                                        <button className='mp-btn-confirm btn btn-warning'
-                                                                            onClick={() => this.handleBtnConfirm(item.id)}>Xác nhận
-                                                                        </button>
-                                                                        <button className='mp-btn-close btn btn-red' onClick={() => this.handleOpenDialog(item.id)}>Hủy bỏ</button>
-                                                                     
-                                                                    </td>
-
-                                                                </tr>
-                                                            )
-                                                        })
+                                                    {
+                                                        dataPatient &&
+                                                            dataPatient.length > 0 &&
+                                                            dataPatient.map((item, index) => {
+                                                                let time =
+                                                                    language === LANGUAGES.VI
+                                                                        ? item.timeTypeDataPatient.valueVi
+                                                                        : item.timeTypeDataPatient.valueEn
+                                                                let gender =
+                                                                    language === LANGUAGES.VI
+                                                                        ? item.patientData.genderData.valueVi
+                                                                        : item.patientData.genderData.valueEn
+                                                                return (
+                                                                    <tr key={index}>
+                                                                        <td>{index + 1}</td>
+                                                                        <td>{time}</td>
+                                                                        <td>{item.patientData.firstName}</td>
+                                                                        <td>{item.patientData.address}</td>
+                                                                        <td>{gender}</td>
+                                                                        <td className='btn-action'>
+                                                                            <button
+                                                                                className='mp-btn-confirm btn btn-warning'
+                                                                                onClick={() =>
+                                                                                    this.handleBtnConfirm(item.id)
+                                                                                }
+                                                                            >
+                                                                                Xác nhận
+                                                                            </button>
+                                                                            <button
+                                                                                className='mp-btn-close btn btn-red'
+                                                                                onClick={() =>
+                                                                                    this.handleOpenDialog(item.id)
+                                                                                }
+                                                                            >
+                                                                                Hủy bỏ
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                )
+                                                            })
                                                         // :
                                                         // <tr>
                                                         //     no data
@@ -212,10 +220,10 @@ class ManagePatient extends Component {
                             </div>
                         </div>
                     </div>
-                    <CloseStateOfPatient 
-                        open={this.state.isDialogOpen} 
-                        handleClose={this.handleCloseDialog} 
-                        handleConfirmDelete={this.handleConfirmDelete} 
+                    <CloseStateOfPatient
+                        open={this.state.isDialogOpen}
+                        handleClose={this.handleCloseDialog}
+                        handleConfirmDelete={this.handleConfirmDelete}
                         idToDelete={this.state.idToDelete}
                         handleBtnDelete={this.handleBtnDelete}
                     />
@@ -228,20 +236,19 @@ class ManagePatient extends Component {
                     />
                 </LoadingOverlay>
             </>
-        );
+        )
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         language: state.app.language,
-        user: state.user.userInfo,
-    };
-};
+        user: state.user.userInfo
+    }
+}
 
-const mapDispatchToProps = dispatch => {
-    return {
-    };
-};
+const mapDispatchToProps = (dispatch) => {
+    return {}
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManagePatient);
+export default connect(mapStateToProps, mapDispatchToProps)(ManagePatient)

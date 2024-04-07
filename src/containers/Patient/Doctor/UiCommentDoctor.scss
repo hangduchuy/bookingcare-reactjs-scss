@@ -5,8 +5,8 @@
 .login,
 .logout {
     position: absolute;
-    top     : -3px;
-    right   : 0;
+    top: -3px;
+    right: 0;
 }
 
 .page-header {
@@ -14,13 +14,13 @@
 }
 
 .reviews {
-    color      : #555;
+    color: #555;
     font-weight: bold;
-    margin     : 10px auto 20px;
+    margin: 10px auto 20px;
 }
 
 .notes {
-    color    : #999;
+    color: #999;
     font-size: 12px;
 }
 
@@ -33,10 +33,10 @@
 }
 
 .media-date {
-    display : flex;
+    display: flex;
     position: absolute;
-    right   : 20px;
-    top     : 5px;
+    right: 20px;
+    top: 5px;
 }
 
 .media-date li {
@@ -48,8 +48,8 @@
 }
 
 .media-date li:before {
-    content     : '.';
-    margin-left : -2px;
+    content: '.';
+    margin-left: -2px;
     margin-right: 2px;
 }
 
@@ -66,9 +66,9 @@
 }
 
 .btn-circle {
-    font-weight  : bold;
-    font-size    : 12px;
-    padding      : 6px 15px;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 6px 15px;
     border-radius: 20px;
 }
 
@@ -81,44 +81,10 @@
 }
 
 .tab-content {
-    margin-bottom   : 7px;
-    padding         : 5px 10px;
-    border          : 1px solid #ddd;
+    margin-bottom: 7px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
     // border-top   : 0;
-    border-radius   : 4px;
-    border-radius   : 4px;
-}
-
-.custom-input-file {
-    overflow       : hidden;
-    position       : relative;
-    width          : 120px;
-    height         : 120px;
-    background     : #eee url('https://s3.amazonaws.com/uifaces/faces/twitter/walterstephanie/128.jpg');
-    background-size: 120px;
-    border-radius  : 120px;
-}
-
-input[type="file"] {
-
-}
-
-.uploadPhoto {
-    position        : absolute;
-    top             : 25%;
-    left            : 25%;
-    display         : none;
-    width           : 50%;
-    height          : 50%;
-    color           : #fff;
-    text-align      : center;
-    line-height     : 60px;
-    text-transform  : uppercase;
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius   : 50px;
-    cursor          : pointer;
-}
-
-.custom-input-file:hover .uploadPhoto {
-    display: block;
+    border-radius: 4px;
+    border-radius: 4px;
 }

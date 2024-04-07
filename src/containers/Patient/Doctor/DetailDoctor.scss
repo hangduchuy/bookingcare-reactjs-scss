@@ -3,29 +3,29 @@
     margin-bottom: 15px;
 
     .intro-doctor {
+        margin: 0 150px;
         display: flex;
-        margin : 0 150px;
 
         .content-left {
-            width              : 20%;
-            background-size    : cover;
-            background-repeat  : no-repeat;
+            width: 20%;
+            background-size: cover;
+            background-repeat: no-repeat;
             background-position: center;
-            width              : 120px;
-            height             : 120px;
-            border-radius      : 50%;
-            margin             : 10px 20px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 10px 20px;
         }
 
         .content-right {
-            display       : flex;
-            width         : 80%;
+            display: flex;
+            width: 80%;
             flex-direction: column;
-            padding-left  : 10px;
+            padding-left: 10px;
 
             .up {
                 padding-top: 15px;
-                font-size  : 25px;
+                font-size: 25px;
                 font-weight: 600;
             }
 
@@ -40,9 +40,9 @@
     }
 
     .schedule-doctor {
-        margin    : 0 150px;
-        display   : flex;
-        padding   : 10px 0;
+        margin: 0 150px;
+        display: flex;
+        padding: 10px 0;
         min-height: 200px;
 
         .content-left {
@@ -55,17 +55,28 @@
     }
 
     .detail-infor-doctor {
-        border-top      : 1px solid #ddd;
-        border-bottom   : 1px solid #ddd;
-        padding         : 10px 110px;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px 150px;
         background-color: #f9f9f9;
-        gap             : 10px;
-        display         : flex;
+        gap: 10px;
+        display: flex;
 
         img {
             width: 100%;
         }
+
+        .content-left {
+            width: 60%;
+        }
+
+        .content-right {
+            width: 40%;
+        }
     }
 
-
+    .comment-doctor {
+        margin: 0 150px;
+        padding: 10px 0;
+    }
 }

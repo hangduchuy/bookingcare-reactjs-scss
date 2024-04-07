@@ -1,8 +1,8 @@
-import actionTypes from '../actions/actionTypes';
+import actionTypes from '../actions/actionTypes'
 
 const initContentOfConfirmModal = {
     isOpen: false,
-    messageId: "",
+    messageId: '',
     handleFunc: null,
     dataFunc: null
 }
@@ -11,6 +11,8 @@ const initialState = {
     started: true,
     language: 'vi',
     systemMenuPath: '/system/Report',
+    doctorMenuPath: '/doctor/manage-schedule',
+    assistantMenuPath: '/assistant/manage-patient',
     contentOfConfirmModal: {
         ...initContentOfConfirmModal
     }
@@ -34,11 +36,11 @@ const appReducer = (state = initialState, action) => {
         case actionTypes.CHANGE_LANGUAGE:
             return {
                 ...state,
-                language: action.language,
+                language: action.language
             }
         default:
-            return state;
+            return state
     }
 }
 
-export default appReducer;
+export default appReducer

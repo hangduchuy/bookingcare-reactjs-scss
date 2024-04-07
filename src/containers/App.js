@@ -24,7 +24,7 @@ import DetailClinic from './Patient/Clinic/DetailClinic'
 import DetailHandbook from './Patient/Handbook/DetailHandbook'
 import AllDoctor from './Patient/Doctor/GetAllDoctor'
 import NotFound from './NotFound/NotFound.js'
-import Assistant from '../routes/Assistant.js';
+import Assistant from '../routes/Assistant.js'
 class App extends Component {
     handlePersistorState = () => {
         const { persistor } = this.props
@@ -55,8 +55,8 @@ class App extends Component {
                                     <Route path={path.HOME} exact component={Home} />
                                     <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
                                     <Route path={path.SYSTEM} component={userIsAuthenticated(System)} />
-                                    <Route path={'/assistant/'} component={userIsAuthenticated(Assistant)} />
                                     <Route path={path.DOCTOR} component={userIsAuthenticated(Doctor)} />
+                                    <Route path={path.ASSISTANT} component={userIsAuthenticated(Assistant)} />
                                     <Route path={path.HOMEPAGE} component={HomePage} />
                                     <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
                                     <Route path={path.GETALL_DOCTOR} component={AllDoctor} />

@@ -1,28 +1,43 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { USER_ROLE } from '../utils'
 
 class Home extends Component {
-
     render() {
-        const { isLoggedIn } = this.props;
-        let linkToRedirect = isLoggedIn ? '/system' : '/home';
-        return (
-            <Redirect to={linkToRedirect} />
-        );
-    }
+        const { isLoggedIn, userInfo } = this.props
+        // let linkToRedirect = isLoggedIn ? '/system' : '/home'
+        let linkToRedirect = '/home'
+        if (isLoggedIn) {
+            switch (userInfo.roleId) {
+                case USER_ROLE.ADMIN:
+                    linkToRedirect = '/system'
+                    break
+                case USER_ROLE.DOCTOR:
+                    linkToRedirect = '/doctor/manage-schedule'
+                    break
+                case USER_ROLE.ASSISTANT:
+                    linkToRedirect = '/assistant/manage-patient'
+                    break
+                // Add more cases as needed for other roles
+                default:
+                    linkToRedirect = '/home'
+            }
+        }
 
+        return <Redirect to={linkToRedirect} />
+    }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
-        isLoggedIn: state.user.isLoggedIn
-    };
-};
+        isLoggedIn: state.user.isLoggedIn,
+        userInfo: state.user.userInfo
+    }
+}
 
-const mapDispatchToProps = dispatch => {
-    return {
-    };
-};
+const mapDispatchToProps = (dispatch) => {
+    return {}
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
