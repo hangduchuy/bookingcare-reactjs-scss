@@ -63,6 +63,8 @@ class Login extends Component {
             navigate('/system/Report') // Redirect admin to settings page
         } else if (role === USER_ROLE.DOCTOR) {
             navigate('/doctor/manage-schedule') // Redirect doctor to dashboard
+        } else if (role === USER_ROLE.ASSISTANT) {
+            navigate('/assistant/manage-patient') // Redirect assistant to dashboard
         } else {
             // Handle other roles if necessary
         }

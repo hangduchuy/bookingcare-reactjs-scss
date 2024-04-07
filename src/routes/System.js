@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import { withRouter, Redirect, Route, Switch } from 'react-router-dom'
 import Report from '../containers/System/Admin/Report/Report'
 import UserRedux from '../containers/System/Admin/UserRedux'
 import Header from '../containers/Header/Header'
@@ -9,15 +9,16 @@ import ManageSpecialty from '../containers/System/Specialty/ManageSpecialty'
 import ManageClinic from '../containers/System/Clinic/ManageClinic'
 import ManageHandbook from '../containers/System/Handbook/ManageHandbook'
 import ManageSchedule from '../containers/System/Doctor/ManageSchedule'
+import { USER_ROLE } from '../utils'
 
 class System extends Component {
-    // componentWillMount() {
-    //   const { userInfo } = this.props;
+    componentWillMount() {
+        const { userInfo, isLoggedIn, history } = this.props
 
-    //   if (userInfo.roleId !== USER_ROLE.ADMIN) {
-    //     return (window.location.href = "/not-found");
-    //   }
-    // }
+        if (isLoggedIn === true && userInfo.roleId !== USER_ROLE.ADMIN) {
+            history.push('/not-found')
+        }
+    }
 
     render() {
         const { systemMenuPath, isLoggedIn } = this.props
@@ -60,4 +61,4 @@ const mapDispatchToProps = (dispatch) => {
     return {}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(System)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(System))

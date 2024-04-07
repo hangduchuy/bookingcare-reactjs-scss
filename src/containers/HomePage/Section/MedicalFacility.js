@@ -1,21 +1,20 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
-import Slider from "react-slick";
-import { getAllClinic } from '../../../services/userService';
-import { withRouter } from 'react-router';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import Slider from 'react-slick'
+import { withRouter } from 'react-router'
+import { getAllClinic } from '../../../services/userService'
 
 class MedicalFacility extends Component {
-
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             dataCliníc: []
         }
     }
 
     async componentDidMount() {
-        let res = await getAllClinic();
+        let res = await getAllClinic()
         if (res && res.errCode === 0) {
             this.setState({
                 dataCliníc: res.data ? res.data : []
@@ -28,47 +27,51 @@ class MedicalFacility extends Component {
     }
 
     render() {
-        let { dataCliníc } = this.state;
+        let { dataCliníc } = this.state
 
         return (
             <div className='section-share section-medical-facility'>
                 <div className='section-container'>
                     <div className='section-header'>
-                        <span className='title-section'><FormattedMessage id='homepage.outstanding-clinic' /></span>
-
+                        <span className='title-section'>
+                            <FormattedMessage id='homepage.outstanding-clinic' />
+                        </span>
                     </div>
                     <div className='section-body'>
                         <Slider {...this.props.settings}>
-                            {dataCliníc && dataCliníc.length > 0
-                                && dataCliníc.map((item, index) => {
+                            {dataCliníc &&
+                                dataCliníc.length > 0 &&
+                                dataCliníc.map((item, index) => {
                                     return (
-                                        <div className='section-customize' key={index} onClick={() => this.handleViewDetailClinic(item)}>
-                                            <div className='bg-image section-medical-facility'
+                                        <div
+                                            className='section-customize'
+                                            key={index}
+                                            onClick={() => this.handleViewDetailClinic(item)}
+                                        >
+                                            <div
+                                                className='bg-image section-medical-facility'
                                                 style={{ backgroundImage: `url(${item.image})` }}
                                             />
-                                            <div>{item.name}</div>
+                                            <div className='title-section'>{item.name}</div>
                                         </div>
                                     )
-                                })
-                            }
+                                })}
                         </Slider>
                     </div>
                 </div>
             </div>
-        );
+        )
     }
-
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         isLoggedIn: state.user.isLoggedIn
-    };
-};
+    }
+}
 
-const mapDispatchToProps = dispatch => {
-    return {
-    };
-};
+const mapDispatchToProps = (dispatch) => {
+    return {}
+}
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MedicalFacility));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MedicalFacility))
