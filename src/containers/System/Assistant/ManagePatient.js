@@ -6,24 +6,23 @@ import 'datatables.net-dt/js/dataTables.dataTables'
 import 'datatables.net-dt/css/jquery.dataTables.min.css'
 import $ from 'jquery'
 import DatePicker from '../../../components/Input/DatePicker'
-import { TSPT4, TSPT3, getListPatient, postSendRemedy } from '../../../services/userService'
+import { TSPT4, TSPT3, getListPatient } from '../../../services/userService'
 import moment from 'moment'
 import { LANGUAGES } from '../../../utils'
-import RemedyModal from './RemedyModal'
 import { toast } from 'react-toastify'
 import LoadingOverlay from 'react-loading-overlay'
 import CloseStateOfPatient from '../../../components/Dialog/closeStateOfPatient'
+import PatientInfoDialog from './PatientInfoDialog'
 class ManagePatient extends Component {
     constructor(props) {
         super(props)
         this.state = {
             currentDate: moment(new Date()).startOf('day').valueOf(),
             dataPatient: [],
-            isOpenRemedyModal: false,
             dataModal: {},
             isShowLoading: false,
             isDialogOpen: false,
-            idToDelete: null
+            id: null
         }
     }
 
@@ -52,7 +51,7 @@ class ManagePatient extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState, snapShot) {
-        this.getDataPatient()
+       
     }
 
     handleOnChangeDatePicker = (date) => {
@@ -81,58 +80,25 @@ class ManagePatient extends Component {
     }
 
     handleOpenDialog = (id) => {
-        this.setState((prevState) => ({ isDialogOpen: true, idToDelete: id }))
+        this.setState((prevState) => ({ isDialogOpen: true, id: id }))
     }
 
     handleCloseDialog = () => {
-        this.setState({ isDialogOpen: false, idToDelete: null })
+        this.setState({ isDialogOpen: false, id: null })
     }
 
     handleConfirmDelete = () => {
         // Call your deletion action here with this.state.idToDelete
         // For example: this.props.handleDelete(this.state.idToDelete);
         // Reset state after deletion
-        this.setState({ isDialogOpen: false, idToDelete: null })
+        this.setState({ isDialogOpen: false, id: null })
     }
-    closeRemedyModal = () => {
-        this.setState({
-            isOpenRemedyModal: false,
-            dataModal: {}
-        })
-    }
+   
 
-    sendRemedy = async (dataChild) => {
-        let { dataModal } = this.state
-        this.setState({
-            isShowLoading: true
-        })
-        let res = await postSendRemedy({
-            email: dataChild.email,
-            imgBase64: dataChild.imageBase64,
-            doctorId: dataModal.doctorId,
-            patientId: dataModal.patientId,
-            timeType: dataModal.timeType,
-            language: this.props.language,
-            patientName: dataModal.patientName
-        })
-        if (res && res.errCode === 0) {
-            this.setState({
-                isShowLoading: false
-            })
-            toast.success('Send Remedy succeeds')
-            this.closeRemedyModal()
-            await this.getDataPatient()
-        } else {
-            this.setState({
-                isShowLoading: false
-            })
-            toast.error('Send Remedy error')
-            console.log('Send Remedy error', res)
-        }
-    }
+   
 
     render() {
-        let { dataPatient, isOpenRemedyModal, dataModal } = this.state
+        let { dataPatient, isDialogOpen } = this.state
         let { language } = this.props
         return (
             <>
@@ -195,13 +161,12 @@ class ManagePatient extends Component {
                                                                             >
                                                                                 Xác nhận
                                                                             </button>
-                                                                            <button
-                                                                                className='mp-btn-close btn btn-red'
-                                                                                onClick={() =>
-                                                                                    this.handleOpenDialog(item.id)
-                                                                                }
-                                                                            >
+                                                                            <button className="mp-btn-confirm btn btn-red" onClick={() => this.handleOpenDialog(item.id)}>
                                                                                 Hủy bỏ
+                                                                            </button>
+
+                                                                            <button className="mp-btn-confirm btn btn-blue" onClick={() => this.handleOpenDialog(item.patientId)}>
+                                                                                Cập nhật thông tin
                                                                             </button>
                                                                         </td>
                                                                     </tr>
@@ -224,16 +189,16 @@ class ManagePatient extends Component {
                         open={this.state.isDialogOpen}
                         handleClose={this.handleCloseDialog}
                         handleConfirmDelete={this.handleConfirmDelete}
-                        idToDelete={this.state.idToDelete}
+                        idToDelete={this.state.id}
                         handleBtnDelete={this.handleBtnDelete}
                     />
 
-                    <RemedyModal
-                        isOpenModal={isOpenRemedyModal}
-                        dataModal={dataModal}
-                        closeRemedyModal={this.closeRemedyModal}
-                        sendRemedy={this.sendRemedy}
-                    />
+                     <PatientInfoDialog 
+                     open={isDialogOpen} 
+                     handleClose={this.handleCloseDialog} 
+                     handleSave={this.handleSaveData} 
+                     idToUpdate={this.state.id} 
+                     />
                 </LoadingOverlay>
             </>
         )

@@ -1,249 +1,192 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { FormattedMessage } from "react-intl";
-import "./ManageSchedule.scss";
-import Select from "react-select";
-import * as actions from "../../../store/actions";
-import { LANGUAGES } from "../../../utils";
-import DatePicker from "../../../components/Input/DatePicker";
-import { toast } from "react-toastify";
-import _ from "lodash";
-import { saveBulkScheduleDoctor } from "../../../services/userService";
-import LoadingOverlay from "react-loading-overlay";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
+import './ManageSchedule.scss';
+import 'datatables.net-dt/js/dataTables.dataTables';
+import 'datatables.net-dt/css/jquery.dataTables.min.css';
+import $ from 'jquery';
+import DatePicker from '../../../components/Input/DatePicker';
+import { getListPatientToCheck } from '../../../services/userService';
+import moment from 'moment';
+import { LANGUAGES } from '../../../utils';
+import LoadingOverlay from 'react-loading-overlay';
+import CheckRequestDialog from './CheckRequestDialog'; // Import dialog component
 
 class ManageSchedule extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      listDoctors: [],
-      selectedDoctor: {},
-      currentDate: "",
-      rangeTime: [],
-      isShowLoading: false,
+    constructor(props) {
+        super(props);
+        this.state = {
+            currentDate: moment(new Date()).startOf('day').valueOf(),
+            dataPatient: [],
+            isShowDialog: false, // State để xác định có hiển thị dialog hay không
+            id: null // State để lưu thông tin bệnh nhân được chọn
+        };
+    }
+
+    async componentDidMount() {
+        this.getDataPatientToCheck();
+        $(document).ready(function () {
+            setTimeout(function () {
+                $('#myTable').DataTable();
+            }, 1000);
+        });
+    }
+
+    getDataPatientToCheck = async () => {
+        let { currentDate } = this.state;
+        let formattedDate = new Date(currentDate).getTime();
+        let res = await getListPatientToCheck({
+            date: formattedDate
+        });
+        if (res && res.errCode === 0) {
+            this.setState({
+                dataPatient: res.data
+            });
+        }
     };
-  }
 
-  componentDidMount() {
-    this.props.fetchAllDoctors();
-    this.props.fetchAllScheduleTime();
-  }
+    async componentDidUpdate(prevProps, prevState, snapShot) {}
 
-  componentDidUpdate(prevProps, prevState, snapShot) {
-    if (prevProps.allDoctors !== this.props.allDoctors) {
-      let dataSelect = this.buildDataInputSelect(this.props.allDoctors);
-      this.setState({
-        listDoctors: dataSelect,
-      });
-    }
-    if (prevProps.allScheduleTime !== this.props.allScheduleTime) {
-      let data = this.props.allScheduleTime;
-      if (data && data.length > 0) {
-        data = data.map((item) => {
-          item.isSelected = false;
-          return item;
+    handleOnChangeDatePicker = (date) => {
+        this.setState(
+            {
+                currentDate: date[0]
+            },
+            async () => {
+                await this.getDataPatientToCheck();
+            }
+        );
+    };
+
+    // Các phương thức và lifecycle methods khác
+
+    // Phương thức để mở dialog và gọi hàm showDoctorRequest
+    handleOpenDialogAndFetchRequests = async (id) => {
+        if (!id) {
+            console.error('Patient ID is missing!');
+            return;
+        }
+    
+        // Kiểm tra giá trị id trước khi setState
+    
+        // Đặt trạng thái isShowDialog thành true để hiển thị dialog
+        await this.setState({
+            isShowDialog: true,
+            id: id // Lưu thông tin bệnh nhân được chọn
+        }, () => {
+        // Gọi hàm showDoctorRequest để lấy danh sách yêu cầu bác sĩ
+             this.checkRequestDialogRef.showDoctorRequest();
         });
-        // data = data.map(item => ({ ...item, isSelected: false }))
-      }
-      this.setState({
-        rangeTime: data,
-      });
-    }
-    // if (prevProps.language !== this.props.language) {
-    //     let dataSelect = this.buildDataInputSelect(this.props.allDoctors)
-    //     this.setState({
-    //         listDoctors: dataSelect
-    //     })
-    // }
-  }
+    
 
-  buildDataInputSelect = (inputData) => {
-    let result = [];
-    let { language } = this.props;
-    if (inputData && inputData.length > 0) {
-      result = inputData.map((item, index) => {
-        let object = {};
-        let labelVi = `${item.lastName} ${item.firstName}`;
-        let labelEn = `${item.firstName} ${item.lastName}`;
-        object.label = language === LANGUAGES.VI ? labelVi : labelEn;
-        object.value = item.id;
-        return object; // Explicitly return the object
-      });
-    }
-    return result;
-  };
-
-  handleChangeSelect = async (selectedDoctor) => {
-    this.setState({ selectedDoctor });
-  };
-
-  handleOnChangeDatePicker = (date) => {
-    this.setState({
-      currentDate: date[0],
-    });
-  };
-
-  handleClickBtnTime = (time) => {
-    let { rangeTime } = this.state;
-    if (rangeTime && rangeTime.length > 0) {
-      rangeTime = rangeTime.map((item) => {
-        if (item.id === time.id) item.isSelected = !item.isSelected;
-        return item;
-      });
-      this.setState({
-        rangeTime: rangeTime,
-      });
-    }
-  };
-
-  handleSaveSchedule = async () => {
-    let { rangeTime, selectedDoctor, currentDate } = this.state;
-    let result = [];
-    let doctorId = -1;
-    if (!currentDate) {
-      toast.error("Invalid date!");
-      return;
-    }
-    if (!selectedDoctor && _.isEmpty(selectedDoctor)) {
-      toast.error("Invalid selected Doctor!");
-      return;
-    }
-    // let formatedDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER);
-    let formatedDate = new Date(currentDate).getTime();
-    if (this.props.userInfo && this.props.userInfo.roleId === "R1") {
-      doctorId = selectedDoctor.value;
-    } else {
-      doctorId = this.props.userInfo.id;
-    }
-    if (rangeTime && rangeTime.length > 0) {
-      let selectedTime = rangeTime.filter((item) => item.isSelected === true);
-      if (selectedTime && selectedTime.length > 0) {
-        selectedTime.map((schedule, index) => {
-          let object = {};
-          object.doctorId = doctorId;
-          object.date = formatedDate;
-          object.timeType = schedule.key;
-          result.push(object);
-          return undefined; // Add a return statement to comply with the rule
+    };
+    handleCloseDialog = () => { // Hàm đóng dialog
+        this.setState({
+            isShowDialog: false,
+            id: null
         });
-      } else {
-        toast.error("Invalid selected time!");
-        return;
-      }
+    };
+    handleConfirmRequests = (result) => {
+        // Xử lý kết quả xác nhận ở đây (nếu cần)
+        console.log('Result of confirming requests:', result);
+    };
+    render() {
+        let { dataPatient } = this.state;
+        let { language } = this.props;
+
+        return (
+            <>
+                <LoadingOverlay active={this.state.isShowLoading} spinner text='Loading...'>
+                    <div className='manage-patient-container'>
+                        <div className='m-p-title'>
+                            <FormattedMessage id='manage-patient.title' />
+                        </div>
+
+                        <div className='manage-patient-body row'>
+                            <div className='col-4 form-group'>
+                                <label>Chọn ngày khám</label>
+                                <DatePicker
+                                    onChange={this.handleOnChangeDatePicker}
+                                    className='form-control'
+                                    value={this.state.currentDate}
+                                />
+                            </div>
+                            <div className='col-12'>
+                                <div className='card shadow mb-4 bg-light'>
+                                    <div className='card-body'>
+                                        <div className='table-responsive'>
+                                            <table id='myTable' className='display'>
+                                                <thead className='tbl-header'>
+                                                    <tr>
+                                                        <th>STT</th>
+                                                        <th>Thời gian</th>
+                                                        <th>Họ và tên</th>
+                                                        <th>Địa chỉ</th>
+                                                        <th>Giới tính</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {dataPatient &&
+                                                        dataPatient.length > 0 &&
+                                                        dataPatient.map((item, index) => {
+                                                            let time =
+                                                                language === LANGUAGES.VI
+                                                                    ? item.timeTypeDataPatient.valueVi
+                                                                    : item.timeTypeDataPatient.valueEn;
+                                                            let gender =
+                                                                language === LANGUAGES.VI
+                                                                    ? item.patientData.genderData.valueVi
+                                                                    : item.patientData.genderData.valueEn;
+                                                            return (
+                                                                <tr key={index}>
+                                                                    <td>{index + 1}</td>
+                                                                    <td>{time}</td>
+                                                                    <td>{item.patientData.firstName}</td>
+                                                                    <td>{item.patientData.address}</td>
+                                                                    <td>{gender}</td>
+                                                                    <td className='btn-action'>
+                                                                        <button
+                                                                            className='mp-btn-confirm btn btn-warning'
+                                                                            onClick={() => this.handleOpenDialogAndFetchRequests(item.patientData.id)} // Thêm sự kiện onClick để mở dialog và truyền thông tin bệnh nhân
+                                                                        >
+                                                                            Thực hiện yêu cầu
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            );
+                                                        })}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </LoadingOverlay>
+
+                <CheckRequestDialog
+                open={this.state.isShowDialog}
+                onClose={this.handleCloseDialog}
+                onConfirm={this.handleConfirmRequests}
+                patient={this.state.id} // Truyền thông tin bệnh nhân vào dialog
+                ref={(ref) => { this.checkRequestDialogRef = ref; }} // Thêm ref để truy cập đến phương thức showDoctorRequest trong CheckRequestDialog
+                />
+            </>
+        );
     }
-    this.setState({ isShowLoading: true });
-    let res = await saveBulkScheduleDoctor({
-      arrSchedule: result,
-      doctorId: doctorId,
-      formatedDate: formatedDate,
-    });
-
-    if (res && res.errCode === 0) {
-      this.setState({ isShowLoading: false });
-      toast.success("Save Infor succeed!");
-    } else {
-      this.setState({ isShowLoading: false });
-      toast.error("Error saveBulkScheduleDoctor");
-      console.log("Error saveBulkScheduleDoctor", res);
-    }
-  };
-
-  render() {
-    let { rangeTime } = this.state;
-    let { language, userInfo } = this.props;
-    let yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
-
-    return (
-      <React.Fragment>
-        <LoadingOverlay active={this.state.isShowLoading} spinner text="Loading...">
-          <div className="manage-schedule-container">
-            <div className="m-s-title">
-              <FormattedMessage id="manage-schedule.title" />
-            </div>
-            <div className="container">
-              <div className="row">
-                {userInfo && userInfo.roleId === "R1" ? (
-                  <div className="col-6 form-group">
-                    <label>
-                      <FormattedMessage id="manage-schedule.choose-doctor" />
-                    </label>
-                    <Select
-                      value={this.state.selectedDoctor}
-                      onChange={this.handleChangeSelect}
-                      options={this.state.listDoctors}
-                    />
-                  </div>
-                ) : (
-                  <div className="col-6 form-group">
-                    <label>
-                      <FormattedMessage id="manage-schedule.choose-doctor" />
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={userInfo.lastName + " " + userInfo.firstName}
-                      disabled
-                    />
-                  </div>
-                )}
-                <div className="col-6 form-group">
-                  <label>
-                    <FormattedMessage id="manage-schedule.choose-date" />
-                  </label>
-                  <DatePicker
-                    onChange={this.handleOnChangeDatePicker}
-                    className="form-control"
-                    value={this.state.currentDate}
-                    minDate={yesterday}
-                  />
-                </div>
-                <div className="col-12 pick-hour-container">
-                  {rangeTime &&
-                    rangeTime.length > 0 &&
-                    rangeTime.map((item, index) => {
-                      return (
-                        <button
-                          className={
-                            item.isSelected === true
-                              ? "btn btn-warning"
-                              : "btn btn-outline-warning text-dark border-dark"
-                          }
-                          key={index}
-                          onClick={() => this.handleClickBtnTime(item)}
-                        >
-                          {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
-                        </button>
-                      );
-                    })}
-                </div>
-                <div className="col-12">
-                  <button className="btn btn-primary mt-3" onClick={() => this.handleSaveSchedule()}>
-                    <FormattedMessage id="manage-schedule.save" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </LoadingOverlay>
-      </React.Fragment>
-    );
-  }
 }
 
 const mapStateToProps = (state) => {
-  return {
-    isLoggedIn: state.user.isLoggedIn,
-    language: state.app.language,
-    allDoctors: state.admin.allDoctors,
-    allScheduleTime: state.admin.allScheduleTime,
-    userInfo: state.user.userInfo,
-  };
+    return {
+        language: state.app.language,
+        user: state.user.userInfo
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchAllDoctors: () => dispatch(actions.fetchAllDoctors()),
-    fetchAllScheduleTime: () => dispatch(actions.fetchAllScheduleTime()),
-  };
+    return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageSchedule);

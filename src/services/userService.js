@@ -53,6 +53,15 @@ const saveBulkScheduleDoctor = (data) => {
 const getScheduleDoctorByDate = (doctorId, date) => {
     return axios.get(`/api/get-schedule-doctor-by-date?doctorId=${doctorId}&date=${date}`)
 }
+const saveDoctorRequest = async (id, data) => {
+    try {
+        const response = await axios.post('/api/save-doctor-request', { id, data });
+        return response.data; // Trả về dữ liệu phản hồi từ máy chủ
+    } catch (error) {
+        console.error('Error saving doctor requests:', error);
+        throw error; // Ném lại lỗi để xử lý tại nơi gọi
+    }
+};
 
 const getExtraInforDoctorById = (doctorId) => {
     return axios.get(`/api/get-extra-infor-doctor-by-id?doctorId=${doctorId}`)
@@ -103,6 +112,13 @@ const getDetailClinicById = (data) => {
 const getListPatient = (data) => {
     return axios.get(`/api/get-list-patient?date=${data.date}`)
 }
+const getListPatientToCheck = (data) => {
+    return axios.get(`/api/get-list-patient-to-check?date=${data.date}`)
+}
+
+const showCheckRequest = (data) => {
+    return axios.get(`/api/show-doctor-request?patientId=${data.patientId}`)
+}
 const getAllPatientForDoctor = (data) => {
     return axios.get(`/api/get-list-patient-for-doctor?doctorId=${data.doctorId}&date=${data.date}`)
 }
@@ -115,6 +131,9 @@ const TSPT3 = (data) =>{
 }
 const TSPT4 = (data) =>{
     return axios.post(`/api/TSPT4`,data)
+}
+const UpdatePatient_Info = (data)=>{
+    return axios.post(`/api/update-patient-info`,data)
 }
 const postSendComment = (data) => {
     return axios.post(`/api/send-comment`, data)
@@ -207,5 +226,8 @@ export {
     UpdateDetailPatient,
     getAllSchedules,
     getListPatient,
-    TSPT3,TSPT4,
+    TSPT3,TSPT4,UpdatePatient_Info,
+    getListPatientToCheck,
+    showCheckRequest,
+    saveDoctorRequest
 }
