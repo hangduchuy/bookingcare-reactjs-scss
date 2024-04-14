@@ -204,7 +204,7 @@ class ManagePatient extends Component {
                                                                             Xác nhận
                                                                         </button>
                                                                         <button
-                                                                            className='mp-btn-remedy btn btn-info'
+                                                                            className='mp-btn-remedy btn btn-close'
                                                                             onClick={() => this.handleBtnDetail(item)}
                                                                         >
                                                                             Chi tiết
