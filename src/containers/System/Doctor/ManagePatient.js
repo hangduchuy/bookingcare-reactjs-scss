@@ -130,6 +130,7 @@ class ManagePatient extends Component {
             genderData: item.patientData.genderData,
             phonenumber: item.patientData.phonenumber
         }
+        console.log(data)
         this.setState({
             isOpenDetailModal: true,
             dataDetailModal: data
