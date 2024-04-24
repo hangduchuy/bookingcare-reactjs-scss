@@ -28,7 +28,7 @@
             "manage-admin": "Quản lý admin",
             "report": "Report",
             "crud": "CRUD user",
-            "crud-redux": "CRUD redux",
+            "crud-redux": "Quản lý người dùng",
             "clinic": "Phòng khám",
             "manage-clinic": "Quản lý phòng khám",
             "specialty": "Chuyên khoa",
@@ -41,7 +41,7 @@
             "manage-patient": "Quản lý bệnh nhân khám bệnh"
         },
         "assistant": {
-            "manage-schedule": "Xem lịch khám",
+            "manage-schedule": "Yêu cầu khám bệnh",
             "manage-patient": "Xem bệnh nhân khám bệnh"
         }
     },

@@ -45,8 +45,8 @@ class DetailPatientModal extends Component {
     }
 
     async componentDidMount() {
-        let { dataModal } = this.props;
-        let data = await this.getInforPatient(dataModal.patientId);
+        let { dataModal } = this.props
+        let data = await this.getInforPatient(dataModal.patientId)
         const [doctorRequestArrayDisplay, doctorRequestPending, doctorRequestDone] = this.checkDoctorRequestAndDisplay(
             data.doctorRequest
         )
@@ -224,33 +224,33 @@ class DetailPatientModal extends Component {
                                     <span> {dataModal.phonenumber}</span>
                                 </div>
                                 {dataPatient.height && (
-                                <div className='col-4'>
-                                    <label className='font-weight-bold'>Chiều cao: </label>
-                                    <span>{dataPatient.height}</span>
-                                </div>
+                                    <div className='col-4'>
+                                        <label className='font-weight-bold'>Chiều cao: </label>
+                                        <span> {dataPatient.height}</span>
+                                    </div>
                                 )}
                                 {dataPatient.weight && (
                                     <div className='col-4'>
                                         <label className='font-weight-bold'>Cân nặng: </label>
-                                        <span>{dataPatient.weight}</span>
+                                        <span> {dataPatient.weight}</span>
                                     </div>
                                 )}
                                 {dataPatient.bloodGroup && (
                                     <div className='col-4'>
                                         <label className='font-weight-bold'>Nhóm máu: </label>
-                                        <span>{dataPatient.bloodGroup}</span>
+                                        <span> {dataPatient.bloodGroup}</span>
                                     </div>
                                 )}
                                 {dataPatient.bloodPressure && (
                                     <div className='col-4'>
                                         <label className='font-weight-bold'>Huyết áp: </label>
-                                        <span>{dataPatient.bloodPressure}</span>
+                                        <span> {dataPatient.bloodPressure}</span>
                                     </div>
                                 )}
                                 {dataPatient.temperature && (
                                     <div className='col-4'>
                                         <label className='font-weight-bold'>Thân nhiệt: </label>
-                                        <span>{dataPatient.temperature}</span>
+                                        <span> {dataPatient.temperature}</span>
                                     </div>
                                 )}
                                 <div className='col-6 mt-4'>

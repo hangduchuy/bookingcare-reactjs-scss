@@ -50,12 +50,9 @@ class ManagePatient extends Component {
         }
     }
 
-    async componentDidUpdate(prevProps, prevState, snapShot) {
-       
-    }
+    async componentDidUpdate(prevProps, prevState, snapShot) {}
 
     handleOnChangeDatePicker = (date) => {
-        console.log(date)
         this.setState(
             {
                 currentDate: date[0]
@@ -93,9 +90,6 @@ class ManagePatient extends Component {
         // Reset state after deletion
         this.setState({ isDialogOpen: false, id: null })
     }
-   
-
-   
 
     render() {
         let { dataPatient, isDialogOpen } = this.state
@@ -161,11 +155,23 @@ class ManagePatient extends Component {
                                                                             >
                                                                                 Xác nhận
                                                                             </button>
-                                                                            <button className="mp-btn-confirm btn btn-red" onClick={() => this.handleOpenDialog(item.id)}>
+                                                                            <button
+                                                                                className='mp-btn-confirm btn btn-red'
+                                                                                onClick={() =>
+                                                                                    this.handleOpenDialog(item.id)
+                                                                                }
+                                                                            >
                                                                                 Hủy bỏ
                                                                             </button>
 
-                                                                            <button className="mp-btn-confirm btn btn-blue" onClick={() => this.handleOpenDialog(item.patientId)}>
+                                                                            <button
+                                                                                className='mp-btn-confirm btn btn-secondary mt-2'
+                                                                                onClick={() =>
+                                                                                    this.handleOpenDialog(
+                                                                                        item.patientId
+                                                                                    )
+                                                                                }
+                                                                            >
                                                                                 Cập nhật thông tin
                                                                             </button>
                                                                         </td>
@@ -193,12 +199,12 @@ class ManagePatient extends Component {
                         handleBtnDelete={this.handleBtnDelete}
                     />
 
-                     <PatientInfoDialog 
-                     open={isDialogOpen} 
-                     handleClose={this.handleCloseDialog} 
-                     handleSave={this.handleSaveData} 
-                     idToUpdate={this.state.id} 
-                     />
+                    <PatientInfoDialog
+                        open={isDialogOpen}
+                        handleClose={this.handleCloseDialog}
+                        handleSave={this.handleSaveData}
+                        idToUpdate={this.state.id}
+                    />
                 </LoadingOverlay>
             </>
         )

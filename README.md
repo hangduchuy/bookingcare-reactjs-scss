@@ -4,6 +4,7 @@ Doctorcare-reactjs
 2. Run the command (to install the node_modules): npm install
 3. Copy the .env.example, create a new file, name ".env" in root folder (the same level with .env.example)
 4. To run this app, use the command:
+
 ### `npm run dev`
 
 Runs the app in the development mode.<br>
@@ -32,3 +33,8 @@ Your app is ready to be deployed!
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 5. Enjoy!
+
+// tài khoản test paypal
+test@doctorcare.com
+admin@doctorcare.com
+123123123

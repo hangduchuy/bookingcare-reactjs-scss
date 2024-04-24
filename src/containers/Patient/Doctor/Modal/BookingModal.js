@@ -16,12 +16,6 @@ import * as actions from '../../../../store/actions'
 import { LANGUAGES } from '../../../../utils'
 import { postPatientBookAppointment, getProfileDoctorById } from '../../../../services/userService'
 
-// const initialOptions = {
-//   clientId: process.env.REACT_APP_PAYPAL_CLIENT_ID,
-//   currency: "VND",
-//   intent: "capture",
-// };
-
 class BookingModal extends Component {
     constructor(props) {
         super(props)
@@ -41,7 +35,8 @@ class BookingModal extends Component {
             sdkReady: false,
             isShowPaypalSuccess: false,
             priceToChild: '',
-            dataProfile: {}
+            dataProfile: {},
+            price: 0
         }
     }
 
@@ -57,6 +52,29 @@ class BookingModal extends Component {
         } else {
             this.setState({ sdkReady: true })
         }
+
+        await this.setPricePayPal()
+    }
+
+    setPricePayPal = () => {
+        const { language } = this.props
+        const { dataProfile } = this.state
+        let price = 0 // Default price
+        if (dataProfile && dataProfile.Doctor_Infor) {
+            if (language === LANGUAGES.VI) {
+                const rawPrice = parseFloat(dataProfile.Doctor_Infor.priceTypeData.valueVi) / 24000
+                price = Math.round(rawPrice)
+            } else if (language === LANGUAGES.EN) {
+                const rawPrice = parseFloat(dataProfile.Doctor_Infor.priceTypeData.valueEn)
+                price = Math.round(rawPrice)
+            }
+        }
+
+        if (price <= 0) {
+            price = 1 // Default to a minimum price if calculation fails
+        }
+
+        this.setState({ price })
     }
 
     getInforDoctor = async (id) => {
@@ -111,6 +129,9 @@ class BookingModal extends Component {
             this.setState({
                 dataProfile: data
             })
+        }
+        if (prevState.dataProfile !== this.state.dataProfile || prevProps.language !== this.props.language) {
+            await this.setPricePayPal()
         }
     }
 
@@ -202,7 +223,6 @@ class BookingModal extends Component {
     }
 
     addPayPalScript = async () => {
-        // const { data } = await getPaymentConfig();
         const script = document.createElement('script')
         script.type = 'text/javascript'
         script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.REACT_APP_PAYPAL_CLIENT_ID}`
@@ -214,7 +234,9 @@ class BookingModal extends Component {
     }
 
     onSuccessPayment = () => {
+        console.log('onSuccessPayment')
         toast.success('Thanh toán thành công!')
+
         this.setState({ isShowPaypalSuccess: true })
     }
 
@@ -225,24 +247,18 @@ class BookingModal extends Component {
     }
 
     render() {
-        let { isOpenModal, closeBookingModal, dataTime, language } = this.props
-        let { dataProfile } = this.state
-        let price = ''
+        let { isOpenModal, closeBookingModal, dataTime } = this.props
+        const { price } = this.state
         let doctorId = dataTime && !_.isEmpty(dataTime) ? dataTime.doctorId : ''
-
-        if (dataProfile && dataProfile.Doctor_Infor && language === LANGUAGES.VI) {
-            price = dataProfile.Doctor_Infor.priceTypeData.valueVi / 24000
-        }
-        if (dataProfile && dataProfile.Doctor_Infor && language === LANGUAGES.EN) {
-            price = dataProfile.Doctor_Infor.priceTypeData.valueEn
-        }
 
         return (
             <>
                 <LoadingOverlay active={this.state.isShowLoading} spinner text='Loading...'>
                     <Modal
                         isOpen={isOpenModal}
-                        // toggle={() => { this.toggle() }}
+                        toggle={() => {
+                            this.toggle()
+                        }}
                         className='booking-modal-container'
                         size='lg'
                         centered
@@ -370,6 +386,7 @@ class BookingModal extends Component {
                                             </label>
                                         </div>
                                     </div>
+
                                     {this.state.isShowPaypal === true && this.state.sdkReady === true && (
                                         <div className='col-5 form-group'>
                                             <PayPalButton
@@ -382,6 +399,7 @@ class BookingModal extends Component {
                                             />
                                         </div>
                                     )}
+
                                     {this.state.isShowPaypalSuccess === true && (
                                         <div className='col-12 form-group success'>
                                             <i className='far fa-check-circle'></i> Thanh toán thành công
