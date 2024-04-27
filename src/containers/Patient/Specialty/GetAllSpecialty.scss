@@ -2,9 +2,9 @@
     display: flex;
 
     .icon {
-        padding     : 0;
-        width       : 4.5%;
-        font-size   : 50px;
+        padding: 0;
+        width: 4.5%;
+        font-size: 50px;
         border-right: solid 1px;
 
         :hover {
@@ -14,10 +14,10 @@
 }
 
 .specialty-content {
-    cursor       : pointer;
-    display      : flex;
-    width        : 100%;
-    border-top   : solid 1px 0.9;
+    cursor: pointer;
+    display: flex;
+    width: 100%;
+    border-top: solid 1px 0.9;
     border-bottom: 2px solid #ddd;
 
     &:hover {
@@ -25,13 +25,13 @@
     }
 
     img {
-        width : 6rem;
-        height: 6rem;
+        width: 8.5rem;
+        height: 8.5rem;
     }
 
     .specialty-name {
-        width      : 100%;
-        font-size  : 25px;
+        width: 100%;
+        font-size: 25px;
         align-items: center;
     }
 }

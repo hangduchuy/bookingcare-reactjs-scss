@@ -14,7 +14,7 @@ class Home extends Component {
                     linkToRedirect = '/system'
                     break
                 case USER_ROLE.DOCTOR:
-                    linkToRedirect = '/doctor/manage-schedule'
+                    linkToRedirect = '/doctor/manage-patient'
                     break
                 case USER_ROLE.ASSISTANT:
                     linkToRedirect = '/assistant/manage-patient'

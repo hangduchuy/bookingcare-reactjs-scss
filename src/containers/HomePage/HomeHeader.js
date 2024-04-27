@@ -63,6 +63,10 @@ class HomeHeader extends Component {
         window.open('https://chat-doctorcare.vercel.app/')
     }
 
+    showAllSpecialty = () => {
+        this.props.history.push(`/getall-specialty/`)
+    }
+
     render() {
         let language = this.props.language
         let { isShowLogin } = this.state
@@ -158,7 +162,7 @@ class HomeHeader extends Component {
                                     <div className='icon-child'>
                                         <i className='far fa-hospital'></i>
                                     </div>
-                                    <div className='text-child'>
+                                    <div className='text-child' onClick={() => this.showAllSpecialty()}>
                                         <FormattedMessage id='banner.child1' />
                                     </div>
                                 </div>
