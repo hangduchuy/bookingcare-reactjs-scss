@@ -41,30 +41,8 @@ class App extends Component {
         }
     }
 
-    loadFacebookSDK() {
-        // Load Facebook SDK script dynamically
-        console.log('loadFacebookSDK')
-        if (!window.FB) {
-            console.log('loadFacebookSDK123')
-            const script = document.createElement('script')
-            script.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js'
-            script.async = true
-            document.body.appendChild(script)
-
-            script.onload = () => {
-                // Initialize Facebook SDK after script is loaded
-                window.FB.init({
-                    xfbml: true,
-                    version: 'v18.0'
-                })
-            }
-        }
-    }
-
     componentDidMount() {
         this.handlePersistorState()
-        // Load Facebook SDK script
-        this.loadFacebookSDK()
     }
 
     render() {
@@ -115,7 +93,7 @@ class App extends Component {
                             pauseOnHover
                             theme='light'
                         />
-                        <FacebookSDK />
+                        <FacebookSDK blockRoutes={[path.LOGIN, path.SYSTEM, path.DOCTOR, path.ASSISTANT]} />
                     </div>
                 </Router>
             </Fragment>

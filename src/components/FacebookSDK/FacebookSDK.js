@@ -14,10 +14,11 @@ class FacebookChatSDK extends Component {
     }
 
     loadFacebookSDK() {
-        const { location } = this.props
-        const allowedRoutes = ['/home'] // Thay thế với các route của bạn
+        const { location, blockRoutes } = this.props
+        console.log('blockRoutes', blockRoutes)
+        const blockRoute = blockRoutes // Thay thế với các route của bạn
 
-        if (!allowedRoutes.includes(location.pathname)) {
+        if (blockRoute.includes(location.pathname)) {
             return // Không load Chat nếu không ở trong các route cho phép
         }
 
