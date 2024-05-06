@@ -77,9 +77,5 @@
     "devDependencies": {
         "chart.js": "^2.9.4",
         "react-chartjs-2": "^2.11.2"
-    },
-    "engines": {
-        "node": "14.17.0",
-        "npm": "6.14.13"
     }
 }
