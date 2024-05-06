@@ -25,6 +25,7 @@ import DetailHandbook from './Patient/Handbook/DetailHandbook'
 import AllDoctor from './Patient/Doctor/GetAllDoctor'
 import NotFound from './NotFound/NotFound.js'
 import Assistant from '../routes/Assistant.js'
+import FacebookSDK from '../components/FacebookSDK/FacebookSDK.js'
 class App extends Component {
     handlePersistorState = () => {
         const { persistor } = this.props
@@ -42,7 +43,9 @@ class App extends Component {
 
     loadFacebookSDK() {
         // Load Facebook SDK script dynamically
+        console.log('loadFacebookSDK')
         if (!window.FB) {
+            console.log('loadFacebookSDK123')
             const script = document.createElement('script')
             script.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js'
             script.async = true
@@ -112,6 +115,7 @@ class App extends Component {
                             pauseOnHover
                             theme='light'
                         />
+                        <FacebookSDK />
                     </div>
                 </Router>
             </Fragment>
