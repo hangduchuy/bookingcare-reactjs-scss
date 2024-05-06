@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 class FacebookChatSDK extends Component {
     componentDidMount() {
         this.loadFacebookSDK()
-        console.log()
+        console.log('FacebookChatSDK componentDidMount')
     }
 
     componentDidUpdate(prevProps) {
