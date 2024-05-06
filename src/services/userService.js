@@ -54,15 +54,13 @@ const getScheduleDoctorByDate = (doctorId, date) => {
     return axios.get(`/api/get-schedule-doctor-by-date?doctorId=${doctorId}&date=${date}`)
 }
 const saveDoctorRequest = async (id, data) => {
-    try {
-        const response = await axios.post('/api/save-doctor-request', { id, data });
-        return response.data; // Trả về dữ liệu phản hồi từ máy chủ
-    } catch (error) {
-        console.error('Error saving doctor requests:', error);
-        throw error; // Ném lại lỗi để xử lý tại nơi gọi
-    }
-};
+   
+        return axios.post('/api/save-doctor-request', { id, data });
 
+}
+const postToHistories = async(data)=>{
+    return axios.post('/api/post-histories',data)
+}
 const getExtraInforDoctorById = (doctorId) => {
     return axios.get(`/api/get-extra-infor-doctor-by-id?doctorId=${doctorId}`)
 }
@@ -177,9 +175,11 @@ const totalCustomer = () => {
 const getDetailPatientById = (patientId) => {
     return axios.get(`/api/get-detail-patient-by-id?patientId=${patientId}`)
 }
+const backDataAfterSendRemedy = (patientId) => {
+    return axios.get(`/api/back-data-after-send-remedy?patientId=${patientId}`)
+}
 
 const UpdateDetailPatient = (data) => {
-    console.log('data', data)
     return axios.post(`/api/edit-detail-patient`, data)
 }
 
@@ -229,5 +229,6 @@ export {
     TSPT3,TSPT4,UpdatePatient_Info,
     getListPatientToCheck,
     showCheckRequest,
-    saveDoctorRequest
+    saveDoctorRequest,backDataAfterSendRemedy,
+    postToHistories
 }

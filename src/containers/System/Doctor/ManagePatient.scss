@@ -17,9 +17,12 @@ div._loading_overlay_wrapper {
 
     .manage-patient-body {
         padding: 0 20px;
-
+        .mp-btn-check{
+            margin-left:10px;
+        }
         .mp-btn-confirm {
             margin-right: 10px;
+
         }
     }
 }

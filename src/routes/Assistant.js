@@ -24,7 +24,7 @@ class Assistant extends Component {
                 <div className='system-container'>
                     <div className='system-list'>
                         <Switch>
-                            <Route path='/assistant/manage-schedule' component={ManageSchedule} />
+                            {/* <Route path='/assistant/manage-schedule' component={ManageSchedule} /> */}
                             <Route path='/assistant/manage-patient' component={ManagePatient} />
                             <Route
                                 component={() => {

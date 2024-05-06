@@ -1,0 +1,22 @@
+
+.preview-image {
+    height         : 50px;
+    width          : 100%;
+    border         : 1px solid #ddd;
+    background     : center center no-repeat;
+    background-size: contain;
+    cursor         : pointer;
+}
+
+.modal-backdrop {
+    
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100vw;
+    height: 100vh;
+
+}
+.ReactModal__Body--open{
+    z-index: 9999 !important;
+    }

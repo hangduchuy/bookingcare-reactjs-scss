@@ -158,7 +158,7 @@ class ManagePatient extends Component {
                                                                             <button
                                                                                 className='mp-btn-confirm btn btn-red'
                                                                                 onClick={() =>
-                                                                                    this.handleOpenDialog(item.id)
+                                                                                    this.handleBtnDelete(item.id)
                                                                                 }
                                                                             >
                                                                                 Hủy bỏ
