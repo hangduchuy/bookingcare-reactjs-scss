@@ -43,6 +43,10 @@ class FacebookChatSDK extends Component {
             xfbml: true,
             version: 'v18.0'
         })
+        // Set attributes for the chatbox
+        const chatbox = document.getElementById('fb-customer-chat')
+        chatbox.setAttribute('page_id', '149068148278967')
+        chatbox.setAttribute('attribution', 'biz_inbox')
     }
 
     render() {
