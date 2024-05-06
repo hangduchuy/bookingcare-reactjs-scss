@@ -70,16 +70,16 @@ class CheckRequestDialog extends Component {
     
         const requestNames = Object.keys(selectedRequests);
         let result = await saveDoctorRequest(patient, requestNames);
-        console.log('result:',result)
+
         if (result && result.errCode === 0) {
             // Cập nhật state
             this.setState({ afterSaveRequest: result });
             // Gọi hàm callback truyền từ component cha để thông báo kết quả
             this.props.onConfirm(result);
-            console.log('1')
+
         } else {
             console.error('Error saving doctor requests:', result.errMessage);
-            console.log('2')
+
         }
     
         // Đặt lại state và đóng dialog
@@ -90,7 +90,7 @@ class CheckRequestDialog extends Component {
     render() {
         const { open, onClose } = this.props;
         const { selectedRequests,pendingDoctorRequests } = this.state;
-        console.log(this.state)
+
         return (
             <Dialog open={open} onClose={onClose}>
                 <DialogTitle>Chọn các yêu cầu đã kiểm tra</DialogTitle>

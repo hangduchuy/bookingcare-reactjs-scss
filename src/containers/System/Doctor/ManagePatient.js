@@ -10,28 +10,31 @@ import './ManagePatient.scss'
 import 'datatables.net-dt/js/dataTables.dataTables'
 import 'datatables.net-dt/css/jquery.dataTables.min.css'
 import DatePicker from '../../../components/Input/DatePicker'
-import { getAllPatientForDoctor, postSendRemedy } from '../../../services/userService'
+import { getAllPatientForDoctor, postSendRemedy,backDataAfterSendRemedy,postToHistories } from '../../../services/userService'
 import { LANGUAGES } from '../../../utils'
 import RemedyModal from './RemedyModal'
 import DetailPatientModal from './DetailPatientModal'
-
+import CheckRequestDialog from '../Doctor/CheckRequestDialog'
 class ManagePatient extends Component {
     constructor(props) {
         super(props)
+        this.detailPatientModalRef = React.createRef();
         this.state = {
+            history:'',
             currentDate: moment(new Date()).startOf('day').valueOf(),
             dataPatient: [],
             isOpenRemedyModal: false,
             dataModal: {},
             isShowLoading: false,
             isOpenDetailModal: false,
-            dataDetailModal: {}
+            dataDetailModal: {},
+            id:null,
         }
     }
 
     async componentDidMount() {
         this.getDataPatient()
-
+        
         //initialize datatable
         $(document).ready(function () {
             setTimeout(function () {
@@ -58,6 +61,7 @@ class ManagePatient extends Component {
     async componentDidUpdate(prevProps, prevState, snapShot) {
         if (this.props.language !== prevProps.language) {
         }
+
     }
 
     handleOnChangeDatePicker = (date) => {
@@ -83,6 +87,7 @@ class ManagePatient extends Component {
             isOpenRemedyModal: true,
             dataModal: data
         })
+        
     }
 
     closeRemedyModal = () => {
@@ -93,7 +98,8 @@ class ManagePatient extends Component {
     }
 
     sendRemedy = async (dataChild) => {
-        let { dataModal } = this.state
+        let { dataModal,history } = this.state
+
         this.setState({
             isShowLoading: true
         })
@@ -106,12 +112,20 @@ class ManagePatient extends Component {
             language: this.props.language,
             patientName: dataModal.patientName
         })
-        if (res && res.errCode === 0) {
-            this.setState({
+        let res1= await postToHistories({
+            patientId:dataModal.patientId,
+            doctorId: dataModal.doctorId,
+            description:history.description,
+            files:dataChild.imageBase64,
+        })
+
+        if (res && res.errCode === 0 && res1 && res1.errCode === 0) {
+            await this.setState({
                 isShowLoading: false
             })
             toast.success('Send Remedy succeeds')
             this.closeRemedyModal()
+            await backDataAfterSendRemedy(dataModal.patientId);
             await this.getDataPatient()
         } else {
             this.setState({
@@ -130,7 +144,6 @@ class ManagePatient extends Component {
             genderData: item.patientData.genderData,
             phonenumber: item.patientData.phonenumber
         }
-        console.log(data)
         this.setState({
             isOpenDetailModal: true,
             dataDetailModal: data
@@ -143,7 +156,38 @@ class ManagePatient extends Component {
             dataDetailModal: {}
         })
     }
+    // Phương thức để mở dialog và gọi hàm showDoctorRequest
+    handleOpenDialogAndFetchRequests = async (patientId) => {
+        if (!patientId) {
+            console.error('Patient ID is missing!')
+            return
+        }
 
+        // Kiểm tra giá trị id trước khi setState
+
+        // Đặt trạng thái isShowDialog thành true để hiển thị dialog
+        await this.setState(
+            {
+                isShowDialog: true,
+                id: patientId // Lưu thông tin bệnh nhân được chọn
+            }
+        )
+    }
+    handleCloseDialog = () => {
+        // Hàm đóng dialog
+        this.setState({
+            isShowDialog: false,
+            id: null
+        })
+    }
+    handleConfirmRequests = (result) => {
+        // Xử lý kết quả xác nhận ở đây (nếu cần)
+        console.log('Result of confirming requests:', result)
+    }
+    handlegetDataToManagePatientFromChild=(childData)=>{
+        this.setState({history:childData})
+        
+    }
     render() {
         let { dataPatient, isOpenRemedyModal, dataModal, isOpenDetailModal, dataDetailModal } = this.state
         let { language } = this.props
@@ -171,11 +215,12 @@ class ManagePatient extends Component {
                                             <table id='myTable' className='display'>
                                                 <thead className='tbl-header'>
                                                     <tr>
-                                                        <th style={{ width: '100px' }}>STT</th>
+                                                        <th style={{ width: '50px' }}>STT</th>
                                                         <th>Thời gian</th>
                                                         <th>Họ và tên</th>
                                                         <th>Địa chỉ</th>
                                                         <th>Giới tính</th>
+                                                        <th>Trạng thái</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -197,6 +242,8 @@ class ManagePatient extends Component {
                                                                     <td>{item.patientData.firstName}</td>
                                                                     <td>{item.patientData.address}</td>
                                                                     <td>{gender}</td>
+                                                                    {item.statusId == 'S2'? <td>Chưa xác nhận</td>:<td>Đã xác nhận</td>}
+                                                                    
                                                                     <td className='btn-action'>
                                                                         <button
                                                                             className='mp-btn-confirm btn btn-warning'
@@ -210,6 +257,16 @@ class ManagePatient extends Component {
                                                                         >
                                                                             Chi tiết
                                                                         </button>
+                                                                        <button
+                                                                            className='mp-btn-check btn btn-warning'
+                                                                            onClick={() =>
+                                                                                this.handleOpenDialogAndFetchRequests(
+                                                                                    item.patientId
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            Kiểm tra
+                                                                        </button>
                                                                     </td>
                                                                 </tr>
                                                             )
@@ -217,6 +274,7 @@ class ManagePatient extends Component {
                                                     ) : (
                                                         <tr>
                                                             <td>Chưa có dữ liệu</td>
+                                                            <td></td>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
@@ -242,8 +300,17 @@ class ManagePatient extends Component {
                         isOpenModal={isOpenDetailModal}
                         dataModal={dataDetailModal}
                         closeDetailModal={this.closeDetailModal}
-                        // sendRemedy={this.seRemedy}
+                        getDataToManagePatient={this.handlegetDataToManagePatientFromChild}
                     />
+                     {this.state.isShowDialog===true&& (<CheckRequestDialog
+                    open={this.state.isShowDialog}
+                    onClose={this.handleCloseDialog}
+                    onConfirm={this.handleConfirmRequests}
+                    patient={this.state.id} // Truyền thông tin bệnh nhân vào dialog
+                    ref={(ref) => {
+                        this.checkRequestDialogRef = ref
+                    }} // Thêm ref để truy cập đến phương thức showDoctorRequest trong CheckRequestDialog
+                />)}
                 </LoadingOverlay>
             </Fragment>
         )
