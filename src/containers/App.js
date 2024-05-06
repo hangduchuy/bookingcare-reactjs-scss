@@ -25,7 +25,6 @@ import DetailHandbook from './Patient/Handbook/DetailHandbook'
 import AllDoctor from './Patient/Doctor/GetAllDoctor'
 import NotFound from './NotFound/NotFound.js'
 import Assistant from '../routes/Assistant.js'
-import FacebookSDK from '../components/FacebookSDK/FacebookSDK.js'
 class App extends Component {
     handlePersistorState = () => {
         const { persistor } = this.props
@@ -41,8 +40,28 @@ class App extends Component {
         }
     }
 
+    loadFacebookSDK() {
+        // Load Facebook SDK script dynamically
+        if (!window.FB) {
+            const script = document.createElement('script')
+            script.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js'
+            script.async = true
+            document.body.appendChild(script)
+
+            script.onload = () => {
+                // Initialize Facebook SDK after script is loaded
+                window.FB.init({
+                    xfbml: true,
+                    version: 'v18.0'
+                })
+            }
+        }
+    }
+
     componentDidMount() {
         this.handlePersistorState()
+        // Load Facebook SDK script
+        this.loadFacebookSDK()
     }
 
     render() {
@@ -53,14 +72,12 @@ class App extends Component {
                         <div className='content-container'>
                             <CustomScrollbars style={{ height: '100vh', width: '100%' }}>
                                 <Switch>
-                                    <FacebookSDK>
-                                        <Route path={path.HOMEPAGE} component={HomePage} />
-                                    </FacebookSDK>
                                     <Route path={path.HOME} exact component={Home} />
                                     <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
                                     <Route path={path.SYSTEM} component={userIsAuthenticated(System)} />
                                     <Route path={path.DOCTOR} component={userIsAuthenticated(Doctor)} />
                                     <Route path={path.ASSISTANT} component={userIsAuthenticated(Assistant)} />
+                                    <Route path={path.HOMEPAGE} component={HomePage} />
                                     <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
                                     <Route path={path.GETALL_DOCTOR} component={AllDoctor} />
                                     <Route path={path.VERIFY_EMAIL_BOOKING} component={VerifyEmail} />
