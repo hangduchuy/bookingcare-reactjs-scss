@@ -25,6 +25,7 @@ import DetailHandbook from './Patient/Handbook/DetailHandbook'
 import AllDoctor from './Patient/Doctor/GetAllDoctor'
 import NotFound from './NotFound/NotFound.js'
 import Assistant from '../routes/Assistant.js'
+import FacebookSDK from '../components/FacebookSDK/FacebookSDK.js'
 class App extends Component {
     handlePersistorState = () => {
         const { persistor } = this.props
@@ -92,6 +93,8 @@ class App extends Component {
                             pauseOnHover
                             theme='light'
                         />
+
+                        <FacebookSDK blockRoutes={[path.LOGIN, path.SYSTEM, path.DOCTOR, path.ASSISTANT]} />
                     </div>
                 </Router>
             </Fragment>

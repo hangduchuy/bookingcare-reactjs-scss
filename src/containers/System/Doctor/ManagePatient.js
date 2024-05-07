@@ -10,7 +10,12 @@ import './ManagePatient.scss'
 import 'datatables.net-dt/js/dataTables.dataTables'
 import 'datatables.net-dt/css/jquery.dataTables.min.css'
 import DatePicker from '../../../components/Input/DatePicker'
-import { getAllPatientForDoctor, postSendRemedy,backDataAfterSendRemedy,postToHistories } from '../../../services/userService'
+import {
+    getAllPatientForDoctor,
+    postSendRemedy,
+    backDataAfterSendRemedy,
+    postToHistories
+} from '../../../services/userService'
 import { LANGUAGES } from '../../../utils'
 import RemedyModal from './RemedyModal'
 import DetailPatientModal from './DetailPatientModal'
@@ -18,9 +23,9 @@ import CheckRequestDialog from '../Doctor/CheckRequestDialog'
 class ManagePatient extends Component {
     constructor(props) {
         super(props)
-        this.detailPatientModalRef = React.createRef();
+        this.detailPatientModalRef = React.createRef()
         this.state = {
-            history:'',
+            history: '',
             currentDate: moment(new Date()).startOf('day').valueOf(),
             dataPatient: [],
             isOpenRemedyModal: false,
@@ -28,13 +33,13 @@ class ManagePatient extends Component {
             isShowLoading: false,
             isOpenDetailModal: false,
             dataDetailModal: {},
-            id:null,
+            id: null
         }
     }
 
     async componentDidMount() {
         this.getDataPatient()
-        
+
         //initialize datatable
         $(document).ready(function () {
             setTimeout(function () {
@@ -61,7 +66,6 @@ class ManagePatient extends Component {
     async componentDidUpdate(prevProps, prevState, snapShot) {
         if (this.props.language !== prevProps.language) {
         }
-
     }
 
     handleOnChangeDatePicker = (date) => {
@@ -87,7 +91,6 @@ class ManagePatient extends Component {
             isOpenRemedyModal: true,
             dataModal: data
         })
-        
     }
 
     closeRemedyModal = () => {
@@ -98,7 +101,7 @@ class ManagePatient extends Component {
     }
 
     sendRemedy = async (dataChild) => {
-        let { dataModal,history } = this.state
+        let { dataModal, history } = this.state
 
         this.setState({
             isShowLoading: true
@@ -112,11 +115,11 @@ class ManagePatient extends Component {
             language: this.props.language,
             patientName: dataModal.patientName
         })
-        let res1= await postToHistories({
-            patientId:dataModal.patientId,
+        let res1 = await postToHistories({
+            patientId: dataModal.patientId,
             doctorId: dataModal.doctorId,
-            description:history.description,
-            files:dataChild.imageBase64,
+            description: history.description,
+            files: dataChild.imageBase64
         })
 
         if (res && res.errCode === 0 && res1 && res1.errCode === 0) {
@@ -125,7 +128,7 @@ class ManagePatient extends Component {
             })
             toast.success('Send Remedy succeeds')
             this.closeRemedyModal()
-            await backDataAfterSendRemedy(dataModal.patientId);
+            await backDataAfterSendRemedy(dataModal.patientId)
             await this.getDataPatient()
         } else {
             this.setState({
@@ -166,12 +169,10 @@ class ManagePatient extends Component {
         // Kiểm tra giá trị id trước khi setState
 
         // Đặt trạng thái isShowDialog thành true để hiển thị dialog
-        await this.setState(
-            {
-                isShowDialog: true,
-                id: patientId // Lưu thông tin bệnh nhân được chọn
-            }
-        )
+        await this.setState({
+            isShowDialog: true,
+            id: patientId // Lưu thông tin bệnh nhân được chọn
+        })
     }
     handleCloseDialog = () => {
         // Hàm đóng dialog
@@ -184,9 +185,8 @@ class ManagePatient extends Component {
         // Xử lý kết quả xác nhận ở đây (nếu cần)
         console.log('Result of confirming requests:', result)
     }
-    handlegetDataToManagePatientFromChild=(childData)=>{
-        this.setState({history:childData})
-        
+    handlegetDataToManagePatientFromChild = (childData) => {
+        this.setState({ history: childData })
     }
     render() {
         let { dataPatient, isOpenRemedyModal, dataModal, isOpenDetailModal, dataDetailModal } = this.state
@@ -242,8 +242,12 @@ class ManagePatient extends Component {
                                                                     <td>{item.patientData.firstName}</td>
                                                                     <td>{item.patientData.address}</td>
                                                                     <td>{gender}</td>
-                                                                    {item.statusId == 'S2'? <td>Chưa xác nhận</td>:<td>Đã xác nhận</td>}
-                                                                    
+                                                                    {item.statusId === 'S2' ? (
+                                                                        <td>Chưa xác nhận</td>
+                                                                    ) : (
+                                                                        <td>Đã xác nhận</td>
+                                                                    )}
+
                                                                     <td className='btn-action'>
                                                                         <button
                                                                             className='mp-btn-confirm btn btn-warning'
@@ -302,15 +306,17 @@ class ManagePatient extends Component {
                         closeDetailModal={this.closeDetailModal}
                         getDataToManagePatient={this.handlegetDataToManagePatientFromChild}
                     />
-                     {this.state.isShowDialog===true&& (<CheckRequestDialog
-                    open={this.state.isShowDialog}
-                    onClose={this.handleCloseDialog}
-                    onConfirm={this.handleConfirmRequests}
-                    patient={this.state.id} // Truyền thông tin bệnh nhân vào dialog
-                    ref={(ref) => {
-                        this.checkRequestDialogRef = ref
-                    }} // Thêm ref để truy cập đến phương thức showDoctorRequest trong CheckRequestDialog
-                />)}
+                    {this.state.isShowDialog === true && (
+                        <CheckRequestDialog
+                            open={this.state.isShowDialog}
+                            onClose={this.handleCloseDialog}
+                            onConfirm={this.handleConfirmRequests}
+                            patient={this.state.id} // Truyền thông tin bệnh nhân vào dialog
+                            ref={(ref) => {
+                                this.checkRequestDialogRef = ref
+                            }} // Thêm ref để truy cập đến phương thức showDoctorRequest trong CheckRequestDialog
+                        />
+                    )}
                 </LoadingOverlay>
             </Fragment>
         )

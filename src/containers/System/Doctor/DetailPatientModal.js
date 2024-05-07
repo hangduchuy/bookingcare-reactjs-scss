@@ -15,8 +15,8 @@ import './DetailPatientModal.scss'
 import { CommonUtils, LANGUAGES } from '../../../utils'
 import { UpdateDetailPatient, getDetailPatientById } from '../../../services/userService'
 import _ from 'lodash'
-import Lightbox from "react-image-lightbox";
-import "react-image-lightbox/style.css";
+import Lightbox from 'react-image-lightbox'
+import 'react-image-lightbox/style.css'
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
 const MenuProps = {
@@ -34,8 +34,8 @@ class DetailPatientModal extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            isOpen:false,
-            previewImgURL:"",
+            isOpen: false,
+            previewImgURL: '',
             reason: '',
             statusUpdate: '',
             patientRecords: '',
@@ -45,8 +45,7 @@ class DetailPatientModal extends Component {
             isShowLoading: false,
             doctorRequestPending: '',
             doctorRequestDone: '',
-            history:'',
-            
+            history: {}
         }
     }
 
@@ -56,47 +55,28 @@ class DetailPatientModal extends Component {
         const [doctorRequestArrayDisplay, doctorRequestPending, doctorRequestDone] = this.checkDoctorRequestAndDisplay(
             data.doctorRequest
         )
-        
-        if(!data.History){
-            if (this.props.dataModal) {
-                this.setState({
-                    dataPatient: data,
-                    history:{},
-                    patientName: dataModal.patientName,
-                    statusUpdate:data.statusUpdate,
-                    testName: doctorRequestArrayDisplay,
-                    doctorRequestPending: doctorRequestPending,
-                    doctorRequestDone: doctorRequestDone,
-                    
-                })
-            }
-        }else{
-            if (this.props.dataModal) {
-                this.setState({
-                    dataPatient: data,
-                    history:data.History,
-                    patientName: dataModal.patientName,
-                    statusUpdate:data.statusUpdate,
-                    testName: doctorRequestArrayDisplay,
-                    doctorRequestPending: doctorRequestPending,
-                    doctorRequestDone: doctorRequestDone,
-                    
-                })
-            }
+
+        if (this.props.dataModal) {
+            this.setState({
+                dataPatient: data,
+                history: data.History ? data.History : {},
+                patientName: dataModal.patientName,
+                statusUpdate: data.statusUpdate,
+                testName: doctorRequestArrayDisplay,
+                doctorRequestPending: doctorRequestPending,
+                doctorRequestDone: doctorRequestDone
+            })
         }
-        
     }
 
     async componentDidUpdate(prevProps, prevState, snapShot) {
-
-        if(this.state.dataPatient.History!==prevState.dataPatient.History){
-            if(this.state.dataPatient.History && !_.isEmpty(this.state.dataPatient.History)){
-                const {dataPatient}=this.state;
+        if (this.state.dataPatient.History !== prevState.dataPatient.History) {
+            if (this.state.dataPatient.History && !_.isEmpty(this.state.dataPatient.History)) {
+                const { dataPatient } = this.state
                 this.setState({
-                    history:dataPatient.History,
+                    history: dataPatient.History
                 })
             }
-            console.log(this.state.history)
         }
         if (this.props.dataModal.patientId !== prevProps.dataModal.patientId) {
             this.setState({
@@ -105,16 +85,14 @@ class DetailPatientModal extends Component {
             let data = await this.getInforPatient(this.props.dataModal.patientId)
             const [doctorRequestArrayDisplay, doctorRequestPending, doctorRequestDone] =
                 this.checkDoctorRequestAndDisplay(data.doctorRequest)
-            
+
             this.setState({
                 dataPatient: data,
-                statusUpdate:data.statusUpdate,
+                statusUpdate: data.statusUpdate,
                 testName: doctorRequestArrayDisplay,
                 doctorRequestPending: doctorRequestPending,
-                doctorRequestDone: doctorRequestDone,
-                
+                doctorRequestDone: doctorRequestDone
             })
-            
         }
     }
 
@@ -204,43 +182,37 @@ class DetailPatientModal extends Component {
         if (res && res.errCode === 0) {
             this.setState({ isShowLoading: false })
             toast.success('Cập nhật bệnh nhân thành công!')
-            this.props.closeDetailModal();
+            this.props.closeDetailModal()
         } else {
             this.setState({ isShowLoading: false })
             toast.error('Cập nhật bệnh nhân thất bại!')
         }
     }
 
-    handleGetDataToManagePatient= () =>{
-        this.props.getDataToManagePatient(this.state.description);
-
-
+    handleGetDataToManagePatient = () => {
+        this.props.getDataToManagePatient(this.state.description)
     }
-    
+
     openPreviewImage = () => {
-      
+        if (!this.state.history.files) return
+
         this.setState({
-          isOpen: true,
-        });
-       
-      };
-      openNewTabWithImage(imageUrl) {
-        // Mở một tab mới với URL là hình ảnh
-        window.open(imageUrl, '_blank');
+            isOpen: true
+        })
     }
+
     render() {
-        
         const { isOpenModal, closeDetailModal, language, dataModal } = this.props
-        const { testName, patientName,history,statusUpdate, dataPatient, doctorRequestPending, doctorRequestDone } =
+        const { testName, patientName, history, statusUpdate, dataPatient, doctorRequestPending, doctorRequestDone } =
             this.state
-       
+
         const gender =
             language === LANGUAGES.VI
                 ? dataModal?.genderData?.valueVi ?? 'Giới tính mặc định'
                 : dataModal?.genderData?.valueEn ?? 'Default Gender'
         // Định dạng ngày tháng
         const birthday = moment(Number(dataPatient.birthday)).format('DD/MM/YYYY')
-        
+
         return (
             <>
                 <LoadingOverlay active={this.state.isShowLoading} spinner text='Loading...'>
@@ -300,37 +272,38 @@ class DetailPatientModal extends Component {
                                         <span> {dataPatient.temperature}</span>
                                     </div>
                                 )}
-                                 {dataPatient.reason && (
-                                    <div className='col-4'>
+
+                                {dataPatient.reason && (
+                                    <div className='col-12'>
                                         <label className='font-weight-bold'>Triệu chứng: </label>
                                         <span> {dataPatient.reason}</span>
                                     </div>
                                 )}
-                                 {history && (
-                                    <div
-                                    className="preview-image"
-                                    style={{
-                                        backgroundImage: `url(${history.files})`,
-                                        width:'40px',
-                                        height:'40px',
-                                        backgroundSize: 'cover',
-                                        backgroundPosition: 'center'
-                                    }}
-                                    onClick={() => this.openNewTabWithImage(history.files)}
-                                ></div>
-                                )}
+
                                 <div className='col-6 mt-4'>
                                     <div className='form-group'>
                                         <label>Bệnh án</label>
-                                        <textarea disabled
+                                        <textarea
+                                            disabled
                                             className='form-control'
                                             rows='4'
-                                            
                                             value={history.description}
-                                            
                                         ></textarea>
-                                        
                                     </div>
+                                </div>
+
+                                <div className='col-6 mt-4'>
+                                    <label>Đơn thuốc khám lần trước</label>
+                                    <div
+                                        className='preview-image'
+                                        style={{
+                                            backgroundImage: `url(${history.files})`
+                                        }}
+                                        onClick={() => this.openPreviewImage()}
+                                    ></div>
+                                </div>
+
+                                <div className='col-6 mt-4'>
                                     <div className='form-group'>
                                         <label>Cập nhật tình trạng bệnh nhân</label>
                                         <textarea
@@ -398,9 +371,10 @@ class DetailPatientModal extends Component {
                                             <div className='ml-4'>
                                                 {doctorRequestDone && doctorRequestDone.length > 0 ? (
                                                     doctorRequestDone.map((item, index) => (
-                                                        <span key={index}>{item}
-                                                         {index !== doctorRequestDone.length - 1 && ' - '}
-                                                         </span>
+                                                        <span key={index}>
+                                                            {item}
+                                                            {index !== doctorRequestDone.length - 1 && ' - '}
+                                                        </span>
                                                     ))
                                                 ) : (
                                                     <span>Đang chờ duyệt</span>
@@ -409,11 +383,7 @@ class DetailPatientModal extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                
                             </div>
-                            {this.state.isOpen === true && (
-                        <Lightbox mainSrc={history.files} onCloseRequest={() => this.setState({ isOpen: false })} />
-                        )}   
                         </ModalBody>
                         <ModalFooter>
                             <Button color='warning' onClick={() => this.handleUpdateDetailPatient()}>
@@ -424,8 +394,10 @@ class DetailPatientModal extends Component {
                             </Button>
                         </ModalFooter>
                     </Modal>
-                   
                 </LoadingOverlay>
+                {this.state.isOpen === true && (
+                    <Lightbox mainSrc={history.files} onCloseRequest={() => this.setState({ isOpen: false })} />
+                )}
             </>
         )
     }
