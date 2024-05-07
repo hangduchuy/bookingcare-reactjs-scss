@@ -4,6 +4,7 @@ import { getAllSpecialty } from '../../../services/userService'
 import './GetAllSpecialty.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBackward } from '@fortawesome/free-solid-svg-icons'
+
 class AllSpecialty extends Component {
     constructor(props) {
         super(props)
@@ -37,26 +38,28 @@ class AllSpecialty extends Component {
     render() {
         let dataSpecialty = this.state.dataSpecialty
         return (
-            <div>
+            <div className='backgound'>
                 <div className='navDetail shadow'>
                     {' '}
                     <FontAwesomeIcon className='icon' icon={faBackward} onClick={() => this.handleToHomePage()} />
                     <h1>Danh sách chuyên khoa</h1>
                 </div>
-                {dataSpecialty &&
-                    dataSpecialty.length > 0 &&
-                    dataSpecialty.map((item, index) => {
-                        return (
-                            <div
-                                className='specialty-content'
-                                key={index}
-                                onClick={() => this.handleDetailSpecialty(item)}
-                            >
-                                <img src={item.image} alt={item.name}></img>
-                                <div className='specialty-name'>{item.name}</div>
-                            </div>
-                        )
-                    })}
+                <div className='specialty-container'>
+                    {dataSpecialty &&
+                        dataSpecialty.length > 0 &&
+                        dataSpecialty.map((item, index) => {
+                            return (
+                                <div
+                                    className='specialty-content'
+                                    key={index}
+                                    onClick={() => this.handleDetailSpecialty(item)}
+                                >
+                                    <img src={item.image} alt={item.name}></img>
+                                    <div className='specialty-name'>{item.name}</div>
+                                </div>
+                            )
+                        })}
+                </div>
             </div>
         )
     }
