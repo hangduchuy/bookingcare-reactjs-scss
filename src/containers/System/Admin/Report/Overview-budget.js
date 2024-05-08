@@ -14,7 +14,7 @@ export const OverviewBudget = (props) => {
                 <Stack alignItems='flex-start' direction='row' justifyContent='space-between' spacing={3}>
                     <Stack spacing={1}>
                         <Typography color='text.secondary' variant='overline'>
-                            Budget
+                            Tổng tiền
                         </Typography>
                         <Typography variant='h4'>
                             <NumberFormat
@@ -49,7 +49,7 @@ export const OverviewBudget = (props) => {
                             </Typography>
                         </Stack>
                         <Typography color='text.secondary' variant='caption'>
-                            Since last month
+                            Tính từ năm trước
                         </Typography>
                     </Stack>
                 )}
