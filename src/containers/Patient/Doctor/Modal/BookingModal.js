@@ -203,7 +203,8 @@ class BookingModal extends Component {
             timeType: this.state.timeType,
             language: this.props.language,
             timeString: timeString,
-            doctorName: doctorName
+            doctorName: doctorName,
+            priceId: this.state.dataProfile.Doctor_Infor.priceId
         })
         if (res && res.errCode === 0) {
             this.setState({ isShowLoading: false })

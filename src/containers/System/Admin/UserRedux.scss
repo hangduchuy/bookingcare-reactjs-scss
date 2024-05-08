@@ -3,15 +3,15 @@
     background-color: #eeeeee;
 
     .title {
-        margin-top : 0 !important;
+        margin-top: 0 !important;
         padding-top: 15px;
     }
 
     .label-upload {
-        padding      : 7px;
+        padding: 7px;
         border-radius: 3px;
-        background   : #ddd;
-        cursor       : pointer;
+        background: #ddd;
+        cursor: pointer;
 
         &:hover {
             opacity: 0.9;
@@ -19,37 +19,54 @@
     }
 
     .preview-image {
-        height         : 50px;
-        width          : 100%;
-        border         : 1px solid #ddd;
-        background     : center center no-repeat;
+        height: 50px;
+        width: 100%;
+        border: 1px solid #ddd;
+        background: center center no-repeat;
         background-size: contain;
-        cursor         : pointer;
+        cursor: pointer;
+    }
+
+    .group-btns {
+        display: flex;
+        gap: 10px;
+        button {
+            outline: none;
+            border: none;
+
+            label {
+                height: 100%;
+                cursor: pointer;
+            }
+        }
+        i {
+            padding: 0 2px;
+        }
     }
 }
 
 .btn-edit {
-    width     : 50px;
-    border    : none;
-    outline   : none;
+    width: 50px;
+    border: none;
+    outline: none;
     background: transparent;
-    color     : orange;
+    color: orange;
 
     &:hover {
         background-color: transparent !important;
-        color           : orangered !important;
+        color: orangered !important;
     }
 }
 
 .btn-delete {
-    width     : 50px;
-    border    : none;
-    outline   : none;
+    width: 50px;
+    border: none;
+    outline: none;
     background: transparent;
-    color     : rgb(255, 0, 0);
+    color: rgb(255, 0, 0);
 
     &:hover {
         background-color: transparent !important;
-        color           : rgba(255, 0, 0, 0.692) !important;
+        color: rgba(255, 0, 0, 0.692) !important;
     }
 }

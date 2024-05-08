@@ -20,7 +20,6 @@ class AllSpecialty extends Component {
                 dataSpecialty: res.data ? res.data : []
             })
         }
-        console.log(res.data)
     }
 
     async componentDidUpdate(prevProps, prevState, snapShot) {
