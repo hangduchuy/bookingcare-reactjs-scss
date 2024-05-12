@@ -118,7 +118,7 @@ class CheckRequestDialog extends Component {
                         Hủy
                     </Button>
                     <Button onClick={this.handleConfirm} color="primary">
-                        Xác nhận
+                        Cập nhật
                     </Button>
                 </DialogActions>
             </Dialog>
