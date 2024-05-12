@@ -98,14 +98,11 @@ export const createNewUser = (data) => {
     return async (dispatch, getState) => {
         try {
             let res = await createNewUserService(data)
-            console.log('res createNewUser', res)
-            if (res[0] && res[0].errCode === 0) {
-                console.log('123')
+            if (res && res.errCode === 0) {
                 toast.success('Create a new user succeed!')
                 dispatch(saveUserSuccess())
                 dispatch(fetchAllUsersStart())
             } else {
-                console.log('456')
                 dispatch(saveUserFailed())
             }
         } catch (e) {
@@ -128,7 +125,8 @@ export const fetchAllUsersStart = () => {
         try {
             let res = await getAllUsers('ALL')
             if (res && res.errCode === 0) {
-                dispatch(fetchAllUsersSuccess(res.users.reverse()))
+                const users = res.users
+                dispatch(fetchAllUsersSuccess(users))
             } else {
                 toast.error('Fetch all users error!')
                 dispatch(fetchAllUsersFailed())

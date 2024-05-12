@@ -28,7 +28,7 @@ class Report extends Component {
             const Customers = await totalCustomer()
             const customer = Customers.count
             const money = await totalMoney()
-            const moneyByYear=JSON.parse(money)
+            const moneyByYear = JSON.parse(money)
 
             const dataToBarChart = await dataForBarChart()
             const datas = await getAllUsers('ALL')
@@ -80,7 +80,7 @@ class Report extends Component {
         }
 
         const selectedYearDataChart = dataBarChart[this.state.selectedYear] || []
-        const selectedYearMoney = Money[this.state.selectedYear] || []
+        const selectedYearMoney = Money[this.state.selectedYear] || 0
 
         const data1 = {
             labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -96,12 +96,16 @@ class Report extends Component {
             ]
         }
         const options = {}
-        const differ = Math.round((selectedYearMoney - Money[selectedYear - 1]) / Money[selectedYear - 1] * 100);
-        
+        const differ = Math.round(((selectedYearMoney - Money[selectedYear - 1]) / Money[selectedYear - 1]) * 100)
         return (
             <div className='report-container'>
                 <div className='mb-5' style={{ display: 'flex', gap: '5px' }}>
-                    <OverviewBudget difference={differ} positive sx={{ height: '100%' }} value={`${selectedYearMoney}`} />
+                    <OverviewBudget
+                        difference={differ ? differ : 0}
+                        positive
+                        sx={{ height: '100%' }}
+                        value={`${selectedYearMoney}`}
+                    />
                     <OverviewTotalCustomers
                         // difference={0}
                         // positive={false}
@@ -110,7 +114,7 @@ class Report extends Component {
                     />
                 </div>
                 <div style={{ display: 'flex', height: '50%' }}>
-                    <div style={{ padding: '20px', width: '50%' }}>
+                    <div className='reports-year' style={{ padding: '20px', width: '50%' }}>
                         <select value={selectedYear} onChange={this.handleYearChange}>
                             <option value={2022}>2022</option>
                             <option value={2023}>2023</option>

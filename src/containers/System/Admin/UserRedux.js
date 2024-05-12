@@ -251,8 +251,6 @@ class UserRedux extends Component {
                                     return null
                                 })
                                 this.props.createNewUser(result)
-                                // this.props.fetchUserRedux()
-                                console.log('result', result)
                             }
                         } else {
                             toast.error('Wrong format file csv')
