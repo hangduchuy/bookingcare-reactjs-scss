@@ -28,6 +28,7 @@ class ManagePatient extends Component {
             history: '',
             currentDate: moment(new Date()).startOf('day').valueOf(),
             dataPatient: [],
+            amountPatient: 0,
             isOpenRemedyModal: false,
             dataModal: {},
             isShowLoading: false,
@@ -56,11 +57,15 @@ class ManagePatient extends Component {
             doctorId: user.id,
             date: formattedDate
         })
+        
+
         if (res && res.errCode === 0) {
             this.setState({
-                dataPatient: res.data
+                dataPatient: res.data,
+                
             })
         }
+        
     }
 
     async componentDidUpdate(prevProps, prevState, snapShot) {
@@ -68,13 +73,14 @@ class ManagePatient extends Component {
         }
     }
 
-    handleOnChangeDatePicker = (date) => {
+    handleOnChangeDatePicker = async(date) => {
         this.setState(
             {
                 currentDate: date[0]
             },
             async () => {
                 await this.getDataPatient()
+                
             }
         )
     }
@@ -101,8 +107,8 @@ class ManagePatient extends Component {
     }
 
     sendRemedy = async (dataChild) => {
-        let { dataModal, history } = this.state
-
+        let { dataModal, history,currentDate } = this.state
+        let formattedDate = new Date(currentDate).getTime()
         this.setState({
             isShowLoading: true
         })
@@ -119,16 +125,22 @@ class ManagePatient extends Component {
             patientId: dataModal.patientId,
             doctorId: dataModal.doctorId,
             description: history.description,
-            files: dataChild.imageBase64
+            files: dataChild.imageBase64,
+            date:formattedDate,
         })
-
+       
         if (res && res.errCode === 0 && res1 && res1.errCode === 0) {
             await this.setState({
                 isShowLoading: false
             })
+            
             toast.success('Send Remedy succeeds')
             this.closeRemedyModal()
-            await backDataAfterSendRemedy(dataModal.patientId)
+            await backDataAfterSendRemedy(
+                dataModal.patientId,
+                dataModal.doctorId,
+                formattedDate,
+            )
             await this.getDataPatient()
         } else {
             this.setState({
@@ -140,12 +152,16 @@ class ManagePatient extends Component {
     }
 
     handleBtnDetail = (item) => {
+        let { currentDate } = this.state
+        let formattedDate = new Date(currentDate).getTime()
         let data = {
             doctorId: item.doctorId,
+            statusId: item.statusId,
             patientId: item.patientId,
             patientName: item.patientData.firstName,
             genderData: item.patientData.genderData,
-            phonenumber: item.patientData.phonenumber
+            phonenumber: item.patientData.phonenumber,
+            date:formattedDate
         }
         this.setState({
             isOpenDetailModal: true,
@@ -189,9 +205,9 @@ class ManagePatient extends Component {
         this.setState({ history: childData })
     }
     render() {
-        let { dataPatient, isOpenRemedyModal, dataModal, isOpenDetailModal, dataDetailModal } = this.state
+        let { dataPatient, isOpenRemedyModal, dataModal, isOpenDetailModal, dataDetailModal,currentDate } = this.state
         let { language } = this.props
-
+        console.log(currentDate)
         return (
             <Fragment>
                 <LoadingOverlay active={this.state.isShowLoading} spinner text='Loading...'>
@@ -207,6 +223,17 @@ class ManagePatient extends Component {
                                     className='form-control'
                                     value={this.state.currentDate}
                                 />
+                                <div className='amountPatient'><h10>Tổng số bệnh nhân của hôm nay: </h10>
+                                <h10>{dataPatient.length}</h10></div>
+                                <div className='amountPatient'><h10>Số bệnh nhân đã khám: </h10>
+                                <h10>{dataPatient.reduce((acc,obj)=>{
+                                     if (obj.statusId === 'S4') {
+                                        return acc + 1;
+                                    } else {
+                                        return acc;
+                                    }
+                                },0)}</h10></div>
+
                             </div>
                             <div className='col-12'>
                                 <div className='card shadow mb-4 bg-light'>
@@ -244,34 +271,59 @@ class ManagePatient extends Component {
                                                                     <td>{gender}</td>
                                                                     {item.statusId === 'S2' ? (
                                                                         <td>Chưa xác nhận</td>
+                                                                    ) : item.statusId === 'S4' ? (
+                                                                        <td>Đã khám xong</td>
                                                                     ) : (
                                                                         <td>Đã xác nhận</td>
                                                                     )}
-
-                                                                    <td className='btn-action'>
-                                                                        <button
-                                                                            className='mp-btn-confirm btn btn-warning'
-                                                                            onClick={() => this.handleBtnConfirm(item)}
-                                                                        >
-                                                                            Xác nhận
-                                                                        </button>
+                                                                    {item.statusId === 'S2' ? (
                                                                         <button
                                                                             className='mp-btn-remedy btn btn-info'
                                                                             onClick={() => this.handleBtnDetail(item)}
                                                                         >
                                                                             Chi tiết
                                                                         </button>
-                                                                        <button
-                                                                            className='mp-btn-check btn btn-warning'
-                                                                            onClick={() =>
-                                                                                this.handleOpenDialogAndFetchRequests(
-                                                                                    item.patientId
-                                                                                )
-                                                                            }
-                                                                        >
-                                                                            Kiểm tra
-                                                                        </button>
-                                                                    </td>
+                                                                    ) : item.statusId === 'S3' ? (
+                                                                        <td className='btn-action'>
+                                                                            <button
+                                                                                className='mp-btn-confirm btn btn-warning'
+                                                                                onClick={() =>
+                                                                                    this.handleBtnConfirm(item)
+                                                                                }
+                                                                            >
+                                                                                Xác nhận
+                                                                            </button>
+                                                                            <button
+                                                                                className='mp-btn-remedy btn btn-info'
+                                                                                onClick={() =>
+                                                                                    this.handleBtnDetail(item)
+                                                                                }
+                                                                            >
+                                                                                Chi tiết
+                                                                            </button>
+                                                                            <button
+                                                                                className='mp-btn-check btn btn-warning'
+                                                                                onClick={() =>
+                                                                                    this.handleOpenDialogAndFetchRequests(
+                                                                                        item.patientId
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                Kiểm tra
+                                                                            </button>
+                                                                        </td>
+                                                                    ):( <td className='btn-action'>
+                                                                    
+                                                                    <button
+                                                                        className='mp-btn-remedy btn btn-info'
+                                                                        onClick={() =>
+                                                                            this.handleBtnDetail(item)
+                                                                        }
+                                                                    >
+                                                                        Chi tiết
+                                                                    </button>
+                                                                    
+                                                                </td>)}
                                                                 </tr>
                                                             )
                                                         })

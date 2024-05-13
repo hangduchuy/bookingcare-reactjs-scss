@@ -45,7 +45,9 @@ class DetailPatientModal extends Component {
             isShowLoading: false,
             doctorRequestPending: '',
             doctorRequestDone: '',
-            history: {}
+            history: [],
+            description: '',
+            selectedEvent: null
         }
     }
 
@@ -55,11 +57,10 @@ class DetailPatientModal extends Component {
         const [doctorRequestArrayDisplay, doctorRequestPending, doctorRequestDone] = this.checkDoctorRequestAndDisplay(
             data.doctorRequest
         )
-
         if (this.props.dataModal) {
             this.setState({
                 dataPatient: data,
-                history: data.History ? data.History : {},
+                history: data.Histories ? data.Histories : [],
                 patientName: dataModal.patientName,
                 statusUpdate: data.statusUpdate,
                 testName: doctorRequestArrayDisplay,
@@ -70,11 +71,11 @@ class DetailPatientModal extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState, snapShot) {
-        if (this.state.dataPatient.History !== prevState.dataPatient.History) {
-            if (this.state.dataPatient.History && !_.isEmpty(this.state.dataPatient.History)) {
+        if (this.state.dataPatient.Histories !== prevState.dataPatient.Histories) {
+            if (this.state.dataPatient.Histories && !_.isEmpty(this.state.dataPatient.Histories)) {
                 const { dataPatient } = this.state
                 this.setState({
-                    history: dataPatient.History
+                    history: dataPatient.Histories
                 })
             }
         }
@@ -200,12 +201,29 @@ class DetailPatientModal extends Component {
             isOpen: true
         })
     }
-
+    closeBtn = () => {
+        this.setState({
+            previewImgURL: '',
+            patientRecords: '',
+            history: {}
+        })
+    }
+    handleChange1 = (event) => {
+        this.setState({ selectedEvent: event.target.value });
+    };
     render() {
         const { isOpenModal, closeDetailModal, language, dataModal } = this.props
-        const { testName, patientName, history, statusUpdate, dataPatient, doctorRequestPending, doctorRequestDone } =
-            this.state
-
+        const {
+            testName,
+            patientName,
+            history,
+            statusUpdate,
+            dataPatient,
+            doctorRequestPending,
+            doctorRequestDone,
+            selectedEvent 
+        } = this.state
+        console.log(dataPatient)
         const gender =
             language === LANGUAGES.VI
                 ? dataModal?.genderData?.valueVi ?? 'Giới tính mặc định'
@@ -279,18 +297,27 @@ class DetailPatientModal extends Component {
                                         <span> {dataPatient.reason}</span>
                                     </div>
                                 )}
-
-                                <div className='col-6 mt-4'>
-                                    <div className='form-group'>
-                                        <label>Bệnh án</label>
-                                        <textarea
-                                            disabled
-                                            className='form-control'
-                                            rows='4'
-                                            value={history.description}
-                                        ></textarea>
+                                <select value={selectedEvent} onChange={this.handleChange1}>
+                                    <option value=''>Chọn sự kiện</option>
+                                    {history.map((item, index) => (
+                                        <option key={index} value={item.description}>
+                                            Lần {index + 1}
+                                        </option>
+                                    ))}
+                                </select>
+                                {selectedEvent && (
+                                    <div className='col-6 mt-4'>
+                                        <div className='form-group'>
+                                            <label>Bệnh án</label>
+                                            <textarea
+                                                disabled
+                                                className='form-control'
+                                                rows='4'
+                                                value={selectedEvent} // Sử dụng thông tin của sự kiện được chọn
+                                            ></textarea>
+                                        </div>
                                     </div>
-                                </div>
+                                )}
 
                                 <div className='col-6 mt-4'>
                                     <label>Đơn thuốc khám lần trước</label>
@@ -314,82 +341,92 @@ class DetailPatientModal extends Component {
                                         ></textarea>
                                     </div>
                                 </div>
-                                <div className='col-6 mt-4'>
-                                    <div className='form-group'>
-                                        <label>Yêu cầu của bác sĩ</label>
-                                        <FormControl sx={{ width: 300 }}>
-                                            <InputLabel id='demo-multiple-chip-label'>Yêu cầu</InputLabel>
-                                            <Select
-                                                labelId='demo-multiple-chip-label'
-                                                id='demo-multiple-chip'
-                                                multiple
-                                                value={testName}
-                                                onChange={this.handleChange}
-                                                input={<OutlinedInput id='select-multiple-chip' label='Yêu cầu' />}
-                                                renderValue={(selected) => (
-                                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                                        {selected.map((value) => (
-                                                            <Chip key={value} label={value} />
-                                                        ))}
-                                                    </Box>
-                                                )}
-                                                MenuProps={MenuProps}
-                                            >
-                                                {names.map((name) => (
-                                                    <MenuItem
-                                                        key={name}
-                                                        value={name}
-                                                        style={{
-                                                            fontWeight:
-                                                                testName.indexOf(name) === -1 ? 'normal' : 'bold'
-                                                        }}
-                                                    >
-                                                        {name}
-                                                    </MenuItem>
-                                                ))}
-                                            </Select>
-                                        </FormControl>
-                                    </div>
-                                    <div className='d-flex flex-column'>
+                                {dataModal.statusId == 'S3' ? (
+                                    <div className='col-6 mt-4'>
+                                        <div className='form-group'>
+                                            <label>Yêu cầu của bác sĩ</label>
+                                            <FormControl sx={{ width: 300 }}>
+                                                <InputLabel id='demo-multiple-chip-label'>Yêu cầu</InputLabel>
+                                                <Select
+                                                    labelId='demo-multiple-chip-label'
+                                                    id='demo-multiple-chip'
+                                                    multiple
+                                                    value={testName}
+                                                    onChange={this.handleChange}
+                                                    input={<OutlinedInput id='select-multiple-chip' label='Yêu cầu' />}
+                                                    renderValue={(selected) => (
+                                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                            {selected.map((value) => (
+                                                                <Chip key={value} label={value} />
+                                                            ))}
+                                                        </Box>
+                                                    )}
+                                                    MenuProps={MenuProps}
+                                                >
+                                                    {names.map((name) => (
+                                                        <MenuItem
+                                                            key={name}
+                                                            value={name}
+                                                            style={{
+                                                                fontWeight:
+                                                                    testName.indexOf(name) === -1 ? 'normal' : 'bold'
+                                                            }}
+                                                        >
+                                                            {name}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                        </div>
                                         <div className='d-flex flex-column'>
-                                            <label className='bg-update'>Chờ duyệt</label>
-                                            <div className='ml-4'>
-                                                {doctorRequestPending && doctorRequestPending.length > 0 ? (
-                                                    doctorRequestPending.map((item, index) => (
-                                                        <span key={index}>
-                                                            {item}
-                                                            {index !== doctorRequestPending.length - 1 && ' - '}
-                                                        </span>
-                                                    ))
-                                                ) : (
-                                                    <span>Chưa có yêu cầu</span>
-                                                )}
+                                            <div className='d-flex flex-column'>
+                                                <label className='bg-update'>Chờ duyệt</label>
+                                                <div className='ml-4'>
+                                                    {doctorRequestPending && doctorRequestPending.length > 0 ? (
+                                                        doctorRequestPending.map((item, index) => (
+                                                            <span key={index}>
+                                                                {item}
+                                                                {index !== doctorRequestPending.length - 1 && ' - '}
+                                                            </span>
+                                                        ))
+                                                    ) : (
+                                                        <span>Chưa có yêu cầu</span>
+                                                    )}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className='d-flex flex-column mt-2'>
-                                            <label className='bg-create'>Hoàn thành</label>
-                                            <div className='ml-4'>
-                                                {doctorRequestDone && doctorRequestDone.length > 0 ? (
-                                                    doctorRequestDone.map((item, index) => (
-                                                        <span key={index}>
-                                                            {item}
-                                                            {index !== doctorRequestDone.length - 1 && ' - '}
-                                                        </span>
-                                                    ))
-                                                ) : (
-                                                    <span>Đang chờ duyệt</span>
-                                                )}
+                                            <div className='d-flex flex-column mt-2'>
+                                                <label className='bg-create'>Hoàn thành</label>
+                                                <div className='ml-4'>
+                                                    {doctorRequestDone && doctorRequestDone.length > 0 ? (
+                                                        doctorRequestDone.map((item, index) => (
+                                                            <span key={index}>
+                                                                {item}
+                                                                {index !== doctorRequestDone.length - 1 && ' - '}
+                                                            </span>
+                                                        ))
+                                                    ) : (
+                                                        <span>Đang chờ duyệt</span>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                ) : (
+                                    <div></div>
+                                )}
                             </div>
                         </ModalBody>
                         <ModalFooter>
                             <Button color='warning' onClick={() => this.handleUpdateDetailPatient()}>
                                 Cập nhật
                             </Button>{' '}
-                            <Button color='secondary' onClick={closeDetailModal}>
+                            <Button
+                                color='secondary'
+                                onClick={() => {
+                                    this.closeBtn()
+                                    closeDetailModal()
+                                }}
+                            >
                                 Huỷ
                             </Button>
                         </ModalFooter>

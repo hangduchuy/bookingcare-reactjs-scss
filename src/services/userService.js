@@ -175,8 +175,8 @@ const totalCustomer = () => {
 const getDetailPatientById = (patientId) => {
     return axios.get(`/api/get-detail-patient-by-id?patientId=${patientId}`)
 }
-const backDataAfterSendRemedy = (patientId) => {
-    return axios.get(`/api/back-data-after-send-remedy?patientId=${patientId}`)
+const backDataAfterSendRemedy = (patientId,doctorId,date) => {
+    return axios.get(`/api/back-data-after-send-remedy?patientId=${patientId}&doctorId=${doctorId}&date=${date}`)
 }
 
 const UpdateDetailPatient = (data) => {
@@ -186,6 +186,8 @@ const UpdateDetailPatient = (data) => {
 const getAllSchedules = ()=>{
     return axios.get(`/api/get-All-Schedules`)
 }
+
+
 export {
     handleLoginApi,
     getAllUsers,
@@ -230,5 +232,6 @@ export {
     getListPatientToCheck,
     showCheckRequest,
     saveDoctorRequest,backDataAfterSendRemedy,
-    postToHistories
+    postToHistories,
+
 }
