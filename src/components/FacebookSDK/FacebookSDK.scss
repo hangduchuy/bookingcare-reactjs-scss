@@ -1,0 +1,15 @@
+.fb-customerchat {
+    background-image: url('../../assets/images/messenger.svg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    // background-color: #eee;
+    position: fixed;
+    height: 55px;
+    width: 55px;
+    // background: black;
+    bottom: 20px;
+    right: 20px;
+    cursor: pointer;
+    border-radius: 50%;
+}

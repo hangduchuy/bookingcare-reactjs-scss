@@ -1,10 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { totalMoney, dataForBarChart, totalCustomer, getAllUsers } from '../../../../services/userService'
 import { Doughnut, Bar } from 'react-chartjs-2'
 import { OverviewBudget } from './Overview-budget'
 import { OverviewTotalCustomers } from './Overview-totalEmployee'
 import './Report.scss'
+import { MostSpecialized } from './MostSpecialized'
+import { ReasonForExamination } from './ReasonForExamination'
+import {
+    totalMoney,
+    dataForBarChart,
+    totalCustomer,
+    getAllUsers,
+    getMostSpecialized
+} from '../../../../services/userService'
 
 class Report extends Component {
     constructor(props) {
@@ -15,12 +23,14 @@ class Report extends Component {
             Money: [],
             dataBarChart: [],
             customer: 0,
-            selectedYear: new Date().getFullYear() // Năm được chọn mặc định là năm hiện tại
+            selectedYear: new Date().getFullYear(), // Năm được chọn mặc định là năm hiện tại
+            dataMostSpecialized: ''
         }
     }
 
     async componentDidMount() {
         await this.loadDataForYear()
+        await this.getDataMostSpecialized()
     }
 
     async loadDataForYear() {
@@ -67,8 +77,17 @@ class Report extends Component {
         this.setState({ selectedYear: year })
     }
 
+    getDataMostSpecialized = async () => {
+        let res = await getMostSpecialized()
+        if (res && res.errCode === 0) {
+            this.setState({
+                dataMostSpecialized: res.data
+            })
+        }
+    }
+
     render() {
-        const { Male, Female, Money, dataBarChart, customer, selectedYear } = this.state
+        const { Male, Female, Money, dataBarChart, customer, selectedYear, dataMostSpecialized } = this.state
         const data = {
             labels: ['Bệnh nhân nam', 'Bệnh nhân nữ'],
             datasets: [
@@ -97,9 +116,12 @@ class Report extends Component {
         }
         const options = {}
         const differ = Math.round(((selectedYearMoney - Money[selectedYear - 1]) / Money[selectedYear - 1]) * 100)
+        const mostSpecialized = dataMostSpecialized.mostSpecialized
+            ? 'Khoa ' + dataMostSpecialized.mostSpecialized
+            : 'Không có chuyên khoa nào'
         return (
             <div className='report-container'>
-                <div className='mb-5' style={{ display: 'flex', gap: '5px' }}>
+                <div className='mb-5' style={{ display: 'flex', gap: '10px' }}>
                     <OverviewBudget
                         difference={differ ? differ : 0}
                         positive
@@ -113,6 +135,7 @@ class Report extends Component {
                         value={`${customer}`}
                     />
                 </div>
+
                 <div style={{ display: 'flex', height: '50%' }}>
                     <div className='reports-year' style={{ padding: '20px', width: '50%' }}>
                         <select value={selectedYear} onChange={this.handleYearChange}>
@@ -126,6 +149,14 @@ class Report extends Component {
                     <div style={{ padding: '20px auto', width: '50%' }}>
                         <Doughnut data={data} options={options}></Doughnut>
                     </div>
+                </div>
+                <div className='mt-5' style={{ display: 'flex', gap: '5px' }}>
+                    <MostSpecialized positive value={mostSpecialized} />
+                    <ReasonForExamination
+                        // difference={0}
+                        positive={true}
+                        value={`${dataMostSpecialized.ReasonForExamination || 'Không có lý do nào'}`}
+                    />
                 </div>
             </div>
         )

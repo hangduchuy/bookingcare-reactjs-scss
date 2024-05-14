@@ -13,7 +13,7 @@ export const OverviewTotalCustomers = (props) => {
                 <Stack alignItems='flex-start' direction='row' justifyContent='space-between' spacing={3}>
                     <Stack spacing={1}>
                         <Typography color='text.secondary' variant='overline'>
-                            TỔNG SỐ ĐƠN HÀNG CỦA KHÁCH HÀNG
+                            TỔNG SỐ ĐƠN KHÁM CỦA KHÁCH HÀNG
                         </Typography>
                         <Typography variant='h4'>{value}</Typography>
                     </Stack>

@@ -54,12 +54,10 @@ const getScheduleDoctorByDate = (doctorId, date) => {
     return axios.get(`/api/get-schedule-doctor-by-date?doctorId=${doctorId}&date=${date}`)
 }
 const saveDoctorRequest = async (id, data) => {
-   
-        return axios.post('/api/save-doctor-request', { id, data });
-
+    return axios.post('/api/save-doctor-request', { id, data })
 }
-const postToHistories = async(data)=>{
-    return axios.post('/api/post-histories',data)
+const postToHistories = async (data) => {
+    return axios.post('/api/post-histories', data)
 }
 const getExtraInforDoctorById = (doctorId) => {
     return axios.get(`/api/get-extra-infor-doctor-by-id?doctorId=${doctorId}`)
@@ -124,14 +122,14 @@ const getAllPatientForDoctor = (data) => {
 const postSendRemedy = (data) => {
     return axios.post(`/api/send-remedy`, data)
 }
-const TSPT3 = (data) =>{
-    return axios.post(`/api/TSPT3`,data)
+const TSPT3 = (data) => {
+    return axios.post(`/api/TSPT3`, data)
 }
-const TSPT4 = (data) =>{
-    return axios.post(`/api/TSPT4`,data)
+const TSPT4 = (data) => {
+    return axios.post(`/api/TSPT4`, data)
 }
-const UpdatePatient_Info = (data)=>{
-    return axios.post(`/api/update-patient-info`,data)
+const UpdatePatient_Info = (data) => {
+    return axios.post(`/api/update-patient-info`, data)
 }
 const postSendComment = (data) => {
     return axios.post(`/api/send-comment`, data)
@@ -183,9 +181,14 @@ const UpdateDetailPatient = (data) => {
     return axios.post(`/api/edit-detail-patient`, data)
 }
 
-const getAllSchedules = ()=>{
+const getAllSchedules = () => {
     return axios.get(`/api/get-All-Schedules`)
 }
+
+const getMostSpecialized = () => {
+    return axios.get(`/api/get-most-specialized`)
+}
+
 export {
     handleLoginApi,
     getAllUsers,
@@ -226,9 +229,13 @@ export {
     UpdateDetailPatient,
     getAllSchedules,
     getListPatient,
-    TSPT3,TSPT4,UpdatePatient_Info,
+    TSPT3,
+    TSPT4,
+    UpdatePatient_Info,
     getListPatientToCheck,
     showCheckRequest,
-    saveDoctorRequest,backDataAfterSendRemedy,
-    postToHistories
+    saveDoctorRequest,
+    backDataAfterSendRemedy,
+    postToHistories,
+    getMostSpecialized
 }
