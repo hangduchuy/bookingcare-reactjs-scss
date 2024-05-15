@@ -45,7 +45,9 @@ class DetailPatientModal extends Component {
             isShowLoading: false,
             doctorRequestPending: '',
             doctorRequestDone: '',
-            history: {}
+            history: [],
+            selectDayExamination: '',
+            selectedHistoryItem: null
         }
     }
 
@@ -59,7 +61,7 @@ class DetailPatientModal extends Component {
         if (this.props.dataModal) {
             this.setState({
                 dataPatient: data,
-                history: data.History ? data.History : {},
+                history: data.Histories ? data.Histories : {},
                 patientName: dataModal.patientName,
                 statusUpdate: data.statusUpdate,
                 testName: doctorRequestArrayDisplay,
@@ -70,11 +72,11 @@ class DetailPatientModal extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState, snapShot) {
-        if (this.state.dataPatient.History !== prevState.dataPatient.History) {
-            if (this.state.dataPatient.History && !_.isEmpty(this.state.dataPatient.History)) {
+        if (this.state.dataPatient.Histories !== prevState.dataPatient.Histories) {
+            if (this.state.dataPatient.Histories && !_.isEmpty(this.state.dataPatient.Histories)) {
                 const { dataPatient } = this.state
                 this.setState({
-                    history: dataPatient.History
+                    history: dataPatient.Histories
                 })
             }
         }
@@ -172,6 +174,7 @@ class DetailPatientModal extends Component {
 
     handleUpdateDetailPatient = async () => {
         let { dataPatient } = this.state
+        this.props.getDataToManagePatient(this.state.statusUpdate)
         this.setState({ isShowLoading: true })
         let res = await UpdateDetailPatient({
             patientId: dataPatient.patientId,
@@ -189,22 +192,38 @@ class DetailPatientModal extends Component {
         }
     }
 
-    handleGetDataToManagePatient = () => {
-        this.props.getDataToManagePatient(this.state.description)
-    }
-
     openPreviewImage = () => {
-        if (!this.state.history.files) return
+        if (!this.state.selectedHistoryItem.files) return
 
         this.setState({
             isOpen: true
         })
     }
 
+    handleChangeExamination = (event) => {
+        const selectedDate = event.target.value
+        const selectedHistoryItem = this.state.history.find(
+            (item) => moment(item.createdAt).format('DD/MM/YYYY') === selectedDate
+        )
+        this.setState({
+            selectDayExamination: selectedDate,
+            selectedHistoryItem: selectedHistoryItem
+        })
+    }
+
     render() {
         const { isOpenModal, closeDetailModal, language, dataModal } = this.props
-        const { testName, patientName, history, statusUpdate, dataPatient, doctorRequestPending, doctorRequestDone } =
-            this.state
+        const {
+            testName,
+            patientName,
+            history,
+            statusUpdate,
+            dataPatient,
+            doctorRequestPending,
+            doctorRequestDone,
+            selectDayExamination,
+            selectedHistoryItem
+        } = this.state
 
         const gender =
             language === LANGUAGES.VI
@@ -212,6 +231,14 @@ class DetailPatientModal extends Component {
                 : dataModal?.genderData?.valueEn ?? 'Default Gender'
         // Định dạng ngày tháng
         const birthday = moment(Number(dataPatient.birthday)).format('DD/MM/YYYY')
+
+        const dayExamination = Array.isArray(history)
+            ? history
+                  .map((item) => (item?.createdAt ? moment(item.createdAt) : null))
+                  .filter(Boolean)
+                  .sort((a, b) => b - a) // Sắp xếp từ mới nhất đến cũ nhất
+                  .map((date) => date.format('DD/MM/YYYY'))
+            : []
 
         return (
             <>
@@ -279,6 +306,24 @@ class DetailPatientModal extends Component {
                                         <span> {dataPatient.reason}</span>
                                     </div>
                                 )}
+                                <div className='col-12 mt-2'>
+                                    <FormControl className='day-examination'>
+                                        <InputLabel id='demo-simple-select-label'>Lịch sử khám</InputLabel>
+                                        <Select
+                                            labelId='demo-simple-select-label'
+                                            id='demo-simple-select'
+                                            value={selectDayExamination}
+                                            label='Lịch sử khám'
+                                            onChange={this.handleChangeExamination}
+                                        >
+                                            {dayExamination.map((item, index) => (
+                                                <MenuItem key={index} value={item}>
+                                                    {item}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </div>
 
                                 <div className='col-6 mt-4'>
                                     <div className='form-group'>
@@ -287,7 +332,7 @@ class DetailPatientModal extends Component {
                                             disabled
                                             className='form-control'
                                             rows='4'
-                                            value={history.description}
+                                            value={selectedHistoryItem?.description}
                                         ></textarea>
                                     </div>
                                 </div>
@@ -297,7 +342,7 @@ class DetailPatientModal extends Component {
                                     <div
                                         className='preview-image'
                                         style={{
-                                            backgroundImage: `url(${history.files})`
+                                            backgroundImage: `url(${selectedHistoryItem?.files})`
                                         }}
                                         onClick={() => this.openPreviewImage()}
                                     ></div>
@@ -314,6 +359,7 @@ class DetailPatientModal extends Component {
                                         ></textarea>
                                     </div>
                                 </div>
+
                                 <div className='col-6 mt-4'>
                                     <div className='form-group'>
                                         <label>Yêu cầu của bác sĩ</label>
@@ -323,6 +369,7 @@ class DetailPatientModal extends Component {
                                                 labelId='demo-multiple-chip-label'
                                                 id='demo-multiple-chip'
                                                 multiple
+                                                disabled={dataModal && dataModal.statusId === 'S2'}
                                                 value={testName}
                                                 onChange={this.handleChange}
                                                 input={<OutlinedInput id='select-multiple-chip' label='Yêu cầu' />}
@@ -386,7 +433,11 @@ class DetailPatientModal extends Component {
                             </div>
                         </ModalBody>
                         <ModalFooter>
-                            <Button color='warning' onClick={() => this.handleUpdateDetailPatient()}>
+                            <Button
+                                color='warning'
+                                disabled={dataModal && dataModal.statusId === 'S2'}
+                                onClick={() => this.handleUpdateDetailPatient()}
+                            >
                                 Cập nhật
                             </Button>{' '}
                             <Button color='secondary' onClick={closeDetailModal}>
@@ -396,7 +447,10 @@ class DetailPatientModal extends Component {
                     </Modal>
                 </LoadingOverlay>
                 {this.state.isOpen === true && (
-                    <Lightbox mainSrc={history.files} onCloseRequest={() => this.setState({ isOpen: false })} />
+                    <Lightbox
+                        mainSrc={selectedHistoryItem.files}
+                        onCloseRequest={() => this.setState({ isOpen: false })}
+                    />
                 )}
             </>
         )

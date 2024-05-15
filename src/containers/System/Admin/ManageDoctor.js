@@ -276,7 +276,6 @@ class ManageDoctor extends Component {
         this.setState({
             ...stateCopy
         })
-        console.log(selectedOption, stateName)
     }
 
     render() {

@@ -57,7 +57,6 @@ class ManageSchedule extends Component {
         )
     }
 
-
     // Phương thức để mở dialog và gọi hàm showDoctorRequest
     handleOpenDialogAndFetchRequests = async (id) => {
         if (!id) {
@@ -72,7 +71,7 @@ class ManageSchedule extends Component {
             {
                 isShowDialog: true,
                 id: id // Lưu thông tin bệnh nhân được chọn
-            },
+            }
             // () => {
             //     // Gọi hàm showDoctorRequest để lấy danh sách yêu cầu bác sĩ
             //     this.checkRequestDialogRef.showDoctorRequest()
@@ -167,16 +166,17 @@ class ManageSchedule extends Component {
                         </div>
                     </div>
                 </LoadingOverlay>
-                {this.state.isShowDialog===true&& (<CheckRequestDialog
-                    open={this.state.isShowDialog}
-                    onClose={this.handleCloseDialog}
-                    onConfirm={this.handleConfirmRequests}
-                    patient={this.state.id} // Truyền thông tin bệnh nhân vào dialog
-                    ref={(ref) => {
-                        this.checkRequestDialogRef = ref
-                    }} // Thêm ref để truy cập đến phương thức showDoctorRequest trong CheckRequestDialog
-                />)}
-                
+                {this.state.isShowDialog === true && (
+                    <CheckRequestDialog
+                        open={this.state.isShowDialog}
+                        onClose={this.handleCloseDialog}
+                        onConfirm={this.handleConfirmRequests}
+                        patient={this.state.id} // Truyền thông tin bệnh nhân vào dialog
+                        ref={(ref) => {
+                            this.checkRequestDialogRef = ref
+                        }} // Thêm ref để truy cập đến phương thức showDoctorRequest trong CheckRequestDialog
+                    />
+                )}
             </>
         )
     }

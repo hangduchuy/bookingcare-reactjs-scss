@@ -173,8 +173,8 @@ const totalCustomer = () => {
 const getDetailPatientById = (patientId) => {
     return axios.get(`/api/get-detail-patient-by-id?patientId=${patientId}`)
 }
-const backDataAfterSendRemedy = (patientId) => {
-    return axios.get(`/api/back-data-after-send-remedy?patientId=${patientId}`)
+const backDataAfterSendRemedy = (patientId, doctorId) => {
+    return axios.get(`/api/back-data-after-send-remedy?patientId=${patientId}&doctorId=${doctorId}`)
 }
 
 const UpdateDetailPatient = (data) => {
