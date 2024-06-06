@@ -1,57 +1,57 @@
-import React, { Component } from 'react';
-import { connect } from "react-redux";
-import HomeHeader from '../../HomePage/HomeHeader';
-import HomeFooter from '../../HomePage/HomeFooter';
-import './DetailDoctor.scss';
-import { getDetailInforDoctor } from '../../../services/userService';
-import { LANGUAGES } from '../../../utils';
-import DoctorSchedule from './DoctorSchedule';
-import DoctorExtraInfor from './DoctorExtraInfor';
-import UiCommentDoctor from './UiCommentDoctor';
-import MapDoctor from './MapDoctor';
-import LikeAndShare from '../SocialPlugin/LikeAndShare';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import HomeHeader from '../../HomePage/HomeHeader'
+import HomeFooter from '../../HomePage/HomeFooter'
+import './DetailDoctor.scss'
+import { getDetailInforDoctor } from '../../../services/userService'
+import { LANGUAGES } from '../../../utils'
+import DoctorSchedule from './DoctorSchedule'
+import DoctorExtraInfor from './DoctorExtraInfor'
+import UiCommentDoctor from './UiCommentDoctor'
+import MapDoctor from './MapDoctor'
+import LikeAndShare from '../SocialPlugin/LikeAndShare'
 
 class DetailDoctor extends Component {
-
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             detailDoctor: {},
-            currentDoctorId: -1,
+            currentDoctorId: -1
         }
     }
 
     async componentDidMount() {
         if (this.props.match && this.props.match.params && this.props.match.params.id) {
-            let id = this.props.match.params.id;
+            let id = this.props.match.params.id
             this.setState({
                 currentDoctorId: id
             })
 
-            let res = await getDetailInforDoctor(id);
+            let res = await getDetailInforDoctor(id)
             if (res && res.errCode === 0) {
                 this.setState({
-                    detailDoctor: res.data,
+                    detailDoctor: res.data
                 })
             }
         }
     }
 
-    componentDidUpdate(prevProps, prevState, snapShot) {
-
-    }
+    componentDidUpdate(prevProps, prevState, snapShot) {}
 
     render() {
-        let { language } = this.props;
-        let { detailDoctor } = this.state;
-        let nameVi = '', nameEn = '';
+        let { language } = this.props
+        let { detailDoctor } = this.state
+        let nameVi = '',
+            nameEn = ''
         if (detailDoctor && detailDoctor.positionData) {
-            nameVi = `${detailDoctor.positionData.valueVi}, ${detailDoctor.lastName} ${detailDoctor.firstName}`;
-            nameEn = `${detailDoctor.positionData.valueEn}, ${detailDoctor.firstName} ${detailDoctor.lastName}`;
+            nameVi = `${detailDoctor.positionData.valueVi}, ${detailDoctor.lastName} ${detailDoctor.firstName}`
+            nameEn = `${detailDoctor.positionData.valueEn}, ${detailDoctor.firstName} ${detailDoctor.lastName}`
         }
-        let id = this.props.match.params.id;
-        let currentURL = +process.env.REACT_APP_IS_LOCALHOST === 1 ?
-            `https://doctorcare-frontend-reactjs-934629264119.herokuapp.com/detail-doctor/${id}` : window.location.href;
+        let id = this.props.match.params.id
+        let currentURL =
+            +process.env.REACT_APP_IS_LOCALHOST === 1
+                ? `https://doctorcareha.me/detail-doctor/${id}`
+                : window.location.href
 
         return (
             <>
@@ -60,77 +60,59 @@ class DetailDoctor extends Component {
                     <div className='intro-doctor'>
                         <div
                             className='content-left'
-                            style={{ backgroundImage: `url(${detailDoctor && detailDoctor.image ? detailDoctor.image : ''}` }}>
-
-                        </div>
+                            style={{
+                                backgroundImage: `url(${detailDoctor && detailDoctor.image ? detailDoctor.image : ''}`
+                            }}
+                        ></div>
                         <div className='content-right'>
-                            <div className='up'>
-                                {language === LANGUAGES.VI ? nameVi : nameEn}
-                            </div>
+                            <div className='up'>{language === LANGUAGES.VI ? nameVi : nameEn}</div>
                             <div className='down'>
-                                {detailDoctor && detailDoctor.Markdown
-                                    && detailDoctor.Markdown.description &&
-                                    <span>
-                                        {detailDoctor.Markdown.description}
-                                    </span>
-                                }
+                                {detailDoctor && detailDoctor.Markdown && detailDoctor.Markdown.description && (
+                                    <span>{detailDoctor.Markdown.description}</span>
+                                )}
                                 <div className='like-share-plugin'>
-                                    <LikeAndShare
-                                        dataHref={currentURL}
-                                    />
+                                    <LikeAndShare dataHref={currentURL} />
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className='schedule-doctor'>
                         <div className='content-left'>
-                            <DoctorSchedule
-                                doctorIdFromParent={this.state.currentDoctorId}
-                            />
+                            <DoctorSchedule doctorIdFromParent={this.state.currentDoctorId} />
                         </div>
                         <div className='content-right'>
-                            <DoctorExtraInfor
-                                doctorIdFromParent={this.state.currentDoctorId}
-                            />
+                            <DoctorExtraInfor doctorIdFromParent={this.state.currentDoctorId} />
                         </div>
                     </div>
                     <div className='detail-infor-doctor'>
                         <div className='content-left'>
-                            {detailDoctor && detailDoctor.Markdown
-                                && detailDoctor.Markdown.contentHTML &&
-                                <div dangerouslySetInnerHTML={{ __html: detailDoctor.Markdown.contentHTML }}>
-
-                                </div>
-                            }
+                            {detailDoctor && detailDoctor.Markdown && detailDoctor.Markdown.contentHTML && (
+                                <div dangerouslySetInnerHTML={{ __html: detailDoctor.Markdown.contentHTML }}></div>
+                            )}
                         </div>
                         <div className='content-right'>
-                            <MapDoctor
-                                doctorIdFromParent={this.state.currentDoctorId}
-                            />
+                            <MapDoctor doctorIdFromParent={this.state.currentDoctorId} />
                         </div>
                     </div>
                     <div className='comment-doctor'>
-                        <UiCommentDoctor
-                            doctorIdFromParent={this.state.currentDoctorId}
-                        />
+                        <UiCommentDoctor doctorIdFromParent={this.state.currentDoctorId} />
                     </div>
                 </div>
 
                 <HomeFooter />
             </>
-        );
+        )
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
-        language: state.app.language,
-    };
-};
+        language: state.app.language
+    }
+}
 
-const mapDispatchToProps = dispatch => {
-    return {
-    };
-};
+const mapDispatchToProps = (dispatch) => {
+    return {}
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(DetailDoctor);
+export default connect(mapStateToProps, mapDispatchToProps)(DetailDoctor)

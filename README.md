@@ -1,7 +1,7 @@
 Doctorcare-reactjs
 
 1. Open this project with your favorite editor(IDE), eg: Visual Studio Code
-2. Run the command (to install the node_modules): npm install
+2. Run the command (to install the node_modules): npm install (node: 14.17.0)
 3. Copy the .env.example, create a new file, name ".env" in root folder (the same level with .env.example)
 4. To run this app, use the command:
 
