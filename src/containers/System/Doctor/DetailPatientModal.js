@@ -93,7 +93,10 @@ class DetailPatientModal extends Component {
                 statusUpdate: data.statusUpdate,
                 testName: doctorRequestArrayDisplay,
                 doctorRequestPending: doctorRequestPending,
-                doctorRequestDone: doctorRequestDone
+                doctorRequestDone: doctorRequestDone,
+                selectDayExamination: '',
+                selectedHistoryItem: null,
+                history: []
             })
         }
     }
