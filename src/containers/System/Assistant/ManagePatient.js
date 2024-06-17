@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component,Fragment } from 'react'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import './ManagePatient.scss'
@@ -95,9 +95,9 @@ class ManagePatient extends Component {
         let { dataPatient, isDialogOpen } = this.state
         let { language } = this.props
         return (
-            <>
+            <Fragment>
                 <LoadingOverlay active={this.state.isShowLoading} spinner text='Loading...'>
-                    <div className='manage-patient-container'>
+                <div className='manage-patient-container'>
                         <div className='m-p-title'>
                             <FormattedMessage id='manage-patient.title' />
                         </div>
@@ -127,62 +127,63 @@ class ManagePatient extends Component {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {
-                                                        dataPatient &&
-                                                            dataPatient.length > 0 &&
-                                                            dataPatient.map((item, index) => {
-                                                                let time =
-                                                                    language === LANGUAGES.VI
-                                                                        ? item.timeTypeDataPatient.valueVi
-                                                                        : item.timeTypeDataPatient.valueEn
-                                                                let gender =
-                                                                    language === LANGUAGES.VI
-                                                                        ? item.patientData.genderData.valueVi
-                                                                        : item.patientData.genderData.valueEn
-                                                                return (
-                                                                    <tr key={index}>
-                                                                        <td>{index + 1}</td>
-                                                                        <td>{time}</td>
-                                                                        <td>{item.patientData.firstName}</td>
-                                                                        <td>{item.patientData.address}</td>
-                                                                        <td>{gender}</td>
-                                                                        <td className='btn-action'>
-                                                                            <button
-                                                                                className='mp-btn-confirm btn btn-warning'
-                                                                                onClick={() =>
-                                                                                    this.handleBtnConfirm(item.id)
-                                                                                }
-                                                                            >
-                                                                                Xác nhận
-                                                                            </button>
-                                                                            <button
-                                                                                className='mp-btn-confirm btn btn-red'
-                                                                                onClick={() =>
-                                                                                    this.handleBtnDelete(item.id)
-                                                                                }
-                                                                            >
-                                                                                Hủy bỏ
-                                                                            </button>
+                                                    {dataPatient && dataPatient.length > 0 ? (
+                                                        dataPatient.map((item, index) => {
+                                                            let time =
+                                                                language === LANGUAGES.VI
+                                                                    ? item.timeTypeDataPatient.valueVi
+                                                                    : item.timeTypeDataPatient.valueEn
+                                                            let gender =
+                                                                language === LANGUAGES.VI
+                                                                    ? item.patientData.genderData.valueVi
+                                                                    : item.patientData.genderData.valueEn
+                                                            return (
+                                                                <tr key={index}>
+                                                                    <td>{index + 1}</td>
+                                                                    <td>{time}</td>
+                                                                    <td>{item.patientData.firstName}</td>
+                                                                    <td>{item.patientData.address}</td>
+                                                                    <td>{gender}</td>
+                                                                    <td className='btn-action'>
+                                                                        <button
+                                                                            className='mp-btn-confirm btn btn-warning'
+                                                                            onClick={() =>
+                                                                                this.handleBtnConfirm(item.id)
+                                                                            }
+                                                                        >
+                                                                            Xác nhận
+                                                                        </button>
+                                                                        <button
+                                                                            className='mp-btn-confirm btn btn-red'
+                                                                            onClick={() =>
+                                                                                this.handleBtnDelete(item.id)
+                                                                            }
+                                                                        >
+                                                                            Hủy bỏ
+                                                                        </button>
 
-                                                                            <button
-                                                                                className='mp-btn-confirm btn btn-secondary mt-2'
-                                                                                onClick={() =>
-                                                                                    this.handleOpenDialog(
-                                                                                        item.patientId
-                                                                                    )
-                                                                                }
-                                                                            >
-                                                                                Cập nhật thông tin
-                                                                            </button>
-                                                                        </td>
-                                                                    </tr>
-                                                                )
-                                                            })
-                                                        // :
-                                                        // <tr>
-                                                        //     no data
-                                                        // </tr>
-                                                    }
+                                                                        <button
+                                                                            className='mp-btn-confirm btn btn-secondary mt-2'
+                                                                            onClick={() =>
+                                                                                this.handleOpenDialog(item.patientId)
+                                                                            }
+                                                                        >
+                                                                            Cập nhật thông tin
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        })
+                                                    ) : (
+                                                        <tr>
+                                                            <td>Chưa có dữ liệu</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td className='btn-action'></td>
+                                                        </tr>
+                                                    )}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -206,7 +207,9 @@ class ManagePatient extends Component {
                         idToUpdate={this.state.id}
                     />
                 </LoadingOverlay>
-            </>
+
+
+            </Fragment>
         )
     }
 }

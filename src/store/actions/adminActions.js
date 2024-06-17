@@ -123,21 +123,40 @@ export const saveUserFailed = () => ({
 export const fetchAllUsersStart = () => {
     return async (dispatch, getState) => {
         try {
-            let res = await getAllUsers('ALL')
+            console.log('Fetching all users...');
+            let res = await getAllUsers('ALL');
+            console.log('Response from getAllUsers:', res);
+
             if (res && res.errCode === 0) {
-                const users = res.users
-                dispatch(fetchAllUsersSuccess(users))
+                const users = res.users;
+                console.log('Users fetched successfully:', users);
+                if(users){
+                    dispatch(fetchAllUsersSuccess(users));
+                    console.log('Dispatched fetchAllUsersSuccess');
+                }
+                else{
+                    console.log('Users not exists')
+                }
             } else {
-                toast.error('Fetch all users error!')
-                dispatch(fetchAllUsersFailed())
+                console.log('Error in response:', res);
+                toast.error('Fetch all users error!');
+                try {
+                    dispatch(fetchAllUsersFailed());
+                    console.log('Dispatched fetchAllUsersFailed');
+                } catch (dispatchError) {
+                    console.error('Error dispatching fetchAllUsersFailed:', dispatchError);
+                    throw dispatchError; // Rethrow to catch in outer try-catch
+                }
             }
         } catch (e) {
-            toast.error('Fetch al users error!')
-            dispatch(fetchAllUsersFailed())
-            console.log('fetchAllUsersStart error', e)
+            toast.error('Fetch all users error!');
+            dispatch(fetchAllUsersFailed());
+            console.log('fetchAllUsersStart error:', e); // Log the error
         }
-    }
-}
+    };
+};
+
+
 
 export const fetchAllUsersSuccess = (data) => ({
     type: actionTypes.FETCH_ALL_USERS_SUCCESS,
@@ -151,11 +170,14 @@ export const fetchAllUsersFailed = () => ({
 export const deleteUser = (userId) => {
     return async (dispatch, getState) => {
         try {
-            let res = await deleteUserService(userId)
+            console.log('Attempting to delete user:', userId);
+            let res = await deleteUserService(userId);
+            console.log('deleteUser response:', res);
+            
             if (res && res.errCode === 0) {
                 toast.success('Delete the user succeed!')
                 dispatch(deleteUserSuccess())
-                dispatch(fetchAllUsersStart())
+                // dispatch(fetchAllUsersStart())
             } else {
                 toast.error('Delete the user error!')
                 dispatch(deleteUserFailed())
@@ -163,7 +185,7 @@ export const deleteUser = (userId) => {
         } catch (e) {
             toast.error('Delete the user error!')
             dispatch(deleteUserFailed())
-            console.log('deleteUserFailed error', e)
+            console.log('deleteUserFailed error:', e);
         }
     }
 }

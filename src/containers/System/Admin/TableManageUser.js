@@ -6,22 +6,6 @@ import 'datatables.net-dt/js/dataTables.dataTables'
 import 'datatables.net-dt/css/jquery.dataTables.min.css'
 import $ from 'jquery'
 
-// import MarkdownIt from 'markdown-it'
-// import MdEditor from 'react-markdown-editor-lite'
-// import style manually
-// import 'react-markdown-editor-lite/lib/index.css'
-
-// Register plugins if required
-// MdEditor.use(YOUR_PLUGINS_HERE);
-
-// Initialize a markdown parser
-// const mdParser = new MarkdownIt(/* Markdown-it options */)
-
-// Finish!
-// function handleEditorChange({ html, text }) {
-//     console.log('handleEditorChange', html, text)
-// }
-
 class TableManageUser extends Component {
     constructor(props) {
         super(props)
@@ -32,29 +16,49 @@ class TableManageUser extends Component {
 
     componentDidMount() {
         this.props.fetchUserRedux()
-        this.initdatatable()
     }
 
-    componentDidUpdate(prevProps, prevState, snapShot) {
+    componentDidUpdate(prevProps) {
         if (prevProps.listUsers !== this.props.listUsers) {
-            this.setState({
-                usersRedux: this.props.listUsers
-            })
-            this.initdatatable()
+            this.setState(
+                {
+                    usersRedux: this.props.listUsers
+                },
+                () => {
+                    this.reinitializeDataTable()
+                }
+            )
         }
     }
 
-    initdatatable = () => {
-        //initialize datatable
-        $(document).ready(function () {
-            setTimeout(function () {
-                $('#myTable').DataTable()
-            }, 1000)
-        })
+    componentWillUnmount() {
+        if ($.fn.DataTable.isDataTable('#myTable')) {
+            $('#myTable').DataTable().clear().destroy(true);
+        }
     }
 
+    reinitializeDataTable = () => {
+        this.destroyDataTable();
+        $(document).ready(() => {
+            $('#myTable').DataTable();
+        });
+    };
+
+    destroyDataTable = () => {
+        if ($.fn.DataTable.isDataTable('#myTable')) {
+            $('#myTable').DataTable().clear().destroy();
+        }
+    };
+
     handleDeleteUser = (user) => {
-        this.props.deleteUserRedux(user.id)
+        console.log('handleDeleteUser:', user)
+        this.props.deleteUserRedux(user.id).then(() => {
+            setTimeout(() => {
+                window.location.reload(); // Reload lại trang sau khi xóa người dùng thành công với delay
+            }, 800); // Delay 1 giây trước khi reload lại trang
+        }).catch((error) => {
+            console.error("Error deleting user: ", error);
+        });
     }
 
     handleEditUser = (user) => {
@@ -65,59 +69,58 @@ class TableManageUser extends Component {
         let arrUsers = this.state.usersRedux
 
         return (
-            <React.Fragment>
-                <div className='card shadow mb-4 bg-light'>
-                    <div className='card-body'>
-                        <div className='table-responsive'>
-                            <table id='myTable' className='display'>
-                                <thead className='tbl-header'>
+            <div className='card shadow mb-4 bg-light'>
+                <div className='card-body'>
+                    <div className='table-responsive'>
+                        <table id='myTable' className='display'>
+                            <thead className='tbl-header'>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>First name</th>
+                                    <th>Last name</th>
+                                    <th>Address</th>
+                                    <th>Sửa</th>
+                                    <th>Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {arrUsers && arrUsers.length > 0 ? (
+                                    arrUsers.map((item, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                <td>{item.email}</td>
+                                                <td>{item.firstName}</td>
+                                                <td>{item.lastName}</td>
+                                                <td>{item.address}</td>
+                                                <td className='btn-action'>
+                                                    <button
+                                                        className='btn-edit'
+                                                        onClick={() => this.handleEditUser(item)}
+                                                    >
+                                                        <i className='fas fa-pencil-alt'></i>
+                                                    </button>
+                                                </td>
+                                                <td className='btn-action'>
+                                                    <button
+                                                        className='btn-delete'
+                                                        onClick={() => this.handleDeleteUser(item)}
+                                                    >
+                                                        <i className='fas fa-trash'></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                                ) : (
                                     <tr>
-                                        <th>Email</th>
-                                        <th>First name</th>
-                                        <th>Last name</th>
-                                        <th>Address</th>
-                                        <th>Actions</th>
+                                        <td colSpan="6">Chưa có dữ liệu</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {arrUsers &&
-                                        arrUsers.length > 0 &&
-                                        arrUsers.map((item, index) => {
-                                            return (
-                                                <tr key={index}>
-                                                    <td>{item.email}</td>
-                                                    <td>{item.firstName}</td>
-                                                    <td>{item.lastName}</td>
-                                                    <td>{item.address}</td>
-                                                    <td className='btn-action'>
-                                                        <button
-                                                            className='btn-edit'
-                                                            onClick={() => this.handleEditUser(item)}
-                                                        >
-                                                            <i className='fas fa-pencil-alt'></i>
-                                                        </button>
-                                                        <button
-                                                            className='btn-delete'
-                                                            onClick={() => this.handleDeleteUser(item)}
-                                                        >
-                                                            <i className='fas fa-trash'></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            )
-                                        })}
-                                </tbody>
-                            </table>
-                        </div>
+                                )}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
-                {/* <MdEditor
-          style={{ height: "500px" }}
-          renderHTML={(text) => mdParser.render(text)}
-          onChange={handleEditorChange}
-        /> */}
-            </React.Fragment>
+            </div>
         )
     }
 }

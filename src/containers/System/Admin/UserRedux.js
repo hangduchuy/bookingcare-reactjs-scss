@@ -148,6 +148,7 @@ class UserRedux extends Component {
             })
         }
         // this.props.fetchUserRedux();
+        
     }
 
     checkValidateInput = () => {
