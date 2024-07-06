@@ -35,20 +35,20 @@ class HomeFooter extends Component {
                         <div className='col-lg-4 col-md-6 mb-4 mb-md-0'>
                             <h5 className='text-uppercase mb-4 pb-1'>Search something</h5>
 
-                            <ul className='fa-ul' style={{ marginLeft: '1.65em' }}>
+                            <ul className='fa-ul' style={{ marginLeft: '0' }}>
                                 <div className=''>
                                     <div className='content-left'>
                                         <li className='mb-3'>
                                             <span className='fa-li'>
                                                 <i className='fas fa-home'></i>
                                             </span>
-                                            <span className='ms-2'>97, Võ Văn Tần, Quận 3, Tp Hồ Chí Minh</span>
+                                            <span className='ms-2'>97 Võ Văn Tần, Quận 3, Tp Hồ Chí Minh</span>
                                         </li>
                                         <li className='mb-3'>
                                             <span className='fa-li'>
                                                 <i className='fas fa-envelope'></i>
                                             </span>
-                                            <span className='ms-2'>DoctorCare@gmail.comm</span>
+                                            <span className='ms-2'>DoctorCare@gmail.com</span>
                                         </li>
                                     </div>
                                     <div className='content-right'>

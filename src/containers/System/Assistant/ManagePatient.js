@@ -1,6 +1,5 @@
-import React, { Component,Fragment } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import './ManagePatient.scss'
 import 'datatables.net-dt/js/dataTables.dataTables'
 import 'datatables.net-dt/css/jquery.dataTables.min.css'
@@ -97,10 +96,8 @@ class ManagePatient extends Component {
         return (
             <Fragment>
                 <LoadingOverlay active={this.state.isShowLoading} spinner text='Loading...'>
-                <div className='manage-patient-container'>
-                        <div className='m-p-title'>
-                            <FormattedMessage id='manage-patient.title' />
-                        </div>
+                    <div className='manage-patient-container'>
+                        <div className='m-p-title'>QUẢN LÝ LỊCH HẸN BỆNH NHÂN KHÁM BỆNH CỦA BÁC SĨ</div>
 
                         <div className='manage-patient-body row'>
                             <div className='col-4 form-group'>
@@ -118,9 +115,10 @@ class ManagePatient extends Component {
                                             <table id='myTable' className='display'>
                                                 <thead className='tbl-header'>
                                                     <tr>
-                                                        <th>STT</th>
+                                                        <th style={{ width: '60px' }}>STT</th>
                                                         <th>Thời gian</th>
                                                         <th>Họ và tên</th>
+                                                        <th>Bác sĩ</th>
                                                         <th>Địa chỉ</th>
                                                         <th>Giới tính</th>
                                                         <th>Actions</th>
@@ -137,16 +135,26 @@ class ManagePatient extends Component {
                                                                 language === LANGUAGES.VI
                                                                     ? item.patientData.genderData.valueVi
                                                                     : item.patientData.genderData.valueEn
+
+                                                            let doctorIsDeleted =
+                                                                item.doctorDataBooking.isDeleted === true
+                                                            let rowStyle = doctorIsDeleted
+                                                                ? { background: '#B2B200' }
+                                                                : {}
                                                             return (
-                                                                <tr key={index}>
+                                                                <tr key={index} style={rowStyle}>
                                                                     <td>{index + 1}</td>
                                                                     <td>{time}</td>
                                                                     <td>{item.patientData.firstName}</td>
+                                                                    <td>{item.doctorDataBooking.firstName}</td>
                                                                     <td>{item.patientData.address}</td>
                                                                     <td>{gender}</td>
                                                                     <td className='btn-action'>
                                                                         <button
-                                                                            className='mp-btn-confirm btn btn-warning'
+                                                                            className={`${
+                                                                                doctorIsDeleted && 'disabled'
+                                                                            } mp-btn-confirm btn btn-warning`}
+                                                                            disabled={doctorIsDeleted}
                                                                             onClick={() =>
                                                                                 this.handleBtnConfirm(item.id)
                                                                             }
@@ -207,8 +215,6 @@ class ManagePatient extends Component {
                         idToUpdate={this.state.id}
                     />
                 </LoadingOverlay>
-
-
             </Fragment>
         )
     }

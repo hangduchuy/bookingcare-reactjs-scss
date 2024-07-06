@@ -20,45 +20,41 @@ class TableManageUser extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.listUsers !== this.props.listUsers) {
-            this.setState(
-                {
-                    usersRedux: this.props.listUsers
-                },
-                () => {
-                    this.reinitializeDataTable()
-                }
-            )
+            this.setState({
+                usersRedux: this.props.listUsers
+            })
+            this.initdatatable()
         }
     }
 
     componentWillUnmount() {
         if ($.fn.DataTable.isDataTable('#myTable')) {
-            $('#myTable').DataTable().clear().destroy(true);
+            $('#myTable').DataTable().clear().destroy(true)
         }
     }
 
     reinitializeDataTable = () => {
-        this.destroyDataTable();
+        this.destroyDataTable()
         $(document).ready(() => {
-            $('#myTable').DataTable();
-        });
-    };
+            $('#myTable').DataTable()
+        })
+    }
+
+    initdatatable = () => {
+        //initialize datatable
+        $(document).ready(() => {
+            $('#myTable').DataTable()
+        })
+    }
 
     destroyDataTable = () => {
         if ($.fn.DataTable.isDataTable('#myTable')) {
-            $('#myTable').DataTable().clear().destroy();
+            $('#myTable').DataTable().clear().destroy()
         }
-    };
+    }
 
     handleDeleteUser = (user) => {
-        console.log('handleDeleteUser:', user)
-        this.props.deleteUserRedux(user.id).then(() => {
-            setTimeout(() => {
-                window.location.reload(); // Reload lại trang sau khi xóa người dùng thành công với delay
-            }, 800); // Delay 1 giây trước khi reload lại trang
-        }).catch((error) => {
-            console.error("Error deleting user: ", error);
-        });
+        this.props.deleteUserRedux(user.id)
     }
 
     handleEditUser = (user) => {
@@ -79,8 +75,7 @@ class TableManageUser extends Component {
                                     <th>First name</th>
                                     <th>Last name</th>
                                     <th>Address</th>
-                                    <th>Sửa</th>
-                                    <th>Xóa</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -99,8 +94,6 @@ class TableManageUser extends Component {
                                                     >
                                                         <i className='fas fa-pencil-alt'></i>
                                                     </button>
-                                                </td>
-                                                <td className='btn-action'>
                                                     <button
                                                         className='btn-delete'
                                                         onClick={() => this.handleDeleteUser(item)}
@@ -108,12 +101,15 @@ class TableManageUser extends Component {
                                                         <i className='fas fa-trash'></i>
                                                     </button>
                                                 </td>
+                                                {/* <td className='btn-action'>
+                                                   
+                                                </td> */}
                                             </tr>
                                         )
                                     })
                                 ) : (
                                     <tr>
-                                        <td colSpan="6">Chưa có dữ liệu</td>
+                                        <td colSpan='6'>Chưa có dữ liệu</td>
                                     </tr>
                                 )}
                             </tbody>
